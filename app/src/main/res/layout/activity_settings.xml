@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ListPreference
+        android:key="pref_change_currenc"
+        android:title="Change currency"
+        android:entries="@array/listArray"
+        android:entryValues="@array/listValues" />
+
+    <SwitchPreference
+        android:key="pref_password_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="true"
+        android:title="Password Login" />
+
+    <Preference
+        android:key="pref_password_change"
+        android:selectAllOnFocus="true"
+        android:title="Change Password"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Preference
+        android:key="pref_reset"
+        android:selectAllOnFocus="true"
+        android:title="Reset to factory state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</PreferenceScreen>

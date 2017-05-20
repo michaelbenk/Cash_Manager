@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.pr.se.cash_manager.MainActivity">
+
+    <TextView></TextView>
+
+    <ImageView
+        android:id="@+id/content_categories_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:gravity="center"
+        android:padding="8dp"
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/content_categories_list_header_text"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/content_categories_arrow"
+        android:orientation="vertical"
+        android:gravity="center|left"
+        android:textSize="18sp"
+        android:text="test_category"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/content_categories_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="3"
+        android:layout_row="0"
+        app:srcCompat="@drawable/ic_menu_delete" />
+</GridLayout>

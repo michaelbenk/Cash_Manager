@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listArray">
+        <item>EUR</item>
+        <item>USD</item>
+        <item>JPY</item>
+    </string-array>
+
+    <string-array name="listValues">
+        <item>e</item>
+        <item>u</item>
+        <item>j</item>
+    </string-array>
+</resources>

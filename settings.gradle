@@ -1,0 +1,4 @@
+include ':app', ':circleimageview', ':MPChartLib', ':MPChartExample'
+project(':circleimageview').projectDir = new File('modules/CircleImageView-master/circleimageview');
+project(':MPChartLib').projectDir = new File('modules/MPAndroidChart-master/MPChartLib');
+project(':MPChartExample').projectDir = new File('modules/MPAndroidChart-master/MPChartExample')
