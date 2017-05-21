@@ -130,6 +130,7 @@ public class AddEditActivity extends AppCompatActivity {
                         element.setDate(dateView.getText().toString());
                         element.setCategory(categoryView.getText().toString());
                         element.setDescription(descriptionView.getText().toString());
+
                     }
                     list.add(element);
 
@@ -335,7 +336,6 @@ public class AddEditActivity extends AppCompatActivity {
         return "CashManager";
     }
 
-
     private File getAlbumDir() {
         File storageDir = null;
 
@@ -457,14 +457,32 @@ public class AddEditActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case ACTION_TAKE_PHOTO_B: {
-                if (resultCode == RESULT_OK) {
-                    handleBigCameraPhoto();
+        switch (userChoosenTask){
+            case "Take Photo":
+                switch (requestCode) {
+                    case ACTION_TAKE_PHOTO_B: {
+                        if (resultCode == RESULT_OK) {
+                            handleBigCameraPhoto();
+                        }
+                        break;
+                    } // ACTION_TAKE_PHOTO_B
+                } // switch
+                break;
+            case "Choose from Library":
+                if (resultCode == RESULT_OK){
+                    Uri targetUri = data.getData();
+                    Bitmap bitmap;
+                    try {
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
+                        mImageView.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
                 break;
-            } // ACTION_TAKE_PHOTO_B
-        } // switch
+        }
+
     }
 
     // Some lifecycle callbacks so that the image can survive orientation change

@@ -3,5 +3,8 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/modules/CircleImageView-master/circleimageview" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/modules/MPAndroidChart-master/MPChartExample" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/modules/MPAndroidChart-master/MPChartLib" vcs="svn" />
   </component>
 </project>
