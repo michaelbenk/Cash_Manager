@@ -2,7 +2,10 @@ package com.pr.se.cash_manager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -31,7 +34,12 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -263,6 +271,13 @@ public class MainActivity extends AppCompatActivity
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                byte[] byteArray = null;
+
+                if (list.get(position).getImages().size() != 0){
+                    byteArray = list.get(position).getImages().get(0);
+                }
+
                 Intent intent = new Intent(MainActivity.this, ShowDetails.class);
                 intent.putExtra("category", list.get(position).getCategory().toString());
                 intent.putExtra("description", list.get(position).getDescription());
@@ -270,6 +285,8 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("sum", String.valueOf(list.get(position).getSum()));
                 intent.putExtra("update", true);
                 intent.putExtra("id", list.get(position).getId());
+                if (byteArray != null)
+                    intent.putExtra("image", byteArray);
                 MainActivity.this.startActivity(intent);
             }
         });

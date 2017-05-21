@@ -132,8 +132,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="module" module-name="circleimageview" exported="" />
     <orderEntry type="module" module-name="MPChartLib" exported="" />
-    <orderEntry type="library" exported="" name="support-annotations-25.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="objenesis-1.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.9.5" level="project" />
+    <orderEntry type="library" exported="" name="circleimageview-unspecified" level="project" />
+    <orderEntry type="library" exported="" name="MPChartLib-unspecified" level="project" />
   </component>
 </module>

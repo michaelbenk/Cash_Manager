@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="circleimageview-unspecified">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/modules/CircleImageView-master/circleimageview/build/intermediates/bundles/default/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/modules/CircleImageView-master/circleimageview/build/intermediates/bundles/default/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

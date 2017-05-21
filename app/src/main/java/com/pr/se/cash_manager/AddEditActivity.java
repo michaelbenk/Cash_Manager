@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -130,13 +131,14 @@ public class AddEditActivity extends AppCompatActivity {
                         element.setDate(dateView.getText().toString());
                         element.setCategory(categoryView.getText().toString());
                         element.setDescription(descriptionView.getText().toString());
-
+                        element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
                     }
                     list.add(element);
 
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
                 } else {
                     Expense element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
+                    element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
                     ArrayList<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
                     list.add(element);
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
@@ -168,6 +170,10 @@ public class AddEditActivity extends AppCompatActivity {
         String date = getIntent().getStringExtra("date");
         String category = getIntent().getStringExtra("category");
         String description = getIntent().getStringExtra("description");
+        byte[] byteArray = getIntent().getByteArrayExtra("image");
+        Bitmap image = null;
+        if (byteArray != null)
+            image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
         sumView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -235,6 +241,9 @@ public class AddEditActivity extends AppCompatActivity {
         }
         if (description != null) {
             descriptionView.setText(description);
+        }
+        if (image != null){
+            mImageView.setImageBitmap(image);
         }
 
         this.dateInput();

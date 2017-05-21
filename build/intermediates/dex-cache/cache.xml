@@ -3,201 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/5adf97fa2e8719ffa2e39c87528c90cbc5d748a1/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_4ec851378dcbf13e6821413e238b1ff4d15361f9/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/fa4637626e49ed3afdfde9210fa694d500d5e7f8/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b11b29ebe53124a39b799df9712f7ca11f28ea56/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ab3b13d96bf4ac728967bc9690091d2ec0354eef">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_bf5e95f1cff478f9bbda15db5f99763410ddcb7b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05_V2/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_a0050d598995e218aaa7e90cd05dc7465919c24d/classes.dex" />
+        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05_V2/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_37bc59f9d101b9a2fe7984e406cc431b6a34224d/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/6c1878fc5f473886661b91bde23459d97e8ddd19/output/jars/libs/internal_impl-24.2.1.jar"
+        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05_V2/Cash_Manager/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_d12c85dc7ba51e5a2bda72e3d29aa12afe7d7802/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/9a0ae764bd7e84ac71c82e8ac6cc4b823e881e37/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="43ae35fb2ebd6bac5b6fb4d041c94a35a34dbfc0">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_222eb70c16eeabc636cc6105fe532066b038ff95/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/fa4637626e49ed3afdfde9210fa694d500d5e7f8/output/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_44ed2559bc64d3068bd857d02f702930bb65e853/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_561e72c97de3b04bc95a3381de985a6ba08252ed/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/b5e026bb7400023db93f9edf5ed11348d87cf705/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_079c73a8cc0fe84050feaaf98190077c4e55b7dc/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/972734aaefcfcaf69dc4cbca376c3b8bb518e098/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_040c74e617d733628f3f3d7b0d9e2bf8ec0b0059/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/0077ed22650c92ac35463e49fe440417de6fd512/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5fbe632a28f1127127ce3bf0d6ae31eb07756ff7/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/8747a595c56b4cc50dec69e5c29b1afca0602c9d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_412fbe8c2c3effc8b64114ebaec5885b0a840f9c/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/ebac6f6f701b72d156dd16eaac25d64584084b4c/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8b88a7b4feecc24ac980ccb663a2db2f72387390/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/1e26945236e5eb38c7ca438d879a3e14a2b69be7/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="4591ef46473196a30637ed034018002a462e40ba">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_cf477884f0ffe58999943e774208e7cccdc4cd63/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_7cfcbb95871c553740a0ac0a65c4d30b2dd89b10/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/b5e026bb7400023db93f9edf5ed11348d87cf705/output/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_76eae2f8a1e7e1b9d133af1d64ac88035acafea7/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/8747a595c56b4cc50dec69e5c29b1afca0602c9d/output/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_d5cd8da90769b87465b60d17f7f87bf45672a850/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/0077ed22650c92ac35463e49fe440417de6fd512/output/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_9dd1bed5ed3c6aa9c9db439307cb34f805ac8190/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/6c1878fc5f473886661b91bde23459d97e8ddd19/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2de2303db9e663ccf60c4c43ba0832b3e743303b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.gradle/caches/modules-2/files-2.1/io.realm/realm-annotations/0.88.2/62142d422aaf1a4619035612aaa396df63bbf974/realm-annotations-0.88.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="62142d422aaf1a4619035612aaa396df63bbf974">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/realm-annotations-0.88.2_9266cbbc56e74170dedc8b918d29b406ec43bad3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="694bbc84f96994a0a9335aab68dddc27fa9cd7a7">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_77afaec5662cba329d821a8e7ddeb0f3fb7952c7/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/theresaprinz/.android/build-cache/763e773f61072993a231862aae73fcee2b794c72/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05/Cash_Manager/modules/MPAndroidChart-master/MPChartExample/build/intermediates/transforms/dex/debug/folders/1000/10/classes_09d2f3b52cee479f853f1464dbe3c0b815b061c8/classes.dex" />
+        sha1="ca4d95369e1040da28599f87e3d4e2d6b05d85f3">
+        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_21_05_V2/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_b6ed0aea27db46d02f56d693fb885ceead308a6e/classes.dex" />
     </item>
 
 </items>

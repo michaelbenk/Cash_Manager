@@ -1,8 +1,10 @@
 package com.pr.se.cash_manager;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.widget.ListView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -26,6 +28,7 @@ public class Expense implements Serializable{
     private double sum;
 
     private ArrayList<Image> pics;
+    private ArrayList<byte[]> images = new ArrayList<>();
 
     public Expense(double sum, String date, String category, String description) {
         this.category = category;
@@ -68,6 +71,17 @@ public class Expense implements Serializable{
 
     public void addPic(Image image) {
         this.pics.add(image);
+    }
+
+    public void addImage(Bitmap image) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        images.add(stream.toByteArray());
+    }
+
+    public ArrayList<byte[]> getImages() {
+        return images;
     }
 
     public String getId() {
