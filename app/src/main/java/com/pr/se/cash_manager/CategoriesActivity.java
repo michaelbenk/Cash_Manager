@@ -43,15 +43,16 @@ public class CategoriesActivity extends AppCompatActivity {
 
     public void updateList() {
         final ArrayList<Category> list = RW.readCategories(this, "categories");
-        HashMap<Category, ArrayList<Category>> map = new HashMap<>();
+        HashMap<Category, ArrayList<Category>> categoryArrayListHashMap = new HashMap<>();
         for (Category e : list) {
-            map.put(e, e.getCategories());
+            categoryArrayListHashMap.put(e, e.getCategories());
         }
 
-        final ExListAdapter adapter = new ExListAdapter(this, list, map);
+        final ExListAdapter adapter = new ExListAdapter(this, list, categoryArrayListHashMap);
         final ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.activity_categories_ex_list);
         listView.setAdapter(adapter);
         listView.setGroupIndicator(null);
+
         listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -64,6 +65,7 @@ public class CategoriesActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
