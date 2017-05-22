@@ -30,6 +30,8 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
@@ -83,17 +85,17 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 ArrayList<Expense> expenses = RW.readExpenses(MainActivity.this, "expenses");
-                ArrayList<Expense> delete = new ArrayList<Expense>();
                 Boolean[] selectedItems = ((ListArrayAdapter) adapter).getSelectedItems();
-
                 for (int i = 0; i < selectedItems.length; i++) {
                     if (selectedItems[i]) {
-                        delete.add(expenses.get(i));
+                        for (Expense e : expenses){
+                            if (e.equals(list.get(i))){
+                                expenses.remove(e);
+                                break;
+                            }
+                        }
                     }
                 }
-
-                expenses.removeAll(delete);
-
                 RW.writeExpenses(MainActivity.this, expenses, "expenses");
                 updateList();
                 isListSelected = false;
@@ -354,10 +356,15 @@ public class MainActivity extends AppCompatActivity
             calendar.set(Calendar.MONTH, 1);
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-            for (int j = 0; j < 4; j++) {
-                Expense object = new Expense(246.23, sdf.format(calendar.getTime()), sub1.toString(), description[j]);
-                expenses.add(object);
-            }
+
+            Expense e1 = new Expense(246.23, sdf.format(calendar.getTime()), sub1.toString(), description[0]);
+            expenses.add(e1);
+            Expense e2 = new Expense(46.23, sdf.format(calendar.getTime()), sub2.toString(), description[1]);
+            expenses.add(e2);
+            Expense e3 = new Expense(26.23, sdf.format(calendar.getTime()), cat1.toString(), description[2]);
+            expenses.add(e3);
+            Expense e4 = new Expense(6.23, sdf.format(calendar.getTime()), sub1.toString(), description[3]);
+            expenses.add(e4);
 
             RW.writeCategories(this, categories, "categories");
             RW.writeExpenses(this, expenses, "expenses");
@@ -378,10 +385,10 @@ public class MainActivity extends AppCompatActivity
 
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
-        chart.setExtraOffsets(5, 10, 5, 5);
-        chart.setDragDecelerationFrictionCoef(0.95f);
+        chart.setExtraOffsets(1, 1, 1, 1);
+        chart.setDragDecelerationFrictionCoef(1f);
         chart.setCenterText("Expenses");
-        chart.setCenterTextColor(Color.WHITE);
+        chart.setCenterTextColor(Color.DKGRAY);
         chart.setDrawHoleEnabled(true);
         chart.setHoleColor(0);
         chart.setTransparentCircleColor(Color.WHITE);
@@ -411,7 +418,7 @@ public class MainActivity extends AppCompatActivity
             entries.add(new PieEntry(e.getValue(), e.getKey()));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Categories");
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setDrawIcons(false);
         dataSet.setSliceSpace(3f);
         dataSet.setIconsOffset(new MPPointF(0, 40));
@@ -439,8 +446,8 @@ public class MainActivity extends AppCompatActivity
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextSize(12f);
+        data.setValueTextColor(Color.DKGRAY);
         chart.setData(data);
 
         // undo all highlights
@@ -456,7 +463,7 @@ public class MainActivity extends AppCompatActivity
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
-        l.setXEntrySpace(7f);
+        l.setXEntrySpace(12f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
 

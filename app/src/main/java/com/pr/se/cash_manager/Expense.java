@@ -98,6 +98,6 @@ public class Expense implements Serializable{
             return false;
         }
 
-        return this.id == ((Expense) o).getId();
+        return this.id.equals(((Expense) o).getId());
     }
 }
