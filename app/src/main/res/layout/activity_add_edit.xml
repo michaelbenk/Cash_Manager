@@ -176,12 +176,11 @@
         android:id="@+id/activity_add_fab_image_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="16dp"
         android:clickable="true"
+        android:src="@mipmap/ic_delete"
         android:visibility="invisible"
-        app:fabSize="mini"
-        app:layout_anchor="@+id/linearLayout"
-        app:layout_anchorGravity="top|right"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        app:layout_anchor="@id/activity_add_image"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>
