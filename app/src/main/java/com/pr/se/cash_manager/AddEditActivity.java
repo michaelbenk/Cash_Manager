@@ -11,11 +11,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +70,9 @@ public class AddEditActivity extends AppCompatActivity {
 
     private String userChoosenTask;
 
+    private boolean deleteimage = false;
 
+    private FloatingActionButton fab_del;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +99,16 @@ public class AddEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 selectImage();
+            }
+        });
+
+        fab_del = (FloatingActionButton) this.findViewById(R.id.activity_add_fab_image_delete);
+        fab_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera));
+                deleteimage = true;
+                fab_del.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -131,7 +145,15 @@ public class AddEditActivity extends AppCompatActivity {
                         element.setDate(dateView.getText().toString());
                         element.setCategory(categoryView.getText().toString());
                         element.setDescription(descriptionView.getText().toString());
-                        element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
+
+                        try{
+                            if (deleteimage) //Wenn X Button bei Bild geklickt wurde
+                                element.deleteImage(0);
+                            else
+                                element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap()); //Rechnungsfoto speichern
+                        }catch (Exception e) {
+                            //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                        }
                     }
                     list.add(element);
 
@@ -149,6 +171,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -243,6 +266,7 @@ public class AddEditActivity extends AppCompatActivity {
             descriptionView.setText(description);
         }
         if (image != null){
+            fab_del.setVisibility(View.VISIBLE);
             mImageView.setImageBitmap(image);
         }
 
@@ -472,6 +496,7 @@ public class AddEditActivity extends AppCompatActivity {
                     case ACTION_TAKE_PHOTO_B: {
                         if (resultCode == RESULT_OK) {
                             handleBigCameraPhoto();
+                            fab_del.setVisibility(View.VISIBLE);
                         }
                         break;
                     } // ACTION_TAKE_PHOTO_B
@@ -484,6 +509,7 @@ public class AddEditActivity extends AppCompatActivity {
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
                         mImageView.setImageBitmap(bitmap);
+                        fab_del.setVisibility(View.VISIBLE);
                     } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();

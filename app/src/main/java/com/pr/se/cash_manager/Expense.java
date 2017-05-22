@@ -80,6 +80,10 @@ public class Expense implements Serializable{
         images.add(stream.toByteArray());
     }
 
+    public  void deleteImage(int index){
+        images.remove(index);
+    }
+
     public ArrayList<byte[]> getImages() {
         return images;
     }

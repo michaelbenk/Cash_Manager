@@ -36,7 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/linearLayout">
 
         <ImageView
             android:id="@+id/activity_add_image"
@@ -170,5 +171,17 @@
         android:src="@mipmap/ic_camera"
         app:layout_anchor="@id/activity_add_image"
         app:layout_anchorGravity="bottom|right|end" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/activity_add_fab_image_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/linearLayout"
+        app:layout_anchorGravity="top|right"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
 </android.support.design.widget.CoordinatorLayout>
