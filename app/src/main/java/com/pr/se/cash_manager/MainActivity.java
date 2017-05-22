@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The MainActivity is the main activity of the application. It implements the whole layout.
@@ -392,8 +394,21 @@ public class MainActivity extends AppCompatActivity
         chart.setHighlightPerTapEnabled(true);
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+        Map<String, Float> categories = new HashMap<>();
+
         for (Expense e : this.list) {
-            entries.add(new PieEntry((float) e.getSum(), e.getCategory()));
+            double sum = 0;
+            if (categories.containsKey(e.getCategory())) {
+                sum = categories.get(e.getCategory()).doubleValue();
+                categories.remove(e.getCategory());
+                categories.put(e.getCategory(), (float)(sum + e.getSum()));
+            }else
+                categories.put(e.getCategory(), (float)e.getSum());
+        }
+
+        for (Map.Entry<String, Float> e : categories.entrySet()){
+            entries.add(new PieEntry(e.getValue(), e.getKey()));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "Categories");
