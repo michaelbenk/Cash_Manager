@@ -65,7 +65,7 @@ class Category implements Serializable {
     }
 
     public List<Category> addToList(Category selectedCategorie, List<Category> categories) {
-        //TOdo testen und überdenken
+        //TODO noch nicht getestet! wirft glaubi Exception
         for (Category c: this.getCategories()) {
             if (c.equals(selectedCategorie)){
                 categories.add(selectedCategorie);

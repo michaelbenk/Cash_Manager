@@ -74,16 +74,19 @@ public class CategoryDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //Save Button
         saveView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkInput()){  //Wenn alle Eingaben korrekt sind
                     if (category_name == null) {// neue Kategorie
                         selectedCategory.addSubCategory(newCategory);   //neue Unterkategorie von selektierter Kategorie ist die neue Kategorie
+
                         categories = categories.get(0).addToList(selectedCategory, new ArrayList<Category>());  //Fügt die neue Kategorie unter der selektierten Kategorie ein
                         RW.writeCategories(CategoryDetailsActivity.this, (ArrayList<Category>) categories, "categories");
                     }else {//Kategorie updaten
-
+                        //TODO update
+                        RW.writeCategories(CategoryDetailsActivity.this, (ArrayList<Category>) categories, "categories");
                     }
                 }
             }
