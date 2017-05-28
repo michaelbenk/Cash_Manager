@@ -10,4 +10,6 @@ public enum Intervall {
     monatlich,
     jährlich,
     quartalsweise
+
+
 }

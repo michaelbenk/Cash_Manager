@@ -3,12 +3,30 @@
 
     <item
         is-multidex="true"
+        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_28_05/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
+        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_28_05/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_30edae9774f0d000ea68d7eae29efeaa34af9bcf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_22_05/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
         <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_22_05/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9f8ef4fdbb626af761a21c5c039f40ac2d2f60aa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_28_05/Cash_Manager/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1ab2b106283122efd5d10326cf9693bc5330ac6d">
+        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_28_05/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_69c840c469cba943ed1040961eee8695a54e9c5c/classes.dex" />
     </item>
     <item
         is-multidex="true"

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,9 @@ public class ShowDetails extends AppCompatActivity {
         final String category = getIntent().getStringExtra("category");
         final String description = getIntent().getStringExtra("description");
         final byte[] byteArray = getIntent().getByteArrayExtra("image");
+        final String dateto = getIntent().getStringExtra("dateto");
+        final String intervall = getIntent().getStringExtra("intervall");
+
         Bitmap image = null;
         if (byteArray != null)
             image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -43,12 +47,22 @@ public class ShowDetails extends AppCompatActivity {
         TextView descriptionView = (TextView) this.findViewById(R.id.activity_details_text_description);
         ImageView imageView = (ImageView) this.findViewById(R.id.activity_details_image);
 
+        TextView dateToView = (TextView) this.findViewById(R.id.activity_details_text_todate);
+        TextView intervallView = (TextView) this.findViewById(R.id.activity_details_text_intervall);
+
+
         sumView.setText(sum);
         dateView.setText(date);
         categoryView.setText(category);
         descriptionView.setText(description);
         if (image != null)
             imageView.setImageBitmap(image);
+        if (dateto != null && intervall != null){
+            this.findViewById(R.id.activity_details_todate).setVisibility(View.VISIBLE);
+            this.findViewById(R.id.activity_details_intervall).setVisibility(View.VISIBLE);
+            dateToView.setText(dateto);
+            intervallView.setText(intervall);
+        }
 
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.activity_details_fab);
         final Bitmap finalImage = image;
@@ -69,6 +83,10 @@ public class ShowDetails extends AppCompatActivity {
                 intent.putExtra("id", id);
                 if (finalImage != null)
                     intent.putExtra("image", byteArray);
+                if (dateto != null && intervall != null){
+                    intent.putExtra("dateto", dateto);
+                    intent.putExtra("intervall", intervall);
+                }
                 startActivity(intent);
             }
         });

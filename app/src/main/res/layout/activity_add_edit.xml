@@ -45,121 +45,232 @@
             android:layout_height="206dp"
             android:src="@drawable/ic_menu_camera" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.4"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp">
+                    app:cardUseCompatPadding="true">
 
-                    <ImageView
-                        android:id="@+id/activity_add_image_sum"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@mipmap/ic_euro" />
-
-                    <EditText
-                        android:id="@+id/activity_add_input_sum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/activity_add_image_sum"
-                        android:inputType="numberDecimal"
-                        android:maxLength="15" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/activity_add_image_date"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@mipmap/ic_date" />
-
-                    <TextView
-                        android:id="@+id/activity_add_input_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/activity_add_image_date"
-                        android:gravity="center"
-                        android:text="test_string"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/activity_add_image_category"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@mipmap/ic_info" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/activity_add_input_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/activity_add_image_category"
-                        android:inputType="textNoSuggestions"
-                        android:text="Category" />
-
-                    <EditText
-                        android:id="@+id/activity_add_input_description"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@+id/activity_add_input_category"
-                        android:layout_toRightOf="@+id/activity_add_image_category"
-                        android:inputType="textMultiLine"
-                        android:maxLength="500"
-                        android:text="Comment"
-                        android:textSize="14sp" />
+                        android:padding="16dp">
 
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+                        <ImageView
+                            android:id="@+id/activity_add_image_sum"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@mipmap/ic_euro" />
 
-        </LinearLayout>
+                        <EditText
+                            android:id="@+id/activity_add_input_sum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/activity_add_image_sum"
+                            android:inputType="numberDecimal"
+                            android:maxLength="15" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/activity_add_image_date"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@mipmap/ic_date" />
+
+                        <TextView
+                            android:id="@+id/activity_add_input_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/activity_add_image_date"
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/activity_add_image_category"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@mipmap/ic_info" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/activity_add_input_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/activity_add_image_category"
+                            android:inputType="textNoSuggestions"
+                            android:text="Category" />
+
+                        <EditText
+                            android:id="@+id/activity_add_input_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/activity_add_input_category"
+                            android:layout_toRightOf="@+id/activity_add_image_category"
+                            android:inputType="textMultiLine"
+                            android:maxLength="500"
+                            android:text="Comment"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/activity_add_recurring"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" >
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_add_image_recurring"
+                            android:src="@drawable/ic_recurring"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+                        <Switch
+                            android:id="@+id/activity_add_switch_recurring"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/activity_add_image_recurring"
+                            android:gravity="center"
+                            android:textColor="#000000"
+                            android:textSize="18sp"/>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/activity_add_intervall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    android:visibility="invisible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" >
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_add_image_intervall"
+                            android:src="@drawable/ic_recurring"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+
+                        <Spinner
+                            android:id="@+id/activity_add_spinner_intervall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/activity_add_image_intervall"
+                            android:clickable="false"
+                            android:divider="@null"
+                            android:maxLength="15"
+                            android:padding="1dp"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/activity_add_todate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    android:visibility="invisible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" >
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_add_image_todate"
+                            android:src="@mipmap/ic_date"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_add_text_todate"
+                            android:layout_toRightOf="@+id/activity_add_image_todate"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

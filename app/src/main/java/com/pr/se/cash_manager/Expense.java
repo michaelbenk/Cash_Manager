@@ -28,7 +28,6 @@ public class Expense implements Serializable{
     private String date;
     private double sum;
 
-    private List<Image> pics;
     private List<byte[]> images = new ArrayList<>();
 
     public Expense(double sum, String date, String category, String description) {
@@ -68,10 +67,6 @@ public class Expense implements Serializable{
 
     public void setSum(double sum) {
         this.sum = sum;
-    }
-
-    public void addPic(Image image) {
-        this.pics.add(image);
     }
 
     public void addImage(Bitmap image) {

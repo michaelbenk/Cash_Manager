@@ -20,10 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,10 @@ public class AddEditActivity extends AppCompatActivity {
     private TextView dateView;
     private AutoCompleteTextView categoryView;
     private TextView descriptionView;
+    private TextView dateToView;
+    private Spinner intervallView;
+    private Switch recurringView;
+
 
     //Camera and Gallery
     private static final int ACTION_TAKE_PHOTO_B = 1;
@@ -56,6 +63,7 @@ public class AddEditActivity extends AppCompatActivity {
     private String userChoosenTask;
     private boolean deleteimage = false;
     private FloatingActionButton fab_del;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +81,28 @@ public class AddEditActivity extends AppCompatActivity {
         this.dateView = (TextView) this.findViewById(R.id.activity_add_input_date);
         this.categoryView = (AutoCompleteTextView) this.findViewById(R.id.activity_add_input_category);
         this.descriptionView = (TextView) this.findViewById(R.id.activity_add_input_description);
+        this.dateToView = (TextView) this.findViewById(R.id.activity_add_text_todate);
+        this.intervallView = (Spinner) this.findViewById(R.id.activity_add_spinner_intervall);
+        this.recurringView = (Switch) this.findViewById(R.id.activity_add_switch_recurring);
 
         //Image
         mImageView = (ImageView) findViewById(R.id.activity_add_image);
         mImageBitmap = null;
+
+        recurringView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
+                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
+                    dataInput();
+                }else{
+                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
+                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.activity_add_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +155,7 @@ public class AddEditActivity extends AppCompatActivity {
                         element.setDate(dateView.getText().toString());
                         element.setCategory(categoryView.getText().toString());
                         element.setDescription(descriptionView.getText().toString());
+                        //TODO recurring costs
 
                         try{
                             if (deleteimage) //Wenn X Button bei Bild geklickt wurde
@@ -178,6 +205,9 @@ public class AddEditActivity extends AppCompatActivity {
         String category = getIntent().getStringExtra("category");
         String description = getIntent().getStringExtra("description");
         byte[] byteArray = getIntent().getByteArrayExtra("image");
+        final String dateto = getIntent().getStringExtra("dateto");
+        final String intervall = getIntent().getStringExtra("intervall");
+        
         Bitmap image = null;
         if (byteArray != null)
             image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -253,6 +283,32 @@ public class AddEditActivity extends AppCompatActivity {
             fab_del.setVisibility(View.VISIBLE);
             mImageView.setImageBitmap(image);
         }
+        if (dateto != null){
+            recurringView.setChecked(true);
+            this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
+            dateToView.setText(dateto);
+        }else{
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+            this.dateToView.setText(sdf.format(calendar.getTime()));
+        }
+
+        int pos = 0;
+        List<String> intervallValues = new ArrayList<>();
+        for (Intervall i: Intervall.values()) {
+            intervallValues.add(i.name());
+            if (i.name().equals(intervall))
+                pos = intervallValues.size() - 1;
+        }
+        ArrayAdapter<String> adapterIntervall = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, intervallValues);
+        adapterIntervall.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        intervallView.setAdapter(adapterIntervall);
+
+        if (intervall != null){
+            recurringView.setChecked(true);
+            this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
+            intervallView.setSelection(pos);
+        }
 
         this.dateInput();
     }
@@ -281,12 +337,24 @@ public class AddEditActivity extends AppCompatActivity {
                 dpd.show();
             }
         });
+
+        this.dateToView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dpd = new DatePickerDialog(AddEditActivity.this, date, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH));
+                dpd.show();
+            }
+        });
     }
 
     private void updateLabel(Calendar calendar) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
         this.dateView.setText(sdf.format(calendar.getTime()));
+
+        this.dateToView.setText(sdf.format(calendar.getTime()));
     }
 
     private boolean checkInput(EditText sumView, AutoCompleteTextView categoryView) {

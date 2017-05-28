@@ -292,6 +292,11 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("id", list.get(position).getId());
                 if (byteArray != null)
                     intent.putExtra("image", byteArray);
+                if (list.get(position) instanceof Recurring_Expense){
+                    intent.putExtra("dateto", ((Recurring_Expense)list.get(position)).getDate_to());
+                    intent.putExtra("intervall", ((Recurring_Expense)list.get(position)).getIntervall());
+                }
+
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -353,10 +358,16 @@ public class MainActivity extends AppCompatActivity
             String[] description = new String[]{"Haushalt", "Freizeit", "Wohnung", "Essen"};
             ArrayList<Expense> expenses = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, 1990);
-            calendar.set(Calendar.MONTH, 1);
+            calendar.set(Calendar.YEAR, 2017);
+            calendar.set(Calendar.MONTH, 5);
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.set(Calendar.YEAR, 2020);
+            calendar2.set(Calendar.MONTH, 5);
+            calendar2.set(Calendar.DAY_OF_MONTH, 28);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd.MM.yyyy");
 
             Expense e1 = new Expense(246.23, sdf.format(calendar.getTime()), sub1.toString(), description[0]);
             expenses.add(e1);
@@ -366,6 +377,8 @@ public class MainActivity extends AppCompatActivity
             expenses.add(e3);
             Expense e4 = new Expense(6.23, sdf.format(calendar.getTime()), sub1.toString(), description[3]);
             expenses.add(e4);
+            Expense e5 = new Recurring_Expense(400.50, sdf.format(calendar.getTime()), cat2.toString(), "Miete", sdf2.format(calendar2.getTime()), Intervall.monatlich);
+            expenses.add(e5);
 
             RW.writeCategories(this, categories, "categories");
             RW.writeExpenses(this, expenses, "expenses");

@@ -35,118 +35,189 @@
             android:layout_weight="0.6"
             android:src="@drawable/ic_menu_camera" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.4"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp" >
+                    app:cardUseCompatPadding="true">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/content_main_currency"
-                        android:src="@mipmap/ic_euro"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:id="@+id/activity_details_text_sum"
-                        android:layout_toRightOf="@+id/content_main_currency"
-                        android:layout_alignParentTop="true"
-                        android:gravity="center"
-                        android:textSize="@dimen/details_heading"
-                        android:text="test_string" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp" >
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/activity_details_image_date"
-                        android:src="@mipmap/ic_date"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:id="@+id/activity_details_text_date"
-                        android:layout_toRightOf="@+id/activity_details_image_date"
-                        android:layout_alignParentTop="true"
-                        android:gravity="center"
-                        android:textSize="@dimen/details_heading"
-                        android:text="test_string" />
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp" >
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/activity_details_image_category"
-                        android:src="@mipmap/ic_info"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:id="@+id/activity_details_text_category"
-                        android:layout_toRightOf="@+id/activity_details_image_category"
-                        android:layout_alignParentTop="true"
-                        android:gravity="center"
-                        android:textSize="@dimen/details_heading"
-                        android:text="test_string" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/activity_details_text_description"
-                        android:textSize="@dimen/details_text"
-                        android:text="test_string test_string test_string test_string test_string test_string test_string test_string test_string test_string test_string"
-                        android:layout_below="@+id/activity_details_text_category"
-                        android:layout_toRightOf="@+id/activity_details_image_category"
-                        android:layout_toEndOf="@+id/activity_details_image_category" />
+                        android:padding="16dp" >
 
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/content_main_currency"
+                            android:src="@mipmap/ic_euro"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_details_text_sum"
+                            android:layout_toRightOf="@+id/content_main_currency"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:textSize="@dimen/details_heading"
+                            android:text="test_string" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" >
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_details_image_date"
+                            android:src="@mipmap/ic_date"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_details_text_date"
+                            android:layout_toRightOf="@+id/activity_details_image_date"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:textSize="@dimen/details_heading"
+                            android:text="test_string" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/activity_details_image_category"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@mipmap/ic_info" />
+
+                        <TextView
+                            android:id="@+id/activity_details_text_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/activity_details_image_category"
+                            android:gravity="center"
+                            android:textSize="@dimen/details_heading" />
+
+                        <TextView
+                            android:id="@+id/activity_details_text_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/activity_details_text_category"
+                            android:layout_toEndOf="@+id/activity_details_image_category"
+                            android:layout_toRightOf="@+id/activity_details_image_category"
+                            android:textSize="@dimen/details_text" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/activity_details_intervall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    android:visibility="invisible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" >
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_details_image_intervall"
+                            android:src="@drawable/ic_recurring"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+                        <TextView
+                            android:id="@+id/activity_details_text_intervall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/activity_details_image_intervall"
+                            android:gravity="center"
+                            android:textSize="@dimen/details_heading" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/activity_details_todate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    android:visibility="invisible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" >
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_details_image_todate"
+                            android:src="@mipmap/ic_date"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:id="@+id/activity_details_text_todate"
+                            android:layout_toRightOf="@+id/activity_details_image_todate"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:textSize="@dimen/details_heading"
+                            android:text="test_string" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
