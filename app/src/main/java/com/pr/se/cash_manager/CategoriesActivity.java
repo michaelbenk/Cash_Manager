@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CategoriesActivity extends AppCompatActivity {
-    private ArrayList<Category> list;
+    private List<Category> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,12 @@ public class CategoriesActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(CategoriesActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         this.updateList();
@@ -56,14 +62,14 @@ public class CategoriesActivity extends AppCompatActivity {
 
     public void updateList() {
         list = RW.readCategories(this, "categories");
-        HashMap<Category, ArrayList<Category>> categoryArrayListHashMap = new HashMap<>();
+        HashMap<Category, List<Category>> categoryArrayListHashMap = new HashMap<>();
 
-        //TODO Was ist mit Kategorien in Kategorien in Kategorien ?
+        //TODO Was ist mit Kategorien in Kategorien in Kategorien ? -> gibt es nicht
         for (Category e : list) {
-            categoryArrayListHashMap.put(e, (ArrayList<Category>) e.getCategories());
+            categoryArrayListHashMap.put(e, e.getSubCategories());
         }
 
-        final ExListAdapter adapter = new ExListAdapter(this, list, categoryArrayListHashMap);
+        final ExpandableListAdapter adapter = new ExpandableListAdapter(this, list, categoryArrayListHashMap);
         final ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.activity_categories_ex_list);
         listView.setAdapter(adapter);
         listView.setGroupIndicator(null);
@@ -85,17 +91,17 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //TODO Wo zur Hölle wird definiert das bei Click aufn Parent de DetailsActivity aufgrufen wird? Do nemli ned
+                //-> ExpandableListAdapter
 
                 Intent intent = new Intent(CategoriesActivity.this, CategoryDetailsActivity.class);
 
-                intent.putExtra("categories_name",list.get(groupPosition).getCategories().get(childPosition).getName());
+                intent.putExtra("cat", list.get(groupPosition).getName());
+                intent.putExtra("subCat", list.get(groupPosition).getSubCategories().get(childPosition));
                 CategoriesActivity.this.startActivity(intent);
                 return true;
             }
 
         });
-
-
 
         for (int i = 0; i < adapter.getGroupCount(); i++) {
             listView.expandGroup(i);

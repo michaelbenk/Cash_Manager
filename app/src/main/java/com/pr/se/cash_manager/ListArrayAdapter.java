@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The ListArrayAdapter acts as an bridge between the {@link ListView} and the
@@ -27,12 +28,12 @@ import java.util.Arrays;
  */
 public class ListArrayAdapter extends ArrayAdapter {
     private Context context;
-    private ArrayList<Expense> list;
+    private List<Expense> list;
     private Boolean[] selectedItems;
     private boolean selected = false;
     private int selectedPos = 0;
 
-    public ListArrayAdapter(Context context, ArrayList<Expense> list) {
+    public ListArrayAdapter(Context context, List<Expense> list) {
         super(context, R.layout.content_main_list_element, new String[list.size()]);
         this.context = context;
         this.list = list;
@@ -67,10 +68,12 @@ public class ListArrayAdapter extends ArrayAdapter {
             });
         }
 
-        //image.setImageResource(list.get(position).getImageId());
+        image.setImageResource(R.mipmap.ic_food);
         category.setText(list.get(position).getCategory().toString());
         date.setText(list.get(position).getDate());
         sum.setText(String.valueOf(list.get(position).getSum()));
+
+
 
         return rowView;
     }

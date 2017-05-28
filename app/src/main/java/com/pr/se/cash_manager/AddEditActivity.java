@@ -2,24 +2,17 @@ package com.pr.se.cash_manager;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,10 +27,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,24 +45,18 @@ public class AddEditActivity extends AppCompatActivity {
     //Camera and Gallery
     private static final int ACTION_TAKE_PHOTO_B = 1;
     private static final int SELECT_FILE = 1;
-
     private static final String BITMAP_STORAGE_KEY = "viewbitmap";
     private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
     private ImageView mImageView;
     private Bitmap mImageBitmap;
-
     private String mCurrentPhotoPath;
-
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
-
     private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
-
     private String userChoosenTask;
-
     private boolean deleteimage = false;
-
     private FloatingActionButton fab_del;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +113,7 @@ public class AddEditActivity extends AppCompatActivity {
                 }
 
                 if (update) {
-                    ArrayList<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
+                    List<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
                     Expense element = null;
 
                     for (Expense e : list) {
@@ -161,7 +145,7 @@ public class AddEditActivity extends AppCompatActivity {
                 } else {
                     Expense element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
                     element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
-                    ArrayList<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
+                    List<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
                     list.add(element);
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
                 }
@@ -215,11 +199,11 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<Category> cat = RW.readCategories(this, "categories");
-        ArrayList<String> categories = new ArrayList<>();
+        List<Category> cat = RW.readCategories(this, "categories");
+        List<String> categories = new ArrayList<>();
         for (Category ca : cat) {
             categories.add(ca.toString());
-            for (Category c : ca.getCategories()) {
+            for (Category c : ca.getSubCategories()) {
                 categories.add(c.toString());
             }
         }

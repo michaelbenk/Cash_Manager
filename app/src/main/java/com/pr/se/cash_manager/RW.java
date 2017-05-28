@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Uni on 22.03.2017.
@@ -14,13 +15,13 @@ import java.util.ArrayList;
 
 public class RW {
 
-    public static ArrayList<Expense> readExpenses(Context context, String file) {
+    public static List<Expense> readExpenses(Context context, String file) {
         FileInputStream fis;
-        ArrayList<Expense> list = new ArrayList<>();
+        List<Expense> list = new ArrayList<>();
         try {
             fis = context.openFileInput(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            list = (ArrayList<Expense>) ois.readObject();
+            list = (List<Expense>) ois.readObject();
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,7 +30,7 @@ public class RW {
         return list;
     }
 
-    public static void writeExpenses(Context context, ArrayList<Expense> list, String file) {
+    public static void writeExpenses(Context context, List<Expense> list, String file) {
         FileOutputStream fos;
         try {
             fos = context.openFileOutput(file, Context.MODE_PRIVATE);
@@ -41,13 +42,13 @@ public class RW {
         }
     }
 
-    public static ArrayList<Category> readCategories(Context context, String file) {
+    public static List<Category> readCategories(Context context, String file) {
         FileInputStream fis;
-        ArrayList<Category> list = new ArrayList<>();
+        List<Category> list = new ArrayList<>();
         try {
             fis = context.openFileInput(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            list = (ArrayList<Category>) ois.readObject();
+            list = (List<Category>) ois.readObject();
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +57,7 @@ public class RW {
         return list;
     }
 
-    public static void writeCategories(Context context, ArrayList<Category> list, String file) {
+    public static void writeCategories(Context context, List<Category> list, String file) {
         FileOutputStream fos;
         try {
             fos = context.openFileOutput(file, Context.MODE_PRIVATE);

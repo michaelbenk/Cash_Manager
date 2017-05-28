@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences prefs = null;
     private boolean isListSelected = false;
-    private ArrayList<Expense> list;
+    private List<Expense> list;
     private ArrayAdapter adapter;
     private ListView listView;
     private Toolbar toolbar;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Expense> expenses = RW.readExpenses(MainActivity.this, "expenses");
+                List<Expense> expenses = RW.readExpenses(MainActivity.this, "expenses");
                 Boolean[] selectedItems = ((ListArrayAdapter) adapter).getSelectedItems();
                 for (int i = 0; i < selectedItems.length; i++) {
                     if (selectedItems[i]) {

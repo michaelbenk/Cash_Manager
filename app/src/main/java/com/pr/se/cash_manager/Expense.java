@@ -7,6 +7,7 @@ import android.widget.ListView;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,8 +28,8 @@ public class Expense implements Serializable{
     private String date;
     private double sum;
 
-    private ArrayList<Image> pics;
-    private ArrayList<byte[]> images = new ArrayList<>();
+    private List<Image> pics;
+    private List<byte[]> images = new ArrayList<>();
 
     public Expense(double sum, String date, String category, String description) {
         this.category = category;
@@ -84,7 +85,7 @@ public class Expense implements Serializable{
         images.remove(index);
     }
 
-    public ArrayList<byte[]> getImages() {
+    public List<byte[]> getImages() {
         return images;
     }
 
