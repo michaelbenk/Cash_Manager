@@ -35,6 +35,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -104,12 +106,12 @@ public class AddEditActivity extends AppCompatActivity {
                     AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
                     AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
                     ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
-                    recurringTextView.setText("nicht wiederkehrende Kosten");
+                    recurringTextView.setText(R.string.not_recurring);
                 }else{
                     recurringView.setChecked(true);
                     AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
                     AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
-                    recurringTextView.setText("wiederkehrende Kosten");
+                    recurringTextView.setText(R.string.recurring);
                     ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
                     dataInput();
                 }
@@ -124,13 +126,13 @@ public class AddEditActivity extends AppCompatActivity {
                     AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
                     AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
                     ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
-                    recurringTextView.setText("nicht wiederkehrende Kosten");
+                    recurringTextView.setText(R.string.not_recurring);
 
                 }else{
                     AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
                     AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
                     ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
-                    recurringTextView.setText("wiederkehrende Kosten");
+                    recurringTextView.setText(R.string.recurring);
                     dataInput();
                 }
 
@@ -155,11 +157,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
-        } else {
-            mAlbumStorageDirFactory = new BaseAlbumDirFactory();
-        }
+        mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
 
         this.dataInput();
 
@@ -169,7 +167,7 @@ public class AddEditActivity extends AppCompatActivity {
             public void onClick(View v) {
                if (!checkInput(sumView, categoryView)) {
                     return;
-                }
+               }
 
                 if (update) {
                     List<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
@@ -184,11 +182,17 @@ public class AddEditActivity extends AppCompatActivity {
                     list.remove(element);
 
                     if (element != null) {
+                        if (recurringView.isChecked()){
+                            element = new Recurring_Expense();
+                            ((Recurring_Expense)element).setIntervall(intervallView.getSelectedItem().toString());
+                            ((Recurring_Expense)element).setDate_to(dateToView.getText().toString());
+                        }else if (!recurringView.isChecked() && element instanceof Recurring_Expense){
+                            element = new Expense();
+                        }
                         element.setSum(Double.parseDouble(sumView.getText().toString()));
                         element.setDate(dateView.getText().toString());
                         element.setCategory(categoryView.getText().toString());
                         element.setDescription(descriptionView.getText().toString());
-                        //TODO recurring costs
 
                         try{
                             if (deleteimage) //Wenn X Button bei Bild geklickt wurde
@@ -203,8 +207,18 @@ public class AddEditActivity extends AppCompatActivity {
 
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
                 } else {
-                    Expense element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
-                    element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
+                    Expense element;
+                    if (recurringView.isChecked()){
+                        element = new Recurring_Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString(), dateToView.getText().toString(), intervallView.getSelectedItem().toString());
+                    }else {
+                        element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
+                    }
+                    try{
+                        element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
+                    }catch (Exception e){
+                        //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                    }
+
                     List<Expense> list = RW.readExpenses(AddEditActivity.this, "expenses");
                     list.add(element);
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
@@ -298,7 +312,7 @@ public class AddEditActivity extends AppCompatActivity {
         if (sum != null) {
             sumView.setText(sum);
         } else {
-            sumView.setText("10.00");
+            sumView.setText(R.string.default_sum);
         }
         if (date != null) {
             dateView.setText(date);
@@ -320,7 +334,7 @@ public class AddEditActivity extends AppCompatActivity {
         if (dateto != null){
             recurringView.setChecked(true);
             this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
-            recurringTextView.setText("wiederkehrende Kosten");
+            recurringTextView.setText(R.string.recurring);
             dateToView.setText(dateto);
         }else{
             Calendar calendar = Calendar.getInstance();
@@ -343,7 +357,7 @@ public class AddEditActivity extends AppCompatActivity {
             recurringView.setChecked(true);
             this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
             intervallView.setSelection(pos);
-            recurringTextView.setText("wiederkehrende Kosten");
+            recurringTextView.setText(R.string.recurring);
         }
 
         this.dateInput();
@@ -359,7 +373,19 @@ public class AddEditActivity extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel(calendar);
+                updateLabel(calendar, dateView);
+            }
+
+        };
+
+        final DatePickerDialog.OnDateSetListener dateTo = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(calendar, dateToView);
             }
 
         };
@@ -377,7 +403,7 @@ public class AddEditActivity extends AppCompatActivity {
         this.dateToView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(AddEditActivity.this, date, calendar
+                DatePickerDialog dpd = new DatePickerDialog(AddEditActivity.this, dateTo, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
@@ -385,12 +411,9 @@ public class AddEditActivity extends AppCompatActivity {
         });
     }
 
-    private void updateLabel(Calendar calendar) {
+    private void updateLabel(Calendar calendar, TextView date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-
-        this.dateView.setText(sdf.format(calendar.getTime()));
-
-        this.dateToView.setText(sdf.format(calendar.getTime()));
+        date.setText(sdf.format(calendar.getTime()));
     }
 
     private boolean checkInput(EditText sumView, AutoCompleteTextView categoryView) {
@@ -402,6 +425,22 @@ public class AddEditActivity extends AppCompatActivity {
         }
 
         sumView.setBackgroundColor(0);
+
+        if (recurringView.isChecked()){ //Bis-Datum muss größer als Von-Datum sein
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                Date dateFrom = sdf.parse(dateView.getText().toString());
+                Date dateTo = sdf.parse(dateToView.getText().toString());
+
+                if (dateFrom.compareTo(dateTo) > 0){
+                    dateToView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
+                    Toast.makeText(AddEditActivity.this, "Das 'Bis'-Datum muss größer als das 'Von'-Datum sein", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         String cat = categoryView.getText().toString();
         ListAdapter listAdapter = categoryView.getAdapter();
@@ -485,8 +524,7 @@ public class AddEditActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
         File albumF = getAlbumDir();
-        File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
-        return imageF;
+        return File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
     }
 
     private File setUpPhotoFile() throws IOException {
@@ -546,7 +584,7 @@ public class AddEditActivity extends AppCompatActivity {
 
         switch(actionCode) {
             case ACTION_TAKE_PHOTO_B:
-                File f = null;
+                File f;
 
                 try {
                     f = setUpPhotoFile();
@@ -554,7 +592,6 @@ public class AddEditActivity extends AppCompatActivity {
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                 } catch (IOException e) {
                     e.printStackTrace();
-                    f = null;
                     mCurrentPhotoPath = null;
                 }
                 break;

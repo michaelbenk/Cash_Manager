@@ -18,5 +18,8 @@
     <string name="nav_logout">Logout</string>
 
     <string name="save">Save</string>
+    <string name="not_recurring">nicht wiederkehrende Kosten</string>
+    <string name="recurring">wiederkehrende Kosten</string>
+    <string name="default_sum">10.00</string>
 
 </resources>

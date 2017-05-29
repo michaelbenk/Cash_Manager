@@ -90,9 +90,6 @@ public class CategoriesActivity extends AppCompatActivity {
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                //TODO Wo zur Hölle wird definiert das bei Click aufn Parent de DetailsActivity aufgrufen wird? Do nemli ned
-                //-> ExpandableListAdapter
-
                 Intent intent = new Intent(CategoriesActivity.this, CategoryDetailsActivity.class);
 
                 intent.putExtra("cat", list.get(groupPosition).getName());

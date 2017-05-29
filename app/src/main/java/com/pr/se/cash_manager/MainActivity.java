@@ -207,11 +207,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
-        if (id == R.id.action_delete) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_delete || super.onOptionsItemSelected(item);
     }
 
     /*
@@ -223,7 +219,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_export) {
-
             // TODO ExportActivity, ExportLayout, etc.
 
         } else if (id == R.id.nav_settings) {
@@ -284,7 +279,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 Intent intent = new Intent(MainActivity.this, ShowDetails.class);
-                intent.putExtra("category", list.get(position).getCategory().toString());
+                intent.putExtra("category", list.get(position).getCategory());
                 intent.putExtra("description", list.get(position).getDescription());
                 intent.putExtra("date", list.get(position).getDate());
                 intent.putExtra("sum", String.valueOf(list.get(position).getSum()));
@@ -377,7 +372,7 @@ public class MainActivity extends AppCompatActivity
             expenses.add(e3);
             Expense e4 = new Expense(6.23, sdf.format(calendar.getTime()), sub1.toString(), description[3]);
             expenses.add(e4);
-            Expense e5 = new Recurring_Expense(400.50, sdf.format(calendar.getTime()), cat2.toString(), "Miete", sdf2.format(calendar2.getTime()), Intervall.monatlich);
+            Expense e5 = new Recurring_Expense(400.50, sdf.format(calendar.getTime()), cat2.toString(), "Miete", sdf2.format(calendar2.getTime()), Intervall.monatlich.name());
             expenses.add(e5);
 
             RW.writeCategories(this, categories, "categories");
@@ -414,12 +409,12 @@ public class MainActivity extends AppCompatActivity
         chart.setRotationEnabled(true);
         chart.setHighlightPerTapEnabled(true);
 
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+        ArrayList<PieEntry> entries = new ArrayList<>();
 
         Map<String, Float> categories = new HashMap<>();
 
         for (Expense e : this.list) {
-            double sum = 0;
+            double sum;
             if (categories.containsKey(e.getCategory())) {
                 sum = categories.get(e.getCategory()).doubleValue();
                 categories.remove(e.getCategory());
@@ -438,7 +433,7 @@ public class MainActivity extends AppCompatActivity
         dataSet.setIconsOffset(new MPPointF(0, 40));
         dataSet.setSelectionShift(5f);
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        ArrayList<Integer> colors = new ArrayList<>();
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);
