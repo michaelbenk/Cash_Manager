@@ -161,14 +161,13 @@ public class CategoryDetailsActivity extends AppCompatActivity {
 
     private void addCategory() {
         List<String> categoryNames = new ArrayList<>();
-        categoryNames.add(" ");
         for (Category c : this.categories) {
             categoryNames.add(c.getName());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryNames);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         categoriesView.setAdapter(adapter);
     }
 

@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Uni on 31.03.2017.
- */
-
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
@@ -61,7 +57,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     if (c.getName().equals(listDataHeader.get(groupPosition).getName())) {
                         Category s;
                         for (int j = 0; j < c.getSubCategories().size(); j++) {
-                            s = c.getSubCategories().get(i);
+                            s = c.getSubCategories().get(j);
                             if (s.getName().equals(listDataHeader.get(groupPosition).getSubCategories().get(j).getName())) {
                                 categories.get(i).getSubCategories().remove(j);
                             }
@@ -137,6 +133,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                 Intent intent = new Intent(context, CategoriesActivity.class);
                 context.startActivity(intent);
+                //TODO es sollte nicht möglich sein alle Kategorien zu löschen
+                //TODO Die weiteren Folgen von gelöschter Kategorie wurden noch nicht überlegt (Wenn die Kategorie in einem Expense verwendet wurde)
             }
         });
 

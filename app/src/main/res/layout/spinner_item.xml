@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/activity_add_text_todate"
+    android:layout_toRightOf="@+id/activity_add_image_todate"
+    android:layout_alignParentTop="true"
+    android:gravity="center"
+    android:textSize="@dimen/details_heading"
+    android:padding="16dp"
+    />

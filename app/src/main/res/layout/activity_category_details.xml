@@ -61,11 +61,13 @@
                 <EditText
                     android:id="@+id/activity_categories_det_input_bez"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/activity_categories_det_image_bez"
-                    android:maxLength="15" />
+                    android:maxLength="75"
+                    android:textColor="#757575"
+                    android:textSize="@dimen/details_heading"/>
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
@@ -78,8 +80,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/activity_categories_det_image_cat"
@@ -88,20 +89,23 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="16dp"
-                    android:src="@mipmap/ic_launcher_black" />
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/ic_list_black" />
 
                 <Spinner
                     android:id="@+id/activity_categories_det_input_cat"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/activity_categories_det_image_cat"
                     android:clickable="false"
                     android:divider="@null"
                     android:maxLength="15"
-                    android:padding="1dp"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

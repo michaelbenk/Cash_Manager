@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -47,7 +49,8 @@ public class AddEditActivity extends AppCompatActivity {
     private TextView dateToView;
     private Spinner intervallView;
     private Switch recurringView;
-
+    private TextView recurringTextView;
+    private CardView recurringCardView;
 
     //Camera and Gallery
     private static final int ACTION_TAKE_PHOTO_B = 1;
@@ -63,6 +66,7 @@ public class AddEditActivity extends AppCompatActivity {
     private String userChoosenTask;
     private boolean deleteimage = false;
     private FloatingActionButton fab_del;
+
 
 
     @Override
@@ -84,21 +88,50 @@ public class AddEditActivity extends AppCompatActivity {
         this.dateToView = (TextView) this.findViewById(R.id.activity_add_text_todate);
         this.intervallView = (Spinner) this.findViewById(R.id.activity_add_spinner_intervall);
         this.recurringView = (Switch) this.findViewById(R.id.activity_add_switch_recurring);
+        this.recurringTextView = (TextView) this.findViewById(R.id.activity_add_text_recurring);
+        this.recurringCardView = (CardView) this.findViewById(R.id.activity_add_recurring);
+
 
         //Image
         mImageView = (ImageView) findViewById(R.id.activity_add_image);
         mImageBitmap = null;
 
+        recurringCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recurringView.isChecked()){
+                    recurringView.setChecked(false);
+                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
+                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
+                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
+                    recurringTextView.setText("nicht wiederkehrende Kosten");
+                }else{
+                    recurringView.setChecked(true);
+                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
+                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
+                    recurringTextView.setText("wiederkehrende Kosten");
+                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
+                    dataInput();
+                }
+
+            }
+        });
+
         recurringView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
-                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
-                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
-                    dataInput();
-                }else{
+                if (!b){
                     AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
                     AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
+                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
+                    recurringTextView.setText("nicht wiederkehrende Kosten");
+
+                }else{
+                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
+                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
+                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
+                    recurringTextView.setText("wiederkehrende Kosten");
+                    dataInput();
                 }
 
             }
@@ -205,8 +238,9 @@ public class AddEditActivity extends AppCompatActivity {
         String category = getIntent().getStringExtra("category");
         String description = getIntent().getStringExtra("description");
         byte[] byteArray = getIntent().getByteArrayExtra("image");
-        final String dateto = getIntent().getStringExtra("dateto");
-        final String intervall = getIntent().getStringExtra("intervall");
+
+        String dateto = getIntent().getStringExtra("dateto");
+        String intervall = getIntent().getStringExtra("intervall");
         
         Bitmap image = null;
         if (byteArray != null)
@@ -286,6 +320,7 @@ public class AddEditActivity extends AppCompatActivity {
         if (dateto != null){
             recurringView.setChecked(true);
             this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
+            recurringTextView.setText("wiederkehrende Kosten");
             dateToView.setText(dateto);
         }else{
             Calendar calendar = Calendar.getInstance();
@@ -300,14 +335,15 @@ public class AddEditActivity extends AppCompatActivity {
             if (i.name().equals(intervall))
                 pos = intervallValues.size() - 1;
         }
-        ArrayAdapter<String> adapterIntervall = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, intervallValues);
-        adapterIntervall.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterIntervall = new ArrayAdapter<>(this, R.layout.spinner_item, intervallValues);
+        adapterIntervall.setDropDownViewResource(R.layout.spinner_item);
         intervallView.setAdapter(adapterIntervall);
 
         if (intervall != null){
             recurringView.setChecked(true);
             this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
             intervallView.setSelection(pos);
+            recurringTextView.setText("wiederkehrende Kosten");
         }
 
         this.dateInput();
