@@ -22,13 +22,14 @@ public class ShowDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        //Toolbar setzen
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_details_toolbar);
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Werte von Intent (MainActivity) übernehmen
         final String id = getIntent().getStringExtra("id");
         final boolean update = getIntent().getBooleanExtra("update", false);
-
         final String sum = getIntent().getStringExtra("sum");
         final String date = getIntent().getStringExtra("date");
         final String category = getIntent().getStringExtra("category");
@@ -36,21 +37,20 @@ public class ShowDetails extends AppCompatActivity {
         final byte[] byteArray = getIntent().getByteArrayExtra("image");
         final String dateto = getIntent().getStringExtra("dateto");
         final String intervall = getIntent().getStringExtra("intervall");
-
         Bitmap image = null;
         if (byteArray != null)
             image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
+        //Viewelemente laden
         TextView sumView = (TextView) this.findViewById(R.id.activity_details_text_sum);
         TextView dateView = (TextView) this.findViewById(R.id.activity_details_text_date);
         TextView categoryView = (TextView) this.findViewById(R.id.activity_details_text_category);
         TextView descriptionView = (TextView) this.findViewById(R.id.activity_details_text_description);
         ImageView imageView = (ImageView) this.findViewById(R.id.activity_details_image);
-
         TextView dateToView = (TextView) this.findViewById(R.id.activity_details_text_todate);
         TextView intervallView = (TextView) this.findViewById(R.id.activity_details_text_intervall);
 
-
+        //Viewelemente mit werden aus MainActivity setzen
         sumView.setText(sum);
         dateView.setText(date);
         categoryView.setText(category);
@@ -64,16 +64,11 @@ public class ShowDetails extends AppCompatActivity {
             intervallView.setText(intervall);
         }
 
+        //Button mit Stift Icon - Bearbeiten von Expense - Click Event
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.activity_details_fab);
-        final Bitmap finalImage = image;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (finalImage != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    finalImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                }
                 Intent intent = new Intent(ShowDetails.this, AddEditActivity.class);
                 intent.putExtra("category", category);
                 intent.putExtra("description", description);
@@ -81,7 +76,7 @@ public class ShowDetails extends AppCompatActivity {
                 intent.putExtra("sum", sum);
                 intent.putExtra("update", update);
                 intent.putExtra("id", id);
-                if (finalImage != null)
+                if (byteArray != null)
                     intent.putExtra("image", byteArray);
                 if (dateto != null && intervall != null){
                     intent.putExtra("dateto", dateto);

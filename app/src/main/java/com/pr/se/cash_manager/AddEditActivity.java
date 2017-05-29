@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -35,7 +34,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,23 +42,24 @@ import java.util.Date;
 import java.util.List;
 
 public class AddEditActivity extends AppCompatActivity {
+    //Viewelemente
     private EditText sumView;
     private TextView dateView;
     private AutoCompleteTextView categoryView;
     private TextView descriptionView;
     private TextView dateToView;
     private Spinner intervallView;
-    private Switch recurringView;
+    private Switch recurringSwitchView;
     private TextView recurringTextView;
     private CardView recurringCardView;
 
-    //Camera and Gallery
+    //für Kamera und Gallerie benötigte Variablen
     private static final int ACTION_TAKE_PHOTO_B = 1;
     private static final int SELECT_FILE = 1;
     private static final String BITMAP_STORAGE_KEY = "viewbitmap";
     private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
     private ImageView mImageView;
-    private Bitmap mImageBitmap;
+    private Bitmap mImageBitmap = null;
     private String mCurrentPhotoPath;
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
@@ -69,76 +68,57 @@ public class AddEditActivity extends AppCompatActivity {
     private boolean deleteimage = false;
     private FloatingActionButton fab_del;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit);
 
+        //Toolbar setzen
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_add_toolbar);
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Viewelemente setzen
         final String id = getIntent().getStringExtra("id");
         final boolean update = getIntent().getBooleanExtra("update", false);
-
         this.sumView = (EditText) this.findViewById(R.id.activity_add_input_sum);
         this.dateView = (TextView) this.findViewById(R.id.activity_add_input_date);
         this.categoryView = (AutoCompleteTextView) this.findViewById(R.id.activity_add_input_category);
         this.descriptionView = (TextView) this.findViewById(R.id.activity_add_input_description);
         this.dateToView = (TextView) this.findViewById(R.id.activity_add_text_todate);
         this.intervallView = (Spinner) this.findViewById(R.id.activity_add_spinner_intervall);
-        this.recurringView = (Switch) this.findViewById(R.id.activity_add_switch_recurring);
+        this.recurringSwitchView = (Switch) this.findViewById(R.id.activity_add_switch_recurring);
         this.recurringTextView = (TextView) this.findViewById(R.id.activity_add_text_recurring);
         this.recurringCardView = (CardView) this.findViewById(R.id.activity_add_recurring);
-
-
-        //Image
         mImageView = (ImageView) findViewById(R.id.activity_add_image);
-        mImageBitmap = null;
 
+        // Click auf Cardview bewirkt die Anzeige bzw. Verschwinden von 'Bis'-Datum und Intervall
         recurringCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (recurringView.isChecked()){
-                    recurringView.setChecked(false);
-                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
-                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
-                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
-                    recurringTextView.setText(R.string.not_recurring);
+                if (recurringSwitchView.isChecked()){
+                    recurringSwitchView.setChecked(false);
+                    setUnrecurring();
                 }else{
-                    recurringView.setChecked(true);
-                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
-                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
-                    recurringTextView.setText(R.string.recurring);
-                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
-                    dataInput();
+                    recurringSwitchView.setChecked(true);
+                    setRecurring();
                 }
-
             }
         });
 
-        recurringView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // Click auf Switch bewirkt die Anzeige bzw. Verschwinden von 'Bis'-Datum und Intervall
+        recurringSwitchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (!b){
-                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
-                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
-                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
-                    recurringTextView.setText(R.string.not_recurring);
-
+                    setUnrecurring();
                 }else{
-                    AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
-                    AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
-                    ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
-                    recurringTextView.setText(R.string.recurring);
-                    dataInput();
+                    setRecurring();
                 }
-
             }
         });
 
+        //Button zum Bild hinzufügen
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.activity_add_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +127,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
+        // Button zum Bild löschen
         fab_del = (FloatingActionButton) this.findViewById(R.id.activity_add_fab_image_delete);
         fab_del.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +142,7 @@ public class AddEditActivity extends AppCompatActivity {
 
         this.dataInput();
 
+        //Save rechts oben - Speichern bzw. Update
         TextView save = (TextView) this.findViewById(R.id.activity_add_save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,11 +164,11 @@ public class AddEditActivity extends AppCompatActivity {
                     list.remove(element);
 
                     if (element != null) {
-                        if (recurringView.isChecked()){
+                        if (recurringSwitchView.isChecked()){
                             element = new Recurring_Expense();
                             ((Recurring_Expense)element).setIntervall(intervallView.getSelectedItem().toString());
                             ((Recurring_Expense)element).setDate_to(dateToView.getText().toString());
-                        }else if (!recurringView.isChecked() && element instanceof Recurring_Expense){
+                        }else if (!recurringSwitchView.isChecked() && element instanceof Recurring_Expense){
                             element = new Expense();
                         }
                         element.setSum(Double.parseDouble(sumView.getText().toString()));
@@ -208,7 +190,7 @@ public class AddEditActivity extends AppCompatActivity {
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
                 } else {
                     Expense element;
-                    if (recurringView.isChecked()){
+                    if (recurringSwitchView.isChecked()){
                         element = new Recurring_Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString(), dateToView.getText().toString(), intervallView.getSelectedItem().toString());
                     }else {
                         element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
@@ -230,6 +212,23 @@ public class AddEditActivity extends AppCompatActivity {
         });
     }
 
+    //Bis-Datum und Intervall einblenden
+    private void setRecurring() {
+        AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
+        AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
+        recurringTextView.setText(R.string.recurring);
+        ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
+        dataInput();
+    }
+
+    //Bis-Datum und Intervall ausblenden
+    private void setUnrecurring() {
+        AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
+        AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
+        ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
+        recurringTextView.setText(R.string.not_recurring);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -247,19 +246,21 @@ public class AddEditActivity extends AppCompatActivity {
     }
 
     private void dataInput() {
+        //Werte von Intent (ShowDetails) holen
         String sum = getIntent().getStringExtra("sum");
         String date = getIntent().getStringExtra("date");
         String category = getIntent().getStringExtra("category");
         String description = getIntent().getStringExtra("description");
         byte[] byteArray = getIntent().getByteArrayExtra("image");
-
         String dateto = getIntent().getStringExtra("dateto");
         String intervall = getIntent().getStringExtra("intervall");
-        
+
+        //Byte Array in Bitmap konvertieren
         Bitmap image = null;
         if (byteArray != null)
             image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
+        //Wertcheck der Summe sobald kein Fokus mehr auf den Wert liegt
         sumView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -277,6 +278,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
+        //Autokomplete "Dictionary" setzten
         List<Category> cat = RW.readCategories(this, "categories");
         List<String> categories = new ArrayList<>();
         for (Category ca : cat) {
@@ -285,9 +287,10 @@ public class AddEditActivity extends AppCompatActivity {
                 categories.add(c.toString());
             }
         }
-
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categories.toArray());
         categoryView.setAdapter(adapter);
+
+        //Wertcheck wenn Text nicht mehr editiert wird
         categoryView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -309,6 +312,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
+        //Viewelemente setzten
         if (sum != null) {
             sumView.setText(sum);
         } else {
@@ -332,7 +336,7 @@ public class AddEditActivity extends AppCompatActivity {
             mImageView.setImageBitmap(image);
         }
         if (dateto != null){
-            recurringView.setChecked(true);
+            recurringSwitchView.setChecked(true);
             this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
             recurringTextView.setText(R.string.recurring);
             dateToView.setText(dateto);
@@ -354,7 +358,7 @@ public class AddEditActivity extends AppCompatActivity {
         intervallView.setAdapter(adapterIntervall);
 
         if (intervall != null){
-            recurringView.setChecked(true);
+            recurringSwitchView.setChecked(true);
             this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
             intervallView.setSelection(pos);
             recurringTextView.setText(R.string.recurring);
@@ -363,6 +367,7 @@ public class AddEditActivity extends AppCompatActivity {
         this.dateInput();
     }
 
+    // DatePickerDiaglog setzten für beide Datumsfelder
     private void dateInput() {
         final Calendar calendar = Calendar.getInstance();
 
@@ -416,8 +421,10 @@ public class AddEditActivity extends AppCompatActivity {
         date.setText(sdf.format(calendar.getTime()));
     }
 
+    //Input der Werte überprüfen
     private boolean checkInput(EditText sumView, AutoCompleteTextView categoryView) {
         Double sum = Double.parseDouble(sumView.getText().toString());
+        //TODO Wert darf nur 2 Nachkommerstellen haben
         if(sum < 0) {
             sumView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
             Toast.makeText(AddEditActivity.this, "The Value must not be negative!", Toast.LENGTH_SHORT).show();
@@ -426,7 +433,7 @@ public class AddEditActivity extends AppCompatActivity {
 
         sumView.setBackgroundColor(0);
 
-        if (recurringView.isChecked()){ //Bis-Datum muss größer als Von-Datum sein
+        if (recurringSwitchView.isChecked()){ //Bis-Datum muss größer als Von-Datum sein
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                 Date dateFrom = sdf.parse(dateView.getText().toString());
@@ -457,6 +464,7 @@ public class AddEditActivity extends AppCompatActivity {
         return false;
     }
 
+    //Menü für Foto: Foto mit Kamera schießen oder aus Gallerie auswählen
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library"};
         AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
@@ -480,6 +488,7 @@ public class AddEditActivity extends AppCompatActivity {
         builder.show();
     }
 
+    //Foto aus Gallerie
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -487,6 +496,7 @@ public class AddEditActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
+    //Foto mit Kamera schießen
     private void cameraIntent() {
         dispatchTakePictureIntent(ACTION_TAKE_PHOTO_B);
     }

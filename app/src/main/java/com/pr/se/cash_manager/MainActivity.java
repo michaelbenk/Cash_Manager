@@ -212,7 +212,6 @@ public class MainActivity extends AppCompatActivity
 
     /*
         Option in der Toolbar mit Menü: Export, Setting, Logout
-        Wird das überhaupt verwendt?
      */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -244,6 +243,7 @@ public class MainActivity extends AppCompatActivity
      *      langer Klick: setSelected
      */
     public void updateList() {
+        //TODO Wiederkehrende Ausgaben sollen auch wiederkehrend sein
         this.list = RW.readExpenses(this, "expenses");
         Collections.sort(list, new Comparator<Expense>() {
             @Override

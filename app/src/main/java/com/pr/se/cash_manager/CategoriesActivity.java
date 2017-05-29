@@ -64,7 +64,6 @@ public class CategoriesActivity extends AppCompatActivity {
         list = RW.readCategories(this, "categories");
         HashMap<Category, List<Category>> categoryArrayListHashMap = new HashMap<>();
 
-        //TODO Was ist mit Kategorien in Kategorien in Kategorien ? -> gibt es nicht
         for (Category e : list) {
             categoryArrayListHashMap.put(e, e.getSubCategories());
         }
