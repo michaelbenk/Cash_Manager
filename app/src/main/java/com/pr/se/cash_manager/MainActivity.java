@@ -56,7 +56,7 @@ import java.util.Map;
  * <br><br>
  * The main activity implements all necessary classes and methods as well as all further parts
  * of the layout called by the user.
- *
+ * test commit
  * @author Team 1
  * @version 1.0
  */
