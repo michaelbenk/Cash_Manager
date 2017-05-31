@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.pr.se.cash_manager.MainActivity">
+
+    <TextView></TextView>
+
+    <TextView
+        android:id="@+id/content_filter_list_element_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="1"
+        android:layout_row="0"
+        android:gravity="center"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/content_filter_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="3"
+        android:layout_row="0"/>
+</GridLayout>

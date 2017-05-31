@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayAdapter adapter;
     private ListView listView;
     private Toolbar toolbar;
+    private List<Filter> filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +150,17 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CategoriesActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+            }
+        });
+
+
+        ImageView filter = (ImageView) this.findViewById(R.id.activity_main_filter);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FilterActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
@@ -254,6 +266,29 @@ public class MainActivity extends AppCompatActivity
     public void updateList() {
         //TODO Wiederkehrende Ausgaben sollen auch wiederkehrend sein
         this.list = RW.readExpenses(this, "expenses");
+
+        this.filter = RW.readFilter(this, "filters");
+        if (filter.size() != 0) { // Wenn Filter gesetzt wurde
+            String recurringOrNot = "";
+            for (Filter subfilter : filter.get(0).getSubfilter()) {
+                if (subfilter.isCheck()) {
+                    recurringOrNot = subfilter.getFilter();
+
+                }
+            }
+            //TODO andere Filter
+            List<Expense> hilf = new ArrayList<>();
+            for (Expense ex : list) {
+                if (recurringOrNot.equals("wiederkehrende Kosten") && (ex instanceof Recurring_Expense)) {
+                    hilf.add(ex);
+                } else if (recurringOrNot.equals("nicht wiederkehrende Kosten") && !(ex instanceof Recurring_Expense)) {
+                    hilf.add(ex);
+                } else if (recurringOrNot.equals("Alle")){
+                    hilf.add(ex);
+                }
+            }
+            list = hilf;
+        }
 
         this.indicateChart();
 

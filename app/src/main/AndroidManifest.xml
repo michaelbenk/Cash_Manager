@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pr.se.cash_manager">
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera" /> <!-- >If your application uses, but does not require a camera in order to function, instead set android:required to false </!-->
+
+    <uses-feature android:name="android.hardware.camera" /> <!-- >If your application uses, but does not require a camera in order to function, instead set android:required to false </! -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -54,6 +58,7 @@
         <activity
             android:name=".ChangePasswordActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -63,6 +68,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity
+            android:name=".FilterActivity"
+            android:label="@string/title_activity_filter"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

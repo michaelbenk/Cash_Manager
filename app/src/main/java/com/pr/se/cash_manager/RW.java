@@ -98,4 +98,31 @@ public class RW {
         }
     }
 
+    public static List<Filter> readFilter(Context context, String file) {
+        FileInputStream fis;
+        List<Filter> list = new ArrayList<>();
+        try {
+            fis = context.openFileInput(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            list = (List<Filter>) ois.readObject();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static void writeFilter(Context context, List<Filter> list, String file) {
+        FileOutputStream fos;
+        try {
+            fos = context.openFileOutput(file, Context.MODE_PRIVATE);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(list);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

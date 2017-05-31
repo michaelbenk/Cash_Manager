@@ -18,8 +18,19 @@
     <string name="nav_logout">Logout</string>
 
     <string name="save">Save</string>
+
     <string name="not_recurring">nicht wiederkehrende Kosten</string>
     <string name="recurring">wiederkehrende Kosten</string>
     <string name="default_sum">10.00</string>
+
+    <string name="filter_Alle">Alle</string>
+    <string name="filter_Ausgabentyp">Ausgabentyp</string>
+    <string name="filter_letzteWoche">letzte Woche</string>
+    <string name="filter_letzterMonat">letzter Monat</string>
+    <string name="filter_letztesJahr">letztes Jahr</string>
+    <string name="filter_Zeitraum">Zeitraum</string>
+    <string name="filter_kategorien">Kategorien</string>
+    <string name="title_activity_filter">FilterActivity</string>
+
 
 </resources>
