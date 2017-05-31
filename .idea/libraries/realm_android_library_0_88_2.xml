@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="realm-android-library-0.88.2">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/9a0ae764bd7e84ac71c82e8ac6cc4b823e881e37/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/9a0ae764bd7e84ac71c82e8ac6cc4b823e881e37/output/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/fbe2974b27e0671f1dd3c23089f51e3ade56c83d/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/fbe2974b27e0671f1dd3c23089f51e3ade56c83d/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

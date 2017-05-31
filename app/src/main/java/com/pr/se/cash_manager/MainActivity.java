@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity
         //Intent intent = new Intent(this, LoginActivity.class);
         //startActivity(intent);
 
+        System.out.print(",,,");
+
         /*
             Delete Button rechts oben
             Selektierte Ausgabe werden gelöscht
