@@ -16,6 +16,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import java.io.File;
+
 public class SettingsActivity extends PreferenceActivity {
 
     private SwitchPreference s;
@@ -24,6 +26,7 @@ public class SettingsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.activity_settings);
         final Preference changePasswordPref = findPreference("pref_password_change");
+        final Preference factoryResetPref = findPreference("pref_reset");
 
         s = (SwitchPreference) findPreference("pref_password_login");
 
@@ -32,6 +35,21 @@ public class SettingsActivity extends PreferenceActivity {
             public boolean onPreferenceClick(Preference p) {
                 Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
                 startActivity(intent);
+                return true;
+            }
+        });
+
+        factoryResetPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference p) {
+
+                File dir = getFilesDir();
+
+                DeleteRecursive(dir.getPath());
+
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                System.exit(0);
                 return true;
             }
         });
@@ -58,7 +76,17 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
+    private void DeleteRecursive(String strPath) {
 
+        File fileOrDirectory = new File(strPath);
 
+        if (fileOrDirectory.isDirectory()){
+            for (File child : fileOrDirectory.listFiles())
+                DeleteRecursive(child.getPath());
+            fileOrDirectory.delete();
+        }else{
 
+            fileOrDirectory.delete();
+        }
+    }
 }
