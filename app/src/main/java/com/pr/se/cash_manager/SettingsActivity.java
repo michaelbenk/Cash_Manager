@@ -5,20 +5,28 @@ package com.pr.se.cash_manager;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.*;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 public class SettingsActivity extends PreferenceActivity {
 
+    private SwitchPreference s;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_settings);
         addPreferencesFromResource(R.layout.activity_settings);
-        Preference changePasswordPref = findPreference("pref_password_change");
+        final Preference changePasswordPref = findPreference("pref_password_change");
+
+        s = (SwitchPreference) findPreference("pref_password_login");
 
         changePasswordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -28,6 +36,12 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("pref_password_login")) {
+            boolean test = sharedPreferences.getBoolean("pref_password_login", false);
+        }
     }
 
     @Override
@@ -44,4 +58,8 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
     }
+
+
+
+
 }

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -74,10 +75,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        //Intent intent = new Intent(this, LoginActivity.class);
-        //startActivity(intent);
+        /*
+            Delete Button rechts oben
+            Selektierte Ausgabe werden gelöscht
+         */
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isChecked = preferences.getBoolean("pref_password_login", false);
+        if (isChecked) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
-        System.out.print(",,,");
 
         /*
             Delete Button rechts oben

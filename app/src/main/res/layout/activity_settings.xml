@@ -13,10 +13,11 @@
         android:entryValues="@array/listValues" />
 
     <SwitchPreference
+        android:id="@+id/loginSwitch"
         android:key="pref_password_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:defaultValue="true"
+        android:checked="true"
         android:title="Password Login" />
 
     <Preference
