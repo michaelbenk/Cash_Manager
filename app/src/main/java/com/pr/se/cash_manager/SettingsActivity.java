@@ -45,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity {
 
                 File dir = getFilesDir();
 
-                DeleteRecursive(dir.getPath());
+                deleteRecursive(dir.getPath());
 
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
@@ -76,13 +76,13 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
-    private void DeleteRecursive(String strPath) {
+    private void deleteRecursive(String strPath) {
 
         File fileOrDirectory = new File(strPath);
 
         if (fileOrDirectory.isDirectory()){
             for (File child : fileOrDirectory.listFiles())
-                DeleteRecursive(child.getPath());
+                deleteRecursive(child.getPath());
             fileOrDirectory.delete();
         }else{
 

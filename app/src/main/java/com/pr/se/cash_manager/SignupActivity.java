@@ -15,6 +15,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -66,6 +67,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+
+                    File dir = getFilesDir();
+
+                    deleteRecursive(dir.getPath());
+
                     signup();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -157,5 +163,19 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void deleteRecursive(String strPath) {
+
+        File fileOrDirectory = new File(strPath);
+
+        if (fileOrDirectory.isDirectory()){
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child.getPath());
+            fileOrDirectory.delete();
+        }else{
+
+            fileOrDirectory.delete();
+        }
     }
 }
