@@ -254,23 +254,6 @@ public class MainActivity extends AppCompatActivity
     public void updateList() {
         //TODO Wiederkehrende Ausgaben sollen auch wiederkehrend sein
         this.list = RW.readExpenses(this, "expenses");
-        Collections.sort(list, new Comparator<Expense>() {
-            @Override
-            public int compare(Expense e1, Expense e2) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-
-                Calendar calendar1 = Calendar.getInstance();
-                Calendar calendar2 = Calendar.getInstance();
-
-                try {
-                    calendar1.setTime(sdf.parse(e1.getDate()));
-                    calendar2.setTime(sdf.parse(e2.getDate()));
-                } catch (Exception e) {
-                }
-
-                return calendar2.compareTo(calendar1);
-            }
-        });
 
         this.indicateChart();
 
@@ -350,10 +333,10 @@ public class MainActivity extends AppCompatActivity
 
         try {
             ArrayList<Category> categories = new ArrayList<>();
-            Category cat1 = new Category("Essen", true);
+            Category cat1 = new Category("Food", true);
             Category sub1 = new Category("Restaurant", false);
-            Category sub2 = new Category("Lebensmittel", false);
-            Category cat2 = new Category("Sonstiges", true);
+            Category sub2 = new Category("Sweets", false);
+            Category cat2 = new Category("Others", true);
             cat1.addSubCategory(sub1);
             cat1.addSubCategory(sub2);
             categories.add(cat1);
