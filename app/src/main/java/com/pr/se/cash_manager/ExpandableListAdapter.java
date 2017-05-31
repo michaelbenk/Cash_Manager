@@ -13,21 +13,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created by Uni on 31.03.2017.
+ */
+
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<Category> listDataHeader;
-    private HashMap<Category, List<Category>> listDataChild;
 
-    public ExpandableListAdapter(Context context, List<Category> listDataHeader, HashMap<Category, List<Category>> listDataChild) {
+    public ExpandableListAdapter(Context context) {
         this.context = context;
-        this.listDataHeader = listDataHeader;
-        this.listDataChild = listDataChild;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition)).get(childPosititon);
+        return ((Category) this.getGroup(groupPosition)).getSubCategories().get(childPosititon);
     }
 
     @Override
@@ -54,11 +54,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 Category c;
                 for (int i = 0; i < categories.size(); i++) {
                     c = categories.get(i);
-                    if (c.getName().equals(listDataHeader.get(groupPosition).getName())) {
+                    if (c.getName().equals(categories.get(groupPosition).getName())) {
                         Category s;
                         for (int j = 0; j < c.getSubCategories().size(); j++) {
                             s = c.getSubCategories().get(j);
-                            if (s.getName().equals(listDataHeader.get(groupPosition).getSubCategories().get(j).getName())) {
+                            if (s.getName().equals(categories.get(groupPosition).getSubCategories().get(childPosition).getName())) {
                                 categories.get(i).getSubCategories().remove(j);
                             }
                         }
@@ -77,17 +77,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition)).size();
+        return RW.readCategories(this.context, "categories").get(groupPosition).getSubCategories().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.listDataHeader.get(groupPosition);
+        return RW.readCategories(this.context, "categories").get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.listDataHeader.size();
+        return RW.readCategories(this.context, "categories").size();
     }
 
     @Override
@@ -108,24 +108,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         int imageResourceId = isExpanded ? android.R.drawable.arrow_down_float : android.R.drawable.arrow_up_float;
         img_selection.setImageResource(imageResourceId);
 
+        final List<Category> categories = RW.readCategories(context, "categories");
+
         final TextView lblListHeader = (TextView) convertView.findViewById(R.id.content_categories_list_header_text);
         lblListHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CategoryDetailsActivity.class);
-                intent.putExtra("cat", listDataHeader.get(groupPosition).getName());
+                intent.putExtra("cat", categories.get(groupPosition).getId());
                 context.startActivity(intent);
             }
         });
         final ImageView delListChild = (ImageView) convertView.findViewById(R.id.content_categories_delete);
+        if (categories.get(groupPosition).getName().equals("Others")) {
+            delListChild.setVisibility(View.GONE);
+        }
         delListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Category> categories = RW.readCategories(context, "categories");
                 Category c;
                 for (int i = 0; i < categories.size(); i++) {
                     c = categories.get(i);
-                    if (c.getName().equals(listDataHeader.get(groupPosition).getName())) {
+                    if (c.getName().equals(categories.get(groupPosition).getName())) {
                         categories.remove(i);
                     }
                 }
@@ -133,8 +137,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                 Intent intent = new Intent(context, CategoriesActivity.class);
                 context.startActivity(intent);
-                //TODO es sollte nicht möglich sein alle Kategorien zu löschen
-                //TODO Die weiteren Folgen von gelöschter Kategorie wurden noch nicht überlegt (Wenn die Kategorie in einem Expense verwendet wurde)
             }
         });
 

@@ -25,7 +25,6 @@ public class CategoryDetailsActivity extends AppCompatActivity {
 
     private EditText nameView;
     private Spinner categoriesView;
-    private CardView cardView;
     private TextView saveView;
 
 
@@ -40,32 +39,30 @@ public class CategoryDetailsActivity extends AppCompatActivity {
 
         this.categories = RW.readCategories(this, "categories");
         this.nameView = (EditText) findViewById(R.id.activity_categories_det_input_bez);
-        this.cardView = (CardView) findViewById(R.id.activity_categories_det_cat);
         this.categoriesView = (Spinner) findViewById(R.id.activity_categories_det_input_cat);
         this.saveView = (TextView) findViewById(R.id.activity_categories_det_save);
 
         final String cat = getIntent().getStringExtra("cat");
         if (cat != null) {
             for (Category c : this.categories) {
-                if (c.getName().equals(cat))
+                if (c.getId().equals(cat)) {
                     this.category = c;
+                    this.nameView.setText(c.getName());
+                }
             }
         }
 
         final String subCat = getIntent().getStringExtra("subCat");
         if (subCat != null) {
             for (Category c : this.category.getSubCategories()) {
-                if (c.getName().equals(subCat))
-                    this.category = c;
+                if (c.getId().equals(subCat)) {
+                    this.subCategory = c;
+                    this.nameView.setText(c.getName());
+                }
             }
         }
 
-        if (this.category != null) { //vorhandene Kategorie bearbeiten
-            cardView.setVisibility(View.INVISIBLE); //bei Kategorien können die Subkategorien nicht verändert werden.
-            this.editCategory();
-        } else { //neue Kategorie erstellen
-            this.addCategory();
-        }
+        this.setupSpinner();
 
         categoriesView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -84,8 +81,8 @@ public class CategoryDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkInput()) {  //Wenn alle Eingaben korrekt sind
+                    Category remove = null;
                     if (category == null && subCategory == null) {// neue Kategorie
-
                         if (selectedCategory == null || selectedCategory.equals(" ")) {
                             categories.add(new Category(nameView.getText().toString(), true));
                         } else {
@@ -99,23 +96,64 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                         }
                     } else if (category != null) {//Kategorie updaten
                         Category c;
+                        Category s;
                         for (int i = 0; i < categories.size(); i++) {
                             c = categories.get(i);
-                            if (c.getName().equals(cat)) {
-                                if (subCategory == null) {
+                            if (subCategory == null) {
+                                if (selectedCategory.equals(" ")) {
                                     categories.get(i).setName(nameView.getText().toString());
                                 } else {
-                                    Category s;
-                                    for (int j = 0; j < c.getSubCategories().size(); j++) {
-                                        s = c.getSubCategories().get(j);
-                                        if (s.getName().equals(subCat)) {
-                                            categories.get(i).getSubCategories().get(j).setName(nameView.getText().toString());
+                                    if (c.getId().equals(category.getId())) {
+                                        remove = categories.get(i);
+                                    }
+                                    if (c.getName().equals(selectedCategory)) {
+                                        category.setName(nameView.getText().toString());
+                                        category.setCategories(null);
+                                        categories.get(i).addSubCategory(category);
+                                        // was passiert mit expenses
+                                    }
+                                }
+                            } else {
+                                if (selectedCategory.equals(" ")) {
+                                    for (int j = 0; j < categories.get(i).getSubCategories().size(); j++) {
+                                        s = categories.get(i).getSubCategories().get(j);
+                                        if (s.getId().equals(subCategory.getId())) {
+                                            categories.get(i).getSubCategories().remove(j);
                                         }
+                                    }
+                                } else {
+                                    for (int j = 0; j < categories.get(i).getSubCategories().size(); j++) {
+                                        s = categories.get(i).getSubCategories().get(j);
+                                        if (s.getId().equals(subCategory.getId())) {
+                                            categories.get(i).getSubCategories().remove(j);
+                                        }
+                                    }
+                                    if (c.getName().equals(selectedCategory)) {
+                                        subCategory.setName(nameView.getText().toString());
+                                        subCategory.setCategories(null);
+                                        categories.get(i).addSubCategory(subCategory);
                                     }
                                 }
                             }
                         }
                     }
+
+                    if (remove != null) {
+                        Category c;
+                        for (int i = 0; i < categories.size(); i++) {
+                            c = categories.get(i);
+                            if (c.getId().equals(remove.getId())) {
+                                categories.remove(i);
+                            }
+                        }
+                    }
+
+                    if (subCategory != null && selectedCategory.equals(" ")) {
+                        subCategory.setName(nameView.getText().toString());
+                        subCategory.setCategories(new ArrayList<Category>());
+                        categories.add(subCategory);
+                    }
+
 
                     RW.writeCategories(CategoryDetailsActivity.this, categories, "categories");
 
@@ -131,14 +169,15 @@ public class CategoryDetailsActivity extends AppCompatActivity {
     }
 
     private boolean checkInput() {
-        String input = this.nameView.getText().toString();
+        return true;
+        /*String input = this.nameView.getText().toString();
 
         if (input == null || input.equals("") || input.equals(" ")) {
             return false;
         }
 
         List<String> categoryNames = new ArrayList<>();
-        for (Category c : this.categories) {
+        for (Category c : RW.readCategories(this, "categories")) {
             categoryNames.add(c.getName());
             for (Category s : c.getSubCategories()) {
                 categoryNames.add(s.getName());
@@ -151,24 +190,37 @@ public class CategoryDetailsActivity extends AppCompatActivity {
             }
         }
 
-        return true;
+        return true;*/
     }
 
-    private void editCategory() {
-        this.nameView.setText(category.getName());
-        //Todo Weitere Felder
-    }
-
-    private void addCategory() {
+    private void setupSpinner() {
         List<String> categoryNames = new ArrayList<>();
+        categoryNames.add(" "); //lassen!
+        int i = 1;
+        int sub = -1;
         for (Category c : this.categories) {
-            categoryNames.add(c.getName());
+            if (subCategory != null) {
+                categoryNames.add(c.getName());
+                if (c.getName().equals(category.getName())) {
+                    sub = i;
+                }
+                i++;
+            } else if (category != null){
+                if (!c.getName().equals(category.getName())) {
+                    categoryNames.add(c.getName());
+                }
+            } else {
+                categoryNames.add(c.getName());
+            }
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryNames);
 
-        adapter.setDropDownViewResource(R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoriesView.setAdapter(adapter);
+        if (sub > -1) {
+            categoriesView.setSelection(sub);
+        }
     }
 
     @Override

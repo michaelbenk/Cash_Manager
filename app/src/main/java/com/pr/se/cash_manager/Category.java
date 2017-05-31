@@ -1,28 +1,31 @@
 package com.pr.se.cash_manager;
 
-import android.text.Editable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 class Category implements Serializable {
+    final String id = UUID.randomUUID().toString();
     private String name;
     private List<Category> subcategories = new ArrayList<>();
 
     public Category(String name, boolean subcategories) {
         this.name = name;
 
-        if(subcategories) {
+        if (subcategories) {
             this.subcategories = new ArrayList<>();
         }
     }
 
     public boolean addSubCategory(Category category) {
-        if (this.subcategories.contains(category)) {
+        if (this.subcategories.contains(category) || category == null) {
             return false;
         } else if (this.subcategories != null) {
             this.subcategories.add(category);
+            this.sortSubCategories();
             return true;
         }
         return false;
@@ -36,6 +39,20 @@ class Category implements Serializable {
         this.subcategories = subcategories;
     }
 
+    public void removeSubCategory(Category category) {
+        if (this.subcategories != null) {
+            this.subcategories.remove(category);
+            this.sortSubCategories();
+        }
+    }
+
+    public void removeSubCategory(int pos) {
+        if (this.subcategories != null) {
+            this.subcategories.remove(pos);
+            this.sortSubCategories();
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -44,15 +61,23 @@ class Category implements Serializable {
         this.name = name;
     }
 
+    public String getId() {
+        return this.id;
+    }
+
     @Override
     public String toString() {
         return this.name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Category)
-            return this.name.equals(((Category) o).getName());
-        return false;
+    private void sortSubCategories() {
+        if (this.subcategories != null) {
+            Collections.sort(this.subcategories, new Comparator<Category>() {
+                @Override
+                public int compare(Category c1, Category c2) {
+                    return c1.getName().compareTo(c2.getName());
+                }
+            });
+        }
     }
 }

@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CategoriesActivity extends AppCompatActivity {
-    private List<Category> list;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +59,8 @@ public class CategoriesActivity extends AppCompatActivity {
     }
 
     public void updateList() {
-        list = RW.readCategories(this, "categories");
-        HashMap<Category, List<Category>> categoryArrayListHashMap = new HashMap<>();
-
-        for (Category e : list) {
-            categoryArrayListHashMap.put(e, e.getSubCategories());
-        }
-
-        final ExpandableListAdapter adapter = new ExpandableListAdapter(this, list, categoryArrayListHashMap);
+        final List<Category> list = RW.readCategories(this, "categories");
+        final ExpandableListAdapter adapter = new ExpandableListAdapter(this);
         final ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.activity_categories_ex_list);
         listView.setAdapter(adapter);
         listView.setGroupIndicator(null);
@@ -91,8 +83,8 @@ public class CategoriesActivity extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(CategoriesActivity.this, CategoryDetailsActivity.class);
 
-                intent.putExtra("cat", list.get(groupPosition).getName());
-                intent.putExtra("subCat", list.get(groupPosition).getSubCategories().get(childPosition));
+                intent.putExtra("cat", list.get(groupPosition).getId());
+                intent.putExtra("subCat", list.get(groupPosition).getSubCategories().get(childPosition).getId());
                 CategoriesActivity.this.startActivity(intent);
                 return true;
             }
