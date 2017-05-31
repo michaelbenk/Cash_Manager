@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity
         this.setContentView(R.layout.activity_main);
 
         /*
-            Delete Button rechts oben
-            Selektierte Ausgabe werden gelöscht
+            Start the application with LoginActivity if PassordLogin is activated
+            Default: PasswordLogin is activated
          */
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isChecked = preferences.getBoolean("pref_password_login", false);
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
 
         /*
             Delete Button rechts oben
