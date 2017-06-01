@@ -109,39 +109,6 @@ public class FilterActivity extends AppCompatActivity {
         this.prefs.edit().putBoolean("firstFilter", false).apply();
     }
 
-    private Boolean[] convertToBooleanArray(Object array) {
-        Class ofArray = array.getClass().getComponentType();
-        if (ofArray.isPrimitive()) {
-            List ar = new ArrayList();
-            int length = Array.getLength(array);
-            for (int i = 0; i < length; i++) {
-                ar.add(Array.get(array, i));
-            }
-
-            Boolean[] booleanArray = Arrays.copyOf(ar.toArray(), ar.toArray().length, Boolean[].class);
-            return booleanArray;
-        } else {
-            Boolean[] booleanArray = Arrays.copyOf((Object[]) array, ((Object[]) array).length, Boolean[].class);
-            return booleanArray;
-        }
-    }
-
-    static String[] convertToStringArray(Object array) {
-        Class ofArray = array.getClass().getComponentType();
-        if (ofArray.isPrimitive()) {
-            List ar = new ArrayList();
-            int length = Array.getLength(array);
-            for (int i = 0; i < length; i++) {
-                ar.add(Array.get(array, i));
-            }
-            String[] stringArray = Arrays.copyOf(ar.toArray(), ar.toArray().length, String[].class);
-            return stringArray;
-        } else {
-            String[] stringArray = Arrays.copyOf((Object[]) array, ((Object[]) array).length, String[].class);
-            return stringArray;
-        }
-    }
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(FilterActivity.this, MainActivity.class);

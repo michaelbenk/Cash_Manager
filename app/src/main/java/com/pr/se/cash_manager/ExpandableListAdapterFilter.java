@@ -84,7 +84,7 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
         Filter child = (Filter) getChild(groupPosition, childPosition);
         final String childText = child.getFilter();
 
@@ -105,20 +105,46 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 if (((CompoundButton) view).isChecked()){//Wenn ein Feld markiert wird sollen alle anderen Felder entmarkiert werden
-                    List<Filter> childs = childDataSource.get(parentDataSource.get(groupPosition));
-                    for (int i = 0; i < childs.size(); i++) {
-                        if (i != childPosition) {
-                            childs.get(i).setCheck(false);
+                    if (groupPosition != 2) { //Ausgabentyp und Zeitraum
+                        List<Filter> childs = childDataSource.get(parentDataSource.get(groupPosition));
+                        for (int i = 0; i < childs.size(); i++) {
+                            if (i != childPosition) {
+                                childs.get(i).setCheck(false);
+                            } else {
+                                childs.get(i).setCheck(true);
+                            }
+                            childDataSource.get(parentDataSource.get(groupPosition)).set(i, childs.get(i));
                         }
-                        else{
-                            childs.get(i).setCheck(true);
+                    } else { //Bei Kategorien besteht mehrfach Auswahl
+                        childDataSource.get(parentDataSource.get(groupPosition)).get(childPosition).setCheck(true);
+
+                        if (childPosition != 0) { //Wenn irgend ein Feld gedrückt wurde -> Alle uncheck
+                            childDataSource.get(parentDataSource.get(groupPosition)).get(0).setCheck(false);
+
+                        } else { //Wenn Alle gedrückt wurde -> alle Felder uncheck
+                            for (Filter f : childDataSource.get(parentDataSource.get(2))) { //Alle anderen uncheck
+                                if (!f.getFilter().equals("Alle"))
+                                    f.setCheck(false);
+                            }
                         }
-                        childDataSource.get(parentDataSource.get(groupPosition)).set(i, childs.get(i));
                     }
 
                 }else{ // Wenn ein Feld entmarkiert wird soll "Alle" gesetzt werden
-                    childDataSource.get(parentDataSource.get(groupPosition)).get(childPosition).setCheck(false);
-                    childDataSource.get(parentDataSource.get(groupPosition)).get(0).setCheck(true);
+                    childDataSource.get(parentDataSource.get(groupPosition)).get(childPosition).setCheck(false);  //Uncheck aktuelles Feld
+
+                    if (groupPosition != 2) { //Ausgabetyp und Zeitraum
+                        childDataSource.get(parentDataSource.get(groupPosition)).get(0).setCheck(true);
+                    } else {//Kategorien
+                        //Wenn alle Felder demarkiert wurden, soll Alle gesetzt werden
+                        boolean keinFeldGesetzt = true;
+                        for (Filter f : childDataSource.get(parentDataSource.get(2))) {
+                            if (f.isCheck())
+                                keinFeldGesetzt = false;
+                        }
+                        if (keinFeldGesetzt) {
+                            childDataSource.get(parentDataSource.get(groupPosition)).get(0).setCheck(true);
+                        }
+                    }
                 }
                 filters.add(new Filter(context.getString(R.string.filter_Ausgabentyp), false, childDataSource.get("Ausgabentyp")));
                 filters.add(new Filter(context.getString(R.string.filter_Zeitraum), false, childDataSource.get("Zeitraum")));
@@ -127,7 +153,6 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
 
                 Intent intent = new Intent(context, FilterActivity.class);
                 context.startActivity(intent);
-
             }
         });
 

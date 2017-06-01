@@ -2,10 +2,7 @@ package com.pr.se.cash_manager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -23,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -31,23 +27,18 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.DefaultValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URLConnection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +61,8 @@ public class MainActivity extends AppCompatActivity
     private ListView listView;
     private Toolbar toolbar;
     private List<Filter> filter;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+    private GregorianCalendar gregorianCalendar = new GregorianCalendar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,18 +269,69 @@ public class MainActivity extends AppCompatActivity
 
                 }
             }
-            //TODO andere Filter
-            List<Expense> hilf = new ArrayList<>();
-            for (Expense ex : list) {
-                if (recurringOrNot.equals("wiederkehrende Kosten") && (ex instanceof Recurring_Expense)) {
-                    hilf.add(ex);
-                } else if (recurringOrNot.equals("nicht wiederkehrende Kosten") && !(ex instanceof Recurring_Expense)) {
-                    hilf.add(ex);
-                } else if (recurringOrNot.equals("Alle")){
-                    hilf.add(ex);
+            String zeitraum = "";
+            for (Filter subfilter : filter.get(1).getSubfilter()) {
+                if (subfilter.isCheck()) {
+                    zeitraum = subfilter.getFilter();
+
                 }
             }
-            list = hilf;
+            List<String> kategorienfilter = new ArrayList<>();
+            for (Filter subfilter : filter.get(2).getSubfilter()) {
+                if (subfilter.isCheck()) {
+                    kategorienfilter.add(subfilter.getFilter());
+                }
+            }
+            //TODO andere Filter
+            if (!recurringOrNot.equals("Alle")) {
+                List<Expense> hilf = new ArrayList<>();
+                for (Expense ex : list) {
+                    if (recurringOrNot.equals("wiederkehrende Kosten") && (ex instanceof Recurring_Expense)) {
+                        hilf.add(ex);
+                    } else if (recurringOrNot.equals("nicht wiederkehrende Kosten") && !(ex instanceof Recurring_Expense)) {
+                        hilf.add(ex);
+                    }
+                }
+                list = hilf;
+            }
+            if (!zeitraum.equals("Alle")) {
+                List<Expense> hilf = new ArrayList<>();
+                for (Expense ex : list) {
+                    try {
+                        Date date = sdf.parse(ex.getDate());
+                        gregorianCalendar.setTime(new Date());
+                        switch (zeitraum) {
+                            case "letzte Woche":
+                                gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
+
+                            case "letzter Monat":
+                                gregorianCalendar.add(Calendar.MONTH, -1);
+                                break;
+                            case "letztes Jahr":
+                                gregorianCalendar.add(Calendar.YEAR, -1);
+                                break;
+                        }
+                        Date time = gregorianCalendar.getTime();
+                        if (time.compareTo(date) <= 0 && date.compareTo(new Date()) <= 0) {
+                            hilf.add(ex);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                list = hilf;
+            }
+            if (!kategorienfilter.get(0).equals("Alle")) {
+                List<Expense> hilf = new ArrayList<>();
+                for (Expense ex : list) {
+                    for (String cat:kategorienfilter){
+                        if (ex.getCategory().equals(cat)){
+                            hilf.add(ex);
+                        }
+                    }
+                }
+                list = hilf;
+            }
         }
 
         this.indicateChart();
@@ -383,23 +427,26 @@ public class MainActivity extends AppCompatActivity
             calendar.set(Calendar.YEAR, 2017);
             calendar.set(Calendar.MONTH, 5);
             calendar.set(Calendar.DAY_OF_MONTH, 1);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
             Calendar calendar2 = Calendar.getInstance();
             calendar2.set(Calendar.YEAR, 2020);
             calendar2.set(Calendar.MONTH, 5);
             calendar2.set(Calendar.DAY_OF_MONTH, 28);
-            SimpleDateFormat sdf2 = new SimpleDateFormat("dd.MM.yyyy");
 
-            Expense e1 = new Expense(246.23, sdf.format(calendar.getTime()), sub1.toString(), description[0]);
+            gregorianCalendar.setTime(calendar.getTime());
+            Expense e1 = new Expense(246.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), description[0]);
             expenses.add(e1);
-            Expense e2 = new Expense(46.23, sdf.format(calendar.getTime()), sub2.toString(), description[1]);
+            gregorianCalendar.add(Calendar.MONTH, -1);
+            Expense e2 = new Expense(46.23, sdf.format(gregorianCalendar.getTime()), sub2.toString(), description[1]);
             expenses.add(e2);
-            Expense e3 = new Expense(26.23, sdf.format(calendar.getTime()), cat1.toString(), description[2]);
+            gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
+            Expense e3 = new Expense(26.23, sdf.format(gregorianCalendar.getTime()), cat1.toString(), description[2]);
             expenses.add(e3);
-            Expense e4 = new Expense(6.23, sdf.format(calendar.getTime()), sub1.toString(), description[3]);
+            gregorianCalendar.add(Calendar.WEEK_OF_YEAR, 3);
+            Expense e4 = new Expense(6.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), description[3]);
             expenses.add(e4);
-            Expense e5 = new Recurring_Expense(400.50, sdf.format(calendar.getTime()), cat2.toString(), "Miete", sdf2.format(calendar2.getTime()), Intervall.monatlich.name());
+            gregorianCalendar.add(Calendar.YEAR, -1);
+            Expense e5 = new Recurring_Expense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Miete", sdf.format(calendar2.getTime()), Intervall.monatlich.name());
             expenses.add(e5);
 
             RW.writeCategories(this, categories, "categories");

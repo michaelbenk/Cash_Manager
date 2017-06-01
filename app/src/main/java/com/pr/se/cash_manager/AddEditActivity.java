@@ -542,7 +542,7 @@ public class AddEditActivity extends AppCompatActivity {
         return gregorianCalendar.getTime();
     }
 
-    //Menü für Foto: Foto mit Kamera schießen oder aus Gallerie auswählen
+    //Menü für Foto:   Foto mit Kamera schießen oder aus Gallerie auswählen
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library"};
         AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
