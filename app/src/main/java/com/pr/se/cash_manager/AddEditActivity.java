@@ -173,8 +173,10 @@ public class AddEditActivity extends AppCompatActivity {
                 }
 
                 if (update) {
+                    //Update von Expense
                     list = RW.readExpenses(AddEditActivity.this, "expenses");
                     Expense element = null;
+
 
                     for (Expense e : list) {
                         if (e.getId().equals(id)) {
@@ -182,18 +184,26 @@ public class AddEditActivity extends AppCompatActivity {
                         }
                     }
 
+                    final String recurringId = element.getId();
+                    boolean wasUnRecurring = !(element instanceof Recurring_Expense);
+
+                    //zu änderndes element löschen
                     list.remove(element);
 
                     if (element != null) {
-                        if (recurringSwitchView.isChecked()){
+
+                        if (recurringSwitchView.isChecked()){ //wenn das Element wiederkehrend ist; Werte zuweisen
                             element = new Recurring_Expense();
                             ((Recurring_Expense)element).setIntervall(intervallView.getSelectedItem().toString());
                             ((Recurring_Expense)element).setDate_to(dateToView.getText().toString());
-
                             ((Recurring_Expense)element).setDate_next(sdf.format(nextDate));
+
                         }else if (!recurringSwitchView.isChecked() && element instanceof Recurring_Expense){
+                            //Wenn das Element von einem wiederkehrenden zu einem nicht wiederkehrenden Expense gemacht werden soll
                             element = new Expense();
                         }
+
+                        //Werte zuweisen (nur Id bleibt die alte)
                         element.setSum(Double.parseDouble(sumView.getText().toString()));
                         element.setDate(dateView.getText().toString());
                         element.setCategory(categoryView.getText().toString());
@@ -207,24 +217,68 @@ public class AddEditActivity extends AppCompatActivity {
                         }catch (Exception e) {
                             //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
                         }
-                        if (element instanceof Recurring_Expense && recurringSwitchView.isChecked()) {
+                        //Wenn die Ausgabe zuvor nicht wiederkehrend war, sollen nun Expenses bis zum aktuellen Tag erstellt werden
+                        if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && wasUnRecurring) {
                             nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) element);
                             if (nextDate != null)
                                 ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
+                            list.add(element);
+                            RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                        } else if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && !wasUnRecurring) {
+                            //Wenn die Ausgabe zuvor auch schon wiederkehrend war soll der Benutzer gefragt werden ob die Änderung
+                            //auswirkungen auf alle vorherigen Expenses hat oder nur auf die zukünftigen
+
+                            final Expense finalElement = element;
+
+                            final CharSequence[] items = {"Änderung von allen Ausgaben", "Änderung von allen zukünftigen Ausgaben"};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
+                            builder.setTitle("Änderung von wiederkehrender Ausgabe");
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int item) {
+                                    if (items[item].equals("Änderung von allen Ausgaben")) {
+                                        // Recurring Expense wird mit Änderung aller vergangenen Expenses eingefügt
+
+                                        List<Expense> expToRemove = new ArrayList<Expense>();
+                                        for (Expense ex : list) {
+                                            if (!(ex instanceof Recurring_Expense) && ex.getRecurring_id() != null && ex.getRecurring_id().equals(recurringId)) {
+                                                expToRemove.add(ex);
+                                            }
+                                        }
+                                        list.removeAll(expToRemove);
+                                        nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) finalElement);
+                                        if (nextDate != null)
+                                            ((Recurring_Expense) finalElement).setDate_next(sdf.format(nextDate));
+                                        list.add(finalElement);
+                                        RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                                        Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                                        startActivity(intent);
+
+                                    } else if (items[item].equals("Änderung von allen zukünftigen Ausgaben")) {
+                                        // Recurring Expense wird ohne Änderung der vergangenen Expenses eingefügt
+                                        list.add(finalElement);
+                                        RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                                        Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+                            builder.create();
+                            builder.show();
                         }
                     }
-                    list.add(element);
-
-                    RW.writeExpenses(AddEditActivity.this, list, "expenses");
                 } else {
+                    // neuer Expense
                     Expense element;
                     list = RW.readExpenses(AddEditActivity.this, "expenses");
                     if (recurringSwitchView.isChecked()){
+                        // Wenn der neue Expense ein wiederkehrender ist sollen auch alle Expenses bis zum akt. Tag erstellt werden
                         element = new Recurring_Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString(), dateToView.getText().toString(), intervallView.getSelectedItem().toString());
                         nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) element);
                         if (nextDate != null)
                             ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
                     }else {
+                        //nicht wiederkehrendeer Expense
                         element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
                     }
                     try{
@@ -233,15 +287,45 @@ public class AddEditActivity extends AppCompatActivity {
                         //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
                     }
 
-
                     list.add(element);
                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
+
+                    Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
 
-                Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
+    }
+
+    void promptForResult(String dlgTitle, String dlgMessage, final DialogInputInterface dlg) {
+        // replace "MyClass.this" with a Context object. If inserting into a class extending Activity,
+        // using just "this" is perfectly ok.
+        AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
+        alert.setTitle(dlgTitle);
+        alert.setMessage(dlgMessage);
+        // build the dialog
+        final View v = dlg.onBuildDialog();
+        // put the view obtained from the interface into the dialog
+        if (v != null) { alert.setView(v);}
+        // procedure for when the ok button is clicked.
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // ** HERE IS WHERE THE MAGIC HAPPENS! **
+                dlg.onResult(v);
+                dialog.dismiss();
+                return;
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dlg.onCancel();
+                dialog.dismiss();
+                return;
+            }
+        });
+        alert.show();
     }
 
     // Erstellt alle Ausgaben die laut wiederkehrender Ausgabe vor bzw. heute getätigt wurden
@@ -251,11 +335,27 @@ public class AddEditActivity extends AppCompatActivity {
             Date today = new Date();
             if (dateFrom.compareTo(today) <= 0) { //Wenn die Ausgabe in der Vergangenheit liegt bzw. heute ist
                 newExpense = new Expense(element.getSum(), element.getDate(), element.getCategory(), element.getDescription());
+                newExpense.setRecurring_id(element.getId());
+                try{
+                    if (element.getImages().get(0) != null)
+                        image = BitmapFactory.decodeByteArray(element.getImages().get(0), 0, element.getImages().get(0).length);
+                    newExpense.addImage(image);
+                }catch (Exception e){
+                    //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                }
                 list.add(newExpense);
             }
             //Restliche vergangene Ausgaben erzeugen
             while (nextDate.compareTo(today) <= 0) {
                 newExpense = new Expense(element.getSum(), sdf.format(nextDate), element.getCategory(), element.getDescription());
+                newExpense.setRecurring_id(element.getId());
+                try{
+                    if (element.getImages().get(0) != null)
+                        image = BitmapFactory.decodeByteArray(element.getImages().get(0), 0, element.getImages().get(0).length);
+                    newExpense.addImage(image);
+                }catch (Exception e){
+                    //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                }
                 list.add(newExpense);
                 nextDate = calculateNextDate(nextDate);
             }

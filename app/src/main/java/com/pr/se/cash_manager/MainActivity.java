@@ -2,9 +2,12 @@ package com.pr.se.cash_manager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private List<Filter> filter;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private GregorianCalendar gregorianCalendar = new GregorianCalendar();
+    private Bitmap image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,9 +261,9 @@ public class MainActivity extends AppCompatActivity
      *      langer Klick: setSelected
      */
     public void updateList() {
-        //TODO Wiederkehrende Ausgaben sollen auch wiederkehrend sein
         this.list = RW.readExpenses(this, "expenses");
-
+        updateRecurringExpenses(list);
+        this.list = RW.readExpenses(this, "expenses");
         this.filter = RW.readFilter(this, "filters");
         if (filter.size() != 0) { // Wenn Filter gesetzt wurde
             String recurringOrNot = "";
@@ -282,7 +286,6 @@ public class MainActivity extends AppCompatActivity
                     kategorienfilter.add(subfilter.getFilter());
                 }
             }
-            //TODO andere Filter
             if (!recurringOrNot.equals("Alle")) {
                 List<Expense> hilf = new ArrayList<>();
                 for (Expense ex : list) {
@@ -380,6 +383,94 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void updateRecurringExpenses(List<Expense> list) {
+        for (Expense ex : list) {
+            if (ex instanceof Recurring_Expense) {
+                try {
+                    Date nextDate = sdf.parse(((Recurring_Expense) ex).getDate_next());
+                    if (nextDate.compareTo(new Date()) <= 0) {
+                        //Recurring Expense next Date aktuallisieren und neue Expenses erstellen
+                        list.remove(ex);
+                        list.add(newRecurringExpensesBeforeToday((Recurring_Expense) ex));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        RW.writeExpenses(MainActivity.this, list, "expenses");
+    }
+
+    // Erstellt alle Ausgaben die laut wiederkehrender Ausgabe vor bzw. heute getätigt wurden
+    @Nullable
+    private Recurring_Expense newRecurringExpensesBeforeToday(Recurring_Expense element) {
+        Expense newExpense;
+        Date today = new Date();
+
+        try {
+            if (sdf.parse(element.getDate()).compareTo(today) <= 0) { //Wenn die Ausgabe in der Vergangenheit liegt bzw. heute ist
+                newExpense = new Expense(element.getSum(), element.getDate(), element.getCategory(), element.getDescription());
+                newExpense.setRecurring_id(element.getId());
+                try{
+                    if (element.getImages().get(0) != null)
+                        image = BitmapFactory.decodeByteArray(element.getImages().get(0), 0, element.getImages().get(0).length);
+                    newExpense.addImage(image);
+                }catch (Exception e){
+                    //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                }
+                list.add(newExpense);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //Restliche vergangene Ausgaben erzeugen
+        try {
+            while (sdf.parse(element.getDate_next()).compareTo(today) <= 0) {
+                newExpense = new Expense(element.getSum(), element.getDate_next(), element.getCategory(), element.getDescription());
+                newExpense.setRecurring_id(element.getId());
+                try{
+                    if (element.getImages().get(0) != null)
+                        image = BitmapFactory.decodeByteArray(element.getImages().get(0), 0, element.getImages().get(0).length);
+                    newExpense.addImage(image);
+                }catch (Exception e){
+                    //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                }
+                list.add(newExpense);
+
+                element.setDate_next(sdf.format(calculateNextDate(sdf.parse(element.getDate_next()), element.getIntervall())));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        RW.writeExpenses(MainActivity.this, list, "expenses");
+        return element;
+    }
+
+    private Date calculateNextDate(Date date, String intervall) {
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(date);
+
+        switch (intervall) {
+            case "jährlich":
+                gregorianCalendar.add(Calendar.YEAR, 1);
+                break;
+            case "monatlich":
+                gregorianCalendar.add(Calendar.MONTH, 1);
+                break;
+            case "quartalsweise":
+                gregorianCalendar.add(Calendar.MONTH, 3);
+                break;
+            case "täglich":
+                gregorianCalendar.add(Calendar.DAY_OF_YEAR, 1);
+                break;
+            case "wöchentlich":
+                gregorianCalendar.add(Calendar.WEEK_OF_YEAR, 1);
+                break;
+        }
+
+        return gregorianCalendar.getTime();
+    }
+
     /*
         Buttons in Toolbar werden sichtbar bzw. unsichtbar gemacht
      */
@@ -447,6 +538,8 @@ public class MainActivity extends AppCompatActivity
             expenses.add(e4);
             gregorianCalendar.add(Calendar.YEAR, -1);
             Expense e5 = new Recurring_Expense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Miete", sdf.format(calendar2.getTime()), Intervall.monatlich.name());
+            gregorianCalendar.add(Calendar.MONTH, 1);
+            ((Recurring_Expense) e5).setDate_next(sdf.format(gregorianCalendar.getTime()));
             expenses.add(e5);
 
             RW.writeCategories(this, categories, "categories");

@@ -32,7 +32,6 @@ public class FilterActivity extends AppCompatActivity {
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //TODO Toolbar zurück
-        //TODO Keine Bewegung bei Update
 
         ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.activity_filter_ex_list);
         filterHashMap = new HashMap<>();
@@ -118,5 +117,11 @@ public class FilterActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

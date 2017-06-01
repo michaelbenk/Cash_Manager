@@ -122,7 +122,7 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
                             childDataSource.get(parentDataSource.get(groupPosition)).get(0).setCheck(false);
 
                         } else { //Wenn Alle gedrückt wurde -> alle Felder uncheck
-                            for (Filter f : childDataSource.get(parentDataSource.get(2))) { //Alle anderen uncheck
+                            for (Filter f : childDataSource.get(parentDataSource.get(groupPosition))) { //Alle anderen uncheck
                                 if (!f.getFilter().equals("Alle"))
                                     f.setCheck(false);
                             }

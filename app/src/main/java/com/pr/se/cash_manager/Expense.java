@@ -21,16 +21,17 @@ import java.util.UUID;
  * @version 1.0
  */
  class Expense implements Serializable{
-
-    final String id = UUID.randomUUID().toString();
+    private String id;
     private String category;
     private String description;
     private String date;
     private double sum;
+    private String recurring_id;
 
     private List<byte[]> images = new ArrayList<>();
 
     Expense(double sum, String date, String category, String description) {
+        this.id = UUID.randomUUID().toString();
         this.category = category;
         this.description = description;
         this.date = date;
@@ -38,9 +39,18 @@ import java.util.UUID;
     }
 
      Expense() {
+         this.id = UUID.randomUUID().toString();
+     }
+
+    public String getRecurring_id() {
+        return recurring_id;
     }
 
-     String getCategory() {
+    public void setRecurring_id(String recurring_id) {
+        this.recurring_id = recurring_id;
+    }
+
+    String getCategory() {
         return this.category;
     }
 
