@@ -11,6 +11,24 @@
         <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_31_05/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a15cf31ee641407608e66ff2031831b31d1e1d18/classes.dex" />
     </item>
     <item
+        is-multidex="false"
+        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_31_05/Cash_Manager/modules/CircleImageView-master/circleimageview/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c019a726148e49d8e1ff0ea7d516dc5978d2b072">
+        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_31_05/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_c6045aa88989433cb8a4cf2f31e3add5fbdc468b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_31_05/Cash_Manager/modules/MPAndroidChart-master/MPChartLib/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f653af806c8f337c3f0219be3ea20ec70578dc2e">
+        <dex dex="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_31_05/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_d137953cbab0daac81e8ad5a21d8113bd168a309.jar" />
+    </item>
+    <item
         is-multidex="true"
         jar="/Users/theresaprinz/AndroidStudioProjects/Cash_Manager_31_05/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"

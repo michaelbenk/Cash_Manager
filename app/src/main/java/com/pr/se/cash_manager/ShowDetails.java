@@ -11,11 +11,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class ShowDetails extends AppCompatActivity {
+    private List<Expense> list;
+    private List<Category> cat;
+    private String sum;
+    private String date;
+    private String category;
+    private String description;
+    private String dateto;
+    private String intervall;
+    private Bitmap image = null;
+    private Expense expense;
+    private String id;
+    private boolean update;
+    private byte[] byteArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +46,33 @@ public class ShowDetails extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Werte von Intent (MainActivity) übernehmen
-        final String id = getIntent().getStringExtra("id");
-        final boolean update = getIntent().getBooleanExtra("update", false);
-        final String sum = getIntent().getStringExtra("sum");
-        final String date = getIntent().getStringExtra("date");
-        final String category = getIntent().getStringExtra("category");
-        final String description = getIntent().getStringExtra("description");
-        final byte[] byteArray = getIntent().getByteArrayExtra("image");
-        final String dateto = getIntent().getStringExtra("dateto");
-        final String intervall = getIntent().getStringExtra("intervall");
-        Bitmap image = null;
+        id = getIntent().getStringExtra("id");
+        update = getIntent().getBooleanExtra("update", false);
+
+        list = RW.readExpenses(this, "expenses");
+
+        for (Expense e:list) {
+            if (e.getId().equals(id)){
+                expense = e;
+                break;
+            }
+        }
+
+        //Byte Array in Bitmap konvertieren
+        if (expense.getImages().size() != 0)
+            image = BitmapFactory.decodeByteArray(expense.getImages().get(0), 0, expense.getImages().get(0).length);
+
+        sum = String.valueOf(expense.getSum());
+        date = expense.getDate();
+        category = expense.getCategory();
+        description = expense.getDescription();
+        if (expense.getImages().size() != 0)
+            byteArray = expense.getImages().get(0);
+        if (expense instanceof Recurring_Expense) {
+            dateto = ((Recurring_Expense) expense).getDate_to();
+            intervall = ((Recurring_Expense) expense).getIntervall();
+        }
+        //Byte Array in Bitmap konvertieren
         if (byteArray != null)
             image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
@@ -55,6 +90,7 @@ public class ShowDetails extends AppCompatActivity {
         dateView.setText(date);
         categoryView.setText(category);
         descriptionView.setText(description);
+
         if (image != null)
             imageView.setImageBitmap(image);
         if (dateto != null && intervall != null){
@@ -70,18 +106,8 @@ public class ShowDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ShowDetails.this, AddEditActivity.class);
-                intent.putExtra("category", category);
-                intent.putExtra("description", description);
-                intent.putExtra("date", date);
-                intent.putExtra("sum", sum);
                 intent.putExtra("update", update);
                 intent.putExtra("id", id);
-                if (byteArray != null)
-                    intent.putExtra("image", byteArray);
-                if (dateto != null && intervall != null){
-                    intent.putExtra("dateto", dateto);
-                    intent.putExtra("intervall", intervall);
-                }
                 startActivity(intent);
             }
         });

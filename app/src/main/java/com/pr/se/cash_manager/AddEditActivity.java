@@ -90,6 +90,9 @@ public class AddEditActivity extends AppCompatActivity {
     private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private Calendar calendar = Calendar.getInstance();
     private ListAdapter listAdapter;
+    private Expense expense;
+    private String id;
+    private boolean update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +105,8 @@ public class AddEditActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Viewelemente setzen
-        final String id = getIntent().getStringExtra("id");
-        final boolean update = getIntent().getBooleanExtra("update", false);
+        id = getIntent().getStringExtra("id");
+        update = getIntent().getBooleanExtra("update", false);
         this.sumView = (EditText) this.findViewById(R.id.activity_add_input_sum);
         this.dateView = (TextView) this.findViewById(R.id.activity_add_input_date);
         this.categoryView = (AutoCompleteTextView) this.findViewById(R.id.activity_add_input_category);
@@ -234,9 +237,9 @@ public class AddEditActivity extends AppCompatActivity {
 
                             final Expense finalElement = element;
 
-                            final CharSequence[] items = {"Änderung von allen Ausgaben", "Änderung von allen zukünftigen Ausgaben"};
+                            final CharSequence[] items = {"Änderung von allen Ausgaben (kann etwas dauern)", "Änderung von allen zukünftigen Ausgaben"};
                             AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
-                            builder.setTitle("Änderung von wiederkehrender Ausgabe");
+                            builder.setTitle("Änderung von wiederkehrender Ausgabe (kann etwas dauern)");
                             builder.setItems(items, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int item) {
@@ -409,14 +412,29 @@ public class AddEditActivity extends AppCompatActivity {
 
     private void dataInput() {
         //Werte von Intent (ShowDetails) holen
-        sum = getIntent().getStringExtra("sum");
-        date = getIntent().getStringExtra("date");
-        category = getIntent().getStringExtra("category");
-        description = getIntent().getStringExtra("description");
-        byteArray = getIntent().getByteArrayExtra("image");
-        dateto = getIntent().getStringExtra("dateto");
-        intervall = getIntent().getStringExtra("intervall");
+        list = RW.readExpenses(this, "expenses");
 
+        for (Expense e:list) {
+            if (e.getId().equals(id)){ 
+                expense = e;
+                break;
+            }
+        }
+
+        //Byte Array in Bitmap konvertieren
+        if (expense.getImages().size() != 0)
+            image = BitmapFactory.decodeByteArray(expense.getImages().get(0), 0, expense.getImages().get(0).length);
+        
+        sum = String.valueOf(expense.getSum());
+        date = expense.getDate();
+        category = expense.getCategory();
+        description = expense.getDescription();
+        if (expense.getImages().size() != 0)
+            byteArray = expense.getImages().get(0);
+        if (expense instanceof Recurring_Expense) {
+            dateto = ((Recurring_Expense) expense).getDate_to();
+            intervall = ((Recurring_Expense) expense).getIntervall();
+        }
         //Byte Array in Bitmap konvertieren
         if (byteArray != null)
             image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);

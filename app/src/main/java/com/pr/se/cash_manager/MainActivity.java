@@ -353,19 +353,8 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 Intent intent = new Intent(MainActivity.this, ShowDetails.class);
-                intent.putExtra("category", list.get(position).getCategory());
-                intent.putExtra("description", list.get(position).getDescription());
-                intent.putExtra("date", list.get(position).getDate());
-                intent.putExtra("sum", String.valueOf(list.get(position).getSum()));
                 intent.putExtra("update", true);
                 intent.putExtra("id", list.get(position).getId());
-                if (byteArray != null)
-                    intent.putExtra("image", byteArray);
-                if (list.get(position) instanceof Recurring_Expense){
-                    intent.putExtra("dateto", ((Recurring_Expense)list.get(position)).getDate_to());
-                    intent.putExtra("intervall", ((Recurring_Expense)list.get(position)).getIntervall());
-                }
-
                 MainActivity.this.startActivity(intent);
             }
         });
