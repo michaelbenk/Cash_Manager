@@ -35,7 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,8 +86,8 @@ public class AddEditActivity extends AppCompatActivity {
     private Date nextDate;
     private Date dateFrom;
     private Date dateTo;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-    private Calendar calendar = Calendar.getInstance();
+    private SimpleDateFormat sdf;
+    private Calendar calendar;
     private ListAdapter listAdapter;
     private Expense expense;
     private String id;
@@ -107,6 +106,7 @@ public class AddEditActivity extends AppCompatActivity {
         //Viewelemente setzen
         id = getIntent().getStringExtra("id");
         update = getIntent().getBooleanExtra("update", false);
+
         this.sumView = (EditText) this.findViewById(R.id.activity_add_input_sum);
         this.dateView = (TextView) this.findViewById(R.id.activity_add_input_date);
         this.categoryView = (AutoCompleteTextView) this.findViewById(R.id.activity_add_input_category);
@@ -166,6 +166,9 @@ public class AddEditActivity extends AppCompatActivity {
 
         mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
 
+        sdf = new SimpleDateFormat("dd.MM.yyyy");
+        calendar = Calendar.getInstance();
+
         this.dataInput();
 
         //Save rechts oben - Speichern bzw. Update
@@ -195,89 +198,86 @@ public class AddEditActivity extends AppCompatActivity {
                     //zu änderndes element löschen
                     list.remove(element);
 
-                    if (element != null) {
+                    if (recurringSwitchView.isChecked()){ //wenn das Element wiederkehrend ist; Werte zuweisen
+                        element = new Recurring_Expense();
+                        ((Recurring_Expense)element).setIntervall(intervallView.getSelectedItem().toString());
+                        ((Recurring_Expense)element).setDate_to(dateToView.getText().toString());
+                        ((Recurring_Expense)element).setDate_next(sdf.format(nextDate));
 
-                        if (recurringSwitchView.isChecked()){ //wenn das Element wiederkehrend ist; Werte zuweisen
-                            element = new Recurring_Expense();
-                            ((Recurring_Expense)element).setIntervall(intervallView.getSelectedItem().toString());
-                            ((Recurring_Expense)element).setDate_to(dateToView.getText().toString());
-                            ((Recurring_Expense)element).setDate_next(sdf.format(nextDate));
+                    }else if (!recurringSwitchView.isChecked() && element instanceof Recurring_Expense){
+                        //Wenn das Element von einem wiederkehrenden zu einem nicht wiederkehrenden Expense gemacht werden soll
+                        element = new Expense();
+                    }
 
-                        }else if (!recurringSwitchView.isChecked() && element instanceof Recurring_Expense){
-                            //Wenn das Element von einem wiederkehrenden zu einem nicht wiederkehrenden Expense gemacht werden soll
-                            element = new Expense();
-                        }
+                    //Werte zuweisen (nur Id bleibt die alte)
+                    element.setSum(Double.parseDouble(sumView.getText().toString()));
+                    element.setDate(dateView.getText().toString());
+                    element.setCategory(categoryView.getText().toString());
+                    element.setDescription(descriptionView.getText().toString());
 
-                        //Werte zuweisen (nur Id bleibt die alte)
-                        element.setSum(Double.parseDouble(sumView.getText().toString()));
-                        element.setDate(dateView.getText().toString());
-                        element.setCategory(categoryView.getText().toString());
-                        element.setDescription(descriptionView.getText().toString());
+                    try{
+                        if (deleteimage) //Wenn X Button bei Bild geklickt wurde
+                            element.deleteImage(0);
+                        else
+                            element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap()); //Rechnungsfoto speichern
+                    }catch (Exception e) {
+                        //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
+                    }
+                    //Wenn die Ausgabe zuvor nicht wiederkehrend war, sollen nun Expenses bis zum aktuellen Tag erstellt werden
+                    if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && wasUnRecurring) {
+                        nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) element);
+                        if (nextDate != null)
+                            ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
+                        list.add(element);
+                        RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                        Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && !wasUnRecurring) {
+                        //Wenn die Ausgabe zuvor auch schon wiederkehrend war soll der Benutzer gefragt werden ob die Änderung
+                        //auswirkungen auf alle vorherigen Expenses hat oder nur auf die zukünftigen
 
-                        try{
-                            if (deleteimage) //Wenn X Button bei Bild geklickt wurde
-                                element.deleteImage(0);
-                            else
-                                element.addImage(((BitmapDrawable) mImageView.getDrawable()).getBitmap()); //Rechnungsfoto speichern
-                        }catch (Exception e) {
-                            //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
-                        }
-                        //Wenn die Ausgabe zuvor nicht wiederkehrend war, sollen nun Expenses bis zum aktuellen Tag erstellt werden
-                        if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && wasUnRecurring) {
-                            nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) element);
-                            if (nextDate != null)
-                                ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
-                            list.add(element);
-                            RW.writeExpenses(AddEditActivity.this, list, "expenses");
-                            Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && !wasUnRecurring) {
-                            //Wenn die Ausgabe zuvor auch schon wiederkehrend war soll der Benutzer gefragt werden ob die Änderung
-                            //auswirkungen auf alle vorherigen Expenses hat oder nur auf die zukünftigen
+                        final Expense finalElement = element;
 
-                            final Expense finalElement = element;
+                        final CharSequence[] items = {"Änderung von allen Ausgaben (kann etwas dauern)", "Änderung von allen zukünftigen Ausgaben"};
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
+                        builder.setTitle("Änderung von wiederkehrender Ausgabe");
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (items[item].equals("Änderung von allen Ausgaben (kann etwas dauern)")) {
+                                    // Recurring Expense wird mit Änderung aller vergangenen Expenses eingefügt
 
-                            final CharSequence[] items = {"Änderung von allen Ausgaben (kann etwas dauern)", "Änderung von allen zukünftigen Ausgaben"};
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
-                            builder.setTitle("Änderung von wiederkehrender Ausgabe (kann etwas dauern)");
-                            builder.setItems(items, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int item) {
-                                    if (items[item].equals("Änderung von allen Ausgaben")) {
-                                        // Recurring Expense wird mit Änderung aller vergangenen Expenses eingefügt
-
-                                        List<Expense> expToRemove = new ArrayList<Expense>();
-                                        for (Expense ex : list) {
-                                            if (!(ex instanceof Recurring_Expense) && ex.getRecurring_id() != null && ex.getRecurring_id().equals(recurringId)) {
-                                                expToRemove.add(ex);
-                                            }
+                                    List<Expense> expToRemove = new ArrayList<>();
+                                    for (Expense ex : list) {
+                                        if (!(ex instanceof Recurring_Expense) && ex.getRecurring_id() != null && ex.getRecurring_id().equals(recurringId)) {
+                                            expToRemove.add(ex);
                                         }
-                                        list.removeAll(expToRemove);
-                                        nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) finalElement);
-                                        if (nextDate != null)
-                                            ((Recurring_Expense) finalElement).setDate_next(sdf.format(nextDate));
-                                        list.add(finalElement);
-                                        RW.writeExpenses(AddEditActivity.this, list, "expenses");
-                                        Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
-                                        startActivity(intent);
-
-                                    } else if (items[item].equals("Änderung von allen zukünftigen Ausgaben")) {
-                                        // Recurring Expense wird ohne Änderung der vergangenen Expenses eingefügt
-                                        list.add(finalElement);
-                                        RW.writeExpenses(AddEditActivity.this, list, "expenses");
-                                        Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
-                                        startActivity(intent);
                                     }
+                                    list.removeAll(expToRemove);
+                                    nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) finalElement);
+                                    if (nextDate != null)
+                                        ((Recurring_Expense) finalElement).setDate_next(sdf.format(nextDate));
+                                    list.add(finalElement);
+                                    RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                                    Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                                    startActivity(intent);
+
+                                } else if (items[item].equals("Änderung von allen zukünftigen Ausgaben")) {
+                                    // Recurring Expense wird ohne Änderung der vergangenen Expenses eingefügt
+                                    list.add(finalElement);
+                                    RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                                    Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                                    startActivity(intent);
                                 }
-                            });
-                            builder.create();
-                            builder.show();
-                        }else{
-                            list.add(element);
-                            RW.writeExpenses(AddEditActivity.this, list, "expenses");
-                            Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
+                            }
+                        });
+                        builder.create();
+                        builder.show();
+                    }else{
+                        list.add(element);
+                        RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                        Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 } else {
                     // neuer Expense
@@ -308,36 +308,6 @@ public class AddEditActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    void promptForResult(String dlgTitle, String dlgMessage, final DialogInputInterface dlg) {
-        // replace "MyClass.this" with a Context object. If inserting into a class extending Activity,
-        // using just "this" is perfectly ok.
-        AlertDialog.Builder alert = new AlertDialog.Builder(AddEditActivity.this);
-        alert.setTitle(dlgTitle);
-        alert.setMessage(dlgMessage);
-        // build the dialog
-        final View v = dlg.onBuildDialog();
-        // put the view obtained from the interface into the dialog
-        if (v != null) { alert.setView(v);}
-        // procedure for when the ok button is clicked.
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // ** HERE IS WHERE THE MAGIC HAPPENS! **
-                dlg.onResult(v);
-                dialog.dismiss();
-                return;
-            }
-        });
-
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dlg.onCancel();
-                dialog.dismiss();
-                return;
-            }
-        });
-        alert.show();
     }
 
     // Erstellt alle Ausgaben die laut wiederkehrender Ausgabe vor bzw. heute getätigt wurden
@@ -464,7 +434,7 @@ public class AddEditActivity extends AppCompatActivity {
                 categories.add(c.toString());
             }
         }
-        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categories.toArray());
+        final ArrayAdapter<?> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories.toArray());
         categoryView.setAdapter(adapter);
 
         //Wertcheck wenn Text nicht mehr editiert wird
