@@ -100,6 +100,8 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
 
         if (child.isCheck())
             checkbox.setChecked(true);
+        if (!child.isCheck())
+            checkbox.setChecked(false);
 
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
