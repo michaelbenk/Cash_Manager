@@ -2,8 +2,10 @@ package com.pr.se.cash_manager;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -224,6 +226,8 @@ public class AddEditActivity extends AppCompatActivity {
                                 ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
                             list.add(element);
                             RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                            Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                            startActivity(intent);
                         } else if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && !wasUnRecurring) {
                             //Wenn die Ausgabe zuvor auch schon wiederkehrend war soll der Benutzer gefragt werden ob die Änderung
                             //auswirkungen auf alle vorherigen Expenses hat oder nur auf die zukünftigen
@@ -265,6 +269,11 @@ public class AddEditActivity extends AppCompatActivity {
                             });
                             builder.create();
                             builder.show();
+                        }else{
+                            list.add(element);
+                            RW.writeExpenses(AddEditActivity.this, list, "expenses");
+                            Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     }
                 } else {
@@ -800,6 +809,17 @@ public class AddEditActivity extends AppCompatActivity {
 
     }
 
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (userChoosenTask){
@@ -817,15 +837,8 @@ public class AddEditActivity extends AppCompatActivity {
             case "Choose from Library":
                 if (resultCode == RESULT_OK){
                     Uri targetUri = data.getData();
-                    Bitmap bitmap;
-                    try {
-                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-                        mImageView.setImageBitmap(bitmap);
-                        fab_del.setVisibility(View.VISIBLE);
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                    mCurrentPhotoPath = getRealPathFromURI(targetUri);
+                    setPic();
                 }
                 break;
         }
