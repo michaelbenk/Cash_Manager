@@ -297,25 +297,28 @@ public class MainActivity extends AppCompatActivity
                 }
                 list = hilf;
             }
+
             if (!zeitraum.equals("Alle")) {
                 List<Expense> hilf = new ArrayList<>();
+                Date today = new Date();
+                gregorianCalendar.setTime(today);
+                switch (zeitraum) {
+                    case "letzte Woche":
+                        gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
+                        gregorianCalendar.add(Calendar.MONTH, 1);
+                    case "letzter Monat":
+                        gregorianCalendar.add(Calendar.MONTH, -1);
+                        break;
+                    case "letztes Jahr":
+                        gregorianCalendar.add(Calendar.YEAR, -1);
+                        break;
+                }
+                Date time = gregorianCalendar.getTime();
+
                 for (Expense ex : list) {
                     try {
                         Date date = sdf.parse(ex.getDate());
-                        gregorianCalendar.setTime(new Date());
-                        switch (zeitraum) {
-                            case "letzte Woche":
-                                gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
-
-                            case "letzter Monat":
-                                gregorianCalendar.add(Calendar.MONTH, -1);
-                                break;
-                            case "letztes Jahr":
-                                gregorianCalendar.add(Calendar.YEAR, -1);
-                                break;
-                        }
-                        Date time = gregorianCalendar.getTime();
-                        if (time.compareTo(date) <= 0 && date.compareTo(new Date()) <= 0) {
+                        if (time.compareTo(date) <= 0 && date.compareTo(today) <= 0) {
                             hilf.add(ex);
                         }
                     } catch (ParseException e) {
