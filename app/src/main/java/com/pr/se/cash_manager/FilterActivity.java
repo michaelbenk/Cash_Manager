@@ -76,8 +76,8 @@ public class FilterActivity extends AppCompatActivity {
     private void firstFilter() {
         List<Filter> ausgabentypen = new ArrayList<>();
         ausgabentypen.add(new Filter(this.getString(R.string.filter_all), true));
-        ausgabentypen.add(new Filter(this.getString(R.string.recurring), false));
-        ausgabentypen.add(new Filter(this.getString(R.string.non_recurring), false));
+        ausgabentypen.add(new Filter(this.getString(R.string.view_recurring), false));
+        ausgabentypen.add(new Filter(this.getString(R.string.view_non_recurring), false));
         filterHashMap.put(this.getString(R.string.filter_expenseType), ausgabentypen);
 
         List<Filter> zeitraum = new ArrayList<>();

@@ -34,7 +34,6 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -286,9 +285,9 @@ public class MainActivity extends AppCompatActivity
             if (!recurringOrNot.equals(getString(R.string.filter_all))) {
                 List<Expense> hilf = new ArrayList<>();
                 for (Expense ex : list) {
-                    if (recurringOrNot.equals(getString(R.string.recurring)) && (ex instanceof RecurringExpense)) {
+                    if (recurringOrNot.equals(getString(R.string.view_recurring)) && (ex instanceof RecurringExpense)) {
                         hilf.add(ex);
-                    } else if (recurringOrNot.equals(getString(R.string.non_recurring)) && !(ex instanceof RecurringExpense)) {
+                    } else if (recurringOrNot.equals(getString(R.string.view_non_recurring)) && !(ex instanceof RecurringExpense)) {
                         hilf.add(ex);
                     }
                 }

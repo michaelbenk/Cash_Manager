@@ -351,7 +351,7 @@ public class AddEditActivity extends AppCompatActivity {
     private void setRecurring() {
         AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
         AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
-        recurringTextView.setText(R.string.recurring);
+        recurringTextView.setText(R.string.view_recurring);
         ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_DOWN);
         dataInput();
     }
@@ -361,7 +361,7 @@ public class AddEditActivity extends AppCompatActivity {
         AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
         AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
         ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
-        recurringTextView.setText(R.string.non_recurring);
+        recurringTextView.setText(R.string.view_non_recurring);
     }
 
     @Override
@@ -460,7 +460,7 @@ public class AddEditActivity extends AppCompatActivity {
         if (sum != null) {
             sumView.setText(sum);
         } else {
-            sumView.setText(R.string.default_sum);
+            sumView.setText(R.string.view_default_sum);
         }
         if (date != null) {
             dateView.setText(date);
@@ -480,7 +480,7 @@ public class AddEditActivity extends AppCompatActivity {
         if (dateto != null){
             recurringSwitchView.setChecked(true);
             this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
-            recurringTextView.setText(R.string.recurring);
+            recurringTextView.setText(R.string.view_recurring);
             dateToView.setText(dateto);
         }else{
             this.dateToView.setText(sdf.format(calendar.getTime()));
@@ -501,7 +501,7 @@ public class AddEditActivity extends AppCompatActivity {
             recurringSwitchView.setChecked(true);
             this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
             intervallView.setSelection(pos);
-            recurringTextView.setText(R.string.recurring);
+            recurringTextView.setText(R.string.view_recurring);
         }
 
         this.dateInput();
