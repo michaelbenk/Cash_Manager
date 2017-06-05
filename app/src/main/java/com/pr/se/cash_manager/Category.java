@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-class Category implements Serializable {
+public class Category implements Serializable {
     final String id = UUID.randomUUID().toString();
     private String name;
     private List<Category> subcategories = new ArrayList<>();

@@ -289,9 +289,9 @@ public class MainActivity extends AppCompatActivity
             if (!recurringOrNot.equals("Alle")) {
                 List<Expense> hilf = new ArrayList<>();
                 for (Expense ex : list) {
-                    if (recurringOrNot.equals("wiederkehrende Kosten") && (ex instanceof Recurring_Expense)) {
+                    if (recurringOrNot.equals("wiederkehrende Kosten") && (ex instanceof RecurringExpense)) {
                         hilf.add(ex);
-                    } else if (recurringOrNot.equals("nicht wiederkehrende Kosten") && !(ex instanceof Recurring_Expense)) {
+                    } else if (recurringOrNot.equals("nicht wiederkehrende Kosten") && !(ex instanceof RecurringExpense)) {
                         hilf.add(ex);
                     }
                 }
@@ -377,13 +377,13 @@ public class MainActivity extends AppCompatActivity
 
     private void updateRecurringExpenses(List<Expense> list) {
         for (Expense ex : list) {
-            if (ex instanceof Recurring_Expense) {
+            if (ex instanceof RecurringExpense) {
                 try {
-                    Date nextDate = sdf.parse(((Recurring_Expense) ex).getDate_next());
+                    Date nextDate = sdf.parse(((RecurringExpense) ex).getDate_next());
                     if (nextDate.compareTo(new Date()) <= 0) {
                         //Recurring Expense next Date aktuallisieren und neue Expenses erstellen
                         list.remove(ex);
-                        list.add(newRecurringExpensesBeforeToday((Recurring_Expense) ex));
+                        list.add(newRecurringExpensesBeforeToday((RecurringExpense) ex));
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity
 
     // Erstellt alle Ausgaben die laut wiederkehrender Ausgabe vor bzw. heute getätigt wurden
     @Nullable
-    private Recurring_Expense newRecurringExpensesBeforeToday(Recurring_Expense element) {
+    private RecurringExpense newRecurringExpensesBeforeToday(RecurringExpense element) {
         Expense newExpense;
         Date today = new Date();
 
@@ -492,6 +492,7 @@ public class MainActivity extends AppCompatActivity
     private void firstRun() {
         new File(this.getFilesDir(), "categories");
         new File(this.getFilesDir(), "expenses");
+        new File(this.getFilesDir(), "log");
 
         try {
             ArrayList<Category> categories = new ArrayList<>();
@@ -529,9 +530,9 @@ public class MainActivity extends AppCompatActivity
             Expense e4 = new Expense(6.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), description[3]);
             expenses.add(e4);
             gregorianCalendar.add(Calendar.YEAR, -1);
-            Expense e5 = new Recurring_Expense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Miete", sdf.format(calendar2.getTime()), Intervall.monatlich.name());
+            Expense e5 = new RecurringExpense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Miete", sdf.format(calendar2.getTime()), Interval.monatlich.name());
             gregorianCalendar.add(Calendar.MONTH, 1);
-            ((Recurring_Expense) e5).setDate_next(sdf.format(gregorianCalendar.getTime()));
+            ((RecurringExpense) e5).setDate_next(sdf.format(gregorianCalendar.getTime()));
             expenses.add(e5);
 
             RW.writeCategories(this, categories, "categories");

@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -20,8 +21,8 @@ import java.util.UUID;
  * @author Team 1
  * @version 1.0
  */
- class Expense implements Serializable{
-    private String id;
+public class Expense implements Serializable {
+    final private String id = UUID.randomUUID().toString();
     private String category;
     private String description;
     private String date;
@@ -30,17 +31,15 @@ import java.util.UUID;
 
     private List<byte[]> images = new ArrayList<>();
 
-    Expense(double sum, String date, String category, String description) {
-        this.id = UUID.randomUUID().toString();
+    public Expense(double sum, String date, String category, String description) {
         this.category = category;
         this.description = description;
         this.date = date;
         this.sum = sum;
     }
 
-     Expense() {
-         this.id = UUID.randomUUID().toString();
-     }
+    public Expense() {
+    }
 
     public String getRecurring_id() {
         return recurring_id;
@@ -50,55 +49,60 @@ import java.util.UUID;
         this.recurring_id = recurring_id;
     }
 
-    String getCategory() {
+    public String getCategory() {
         return this.category;
     }
 
-     void setCategory(String category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-     String getDescription() {
+    public String getDescription() {
         return this.description;
     }
 
-     void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-     String getDate() {
+    public String getDate() {
         return this.date;
     }
 
-     void setDate(String date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-     double getSum() {
+    public double getSum() {
         return this.sum;
     }
 
-     void setSum(double sum) {
+    public void setSum(double sum) {
         this.sum = sum;
     }
 
-     void addImage(Bitmap image) {
+    public void addImage(Bitmap image) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
         image.compress(Bitmap.CompressFormat.PNG, 100, stream);
         images.add(stream.toByteArray());
     }
 
-      void deleteImage(int index){
+    public void deleteImage(int index) {
         images.remove(index);
     }
 
-     List<byte[]> getImages() {
+    public List<byte[]> getImages() {
         return images;
     }
 
-     String getId() {
+    public String getId() {
         return this.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
     }
 
     @Override

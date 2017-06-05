@@ -32,11 +32,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @InjectView(R.id.input_username) EditText _usernameText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_login) Button _loginButton;
-    @InjectView(R.id.link_signup) TextView _signupLink;
-    @InjectView(R.id.link_forgot_password) TextView _forgotPasswordLink;
+    @InjectView(R.id.input_username) EditText usernameText;
+    @InjectView(R.id.input_password) EditText passwordText;
+    @InjectView(R.id.btn_login) Button loginButton;
+    @InjectView(R.id.link_signup) TextView signupLink;
+    @InjectView(R.id.link_forgot_password) TextView forgotPasswordLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
+        signupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        _forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        _loginButton.setEnabled(false);
+        loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_NoActionBar);
@@ -100,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String username = _usernameText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -131,20 +131,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
+        loginButton.setEnabled(true);
         finish();
     }
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Invalid username or password!", Toast.LENGTH_LONG).show();
-        _loginButton.setEnabled(true);
+        loginButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String username = _usernameText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
         File myDir = getFilesDir();
         StringBuilder totalUsername = new StringBuilder();
         StringBuilder totalPassword = new StringBuilder();
@@ -180,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if ( (totalUsername.toString().equals(username)) && (totalPassword.toString().equals(password)) ) {
-            _usernameText.setError(null);
-            _passwordText.setError(null);
+            usernameText.setError(null);
+            passwordText.setError(null);
         } else {
             valid = false;
         }

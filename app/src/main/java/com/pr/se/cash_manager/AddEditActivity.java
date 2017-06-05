@@ -118,7 +118,7 @@ public class AddEditActivity extends AppCompatActivity {
         this.recurringCardView = (CardView) this.findViewById(R.id.activity_add_recurring);
         mImageView = (ImageView) findViewById(R.id.activity_add_image);
 
-        // Click auf Cardview bewirkt die Anzeige bzw. Verschwinden von 'Bis'-Datum und Intervall
+        // Click auf Cardview bewirkt die Anzeige bzw. Verschwinden von 'Bis'-Datum und Interval
         recurringCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +132,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
-        // Click auf Switch bewirkt die Anzeige bzw. Verschwinden von 'Bis'-Datum und Intervall
+        // Click auf Switch bewirkt die Anzeige bzw. Verschwinden von 'Bis'-Datum und Interval
         recurringSwitchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -193,18 +193,18 @@ public class AddEditActivity extends AppCompatActivity {
                     }
 
                     final String recurringId = element.getId();
-                    boolean wasUnRecurring = !(element instanceof Recurring_Expense);
+                    boolean wasUnRecurring = !(element instanceof RecurringExpense);
 
                     //zu änderndes element löschen
                     list.remove(element);
 
                     if (recurringSwitchView.isChecked()){ //wenn das Element wiederkehrend ist; Werte zuweisen
-                        element = new Recurring_Expense();
-                        ((Recurring_Expense)element).setIntervall(intervallView.getSelectedItem().toString());
-                        ((Recurring_Expense)element).setDate_to(dateToView.getText().toString());
-                        ((Recurring_Expense)element).setDate_next(sdf.format(nextDate));
+                        element = new RecurringExpense();
+                        ((RecurringExpense)element).setIntervall(intervallView.getSelectedItem().toString());
+                        ((RecurringExpense)element).setDate_to(dateToView.getText().toString());
+                        ((RecurringExpense)element).setDate_next(sdf.format(nextDate));
 
-                    }else if (!recurringSwitchView.isChecked() && element instanceof Recurring_Expense){
+                    }else if (!recurringSwitchView.isChecked() && element instanceof RecurringExpense){
                         //Wenn das Element von einem wiederkehrenden zu einem nicht wiederkehrenden Expense gemacht werden soll
                         element = new Expense();
                     }
@@ -224,15 +224,15 @@ public class AddEditActivity extends AppCompatActivity {
                         //Wenn noch kein Rechnungsfoto gespeichert wurde soll nichts gemacht werden
                     }
                     //Wenn die Ausgabe zuvor nicht wiederkehrend war, sollen nun Expenses bis zum aktuellen Tag erstellt werden
-                    if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && wasUnRecurring) {
-                        nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) element);
+                    if (element instanceof RecurringExpense && recurringSwitchView.isChecked() && wasUnRecurring) {
+                        nextDate = newRecurringExpensesBeforeToday((RecurringExpense) element);
                         if (nextDate != null)
-                            ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
+                            ((RecurringExpense) element).setDate_next(sdf.format(nextDate));
                         list.add(element);
                         RW.writeExpenses(AddEditActivity.this, list, "expenses");
                         Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
                         startActivity(intent);
-                    } else if (element instanceof Recurring_Expense && recurringSwitchView.isChecked() && !wasUnRecurring) {
+                    } else if (element instanceof RecurringExpense && recurringSwitchView.isChecked() && !wasUnRecurring) {
                         //Wenn die Ausgabe zuvor auch schon wiederkehrend war soll der Benutzer gefragt werden ob die Änderung
                         //auswirkungen auf alle vorherigen Expenses hat oder nur auf die zukünftigen
 
@@ -249,14 +249,14 @@ public class AddEditActivity extends AppCompatActivity {
 
                                     List<Expense> expToRemove = new ArrayList<>();
                                     for (Expense ex : list) {
-                                        if (!(ex instanceof Recurring_Expense) && ex.getRecurring_id() != null && ex.getRecurring_id().equals(recurringId)) {
+                                        if (!(ex instanceof RecurringExpense) && ex.getRecurring_id() != null && ex.getRecurring_id().equals(recurringId)) {
                                             expToRemove.add(ex);
                                         }
                                     }
                                     list.removeAll(expToRemove);
-                                    nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) finalElement);
+                                    nextDate = newRecurringExpensesBeforeToday((RecurringExpense) finalElement);
                                     if (nextDate != null)
-                                        ((Recurring_Expense) finalElement).setDate_next(sdf.format(nextDate));
+                                        ((RecurringExpense) finalElement).setDate_next(sdf.format(nextDate));
                                     list.add(finalElement);
                                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
                                     Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
@@ -285,10 +285,10 @@ public class AddEditActivity extends AppCompatActivity {
                     list = RW.readExpenses(AddEditActivity.this, "expenses");
                     if (recurringSwitchView.isChecked()){
                         // Wenn der neue Expense ein wiederkehrender ist sollen auch alle Expenses bis zum akt. Tag erstellt werden
-                        element = new Recurring_Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString(), dateToView.getText().toString(), intervallView.getSelectedItem().toString());
-                        nextDate = newRecurringExpensesBeforeToday((Recurring_Expense) element);
+                        element = new RecurringExpense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString(), dateToView.getText().toString(), intervallView.getSelectedItem().toString());
+                        nextDate = newRecurringExpensesBeforeToday((RecurringExpense) element);
                         if (nextDate != null)
-                            ((Recurring_Expense) element).setDate_next(sdf.format(nextDate));
+                            ((RecurringExpense) element).setDate_next(sdf.format(nextDate));
                     }else {
                         //nicht wiederkehrendeer Expense
                         element = new Expense(Double.parseDouble(sumView.getText().toString()), dateView.getText().toString(), categoryView.getText().toString(), descriptionView.getText().toString());
@@ -312,7 +312,7 @@ public class AddEditActivity extends AppCompatActivity {
 
     // Erstellt alle Ausgaben die laut wiederkehrender Ausgabe vor bzw. heute getätigt wurden
     @Nullable
-    private Date newRecurringExpensesBeforeToday(Recurring_Expense element) {
+    private Date newRecurringExpensesBeforeToday(RecurringExpense element) {
         if (dateFrom != null && dateTo != null) {
             Date today = new Date();
             if (dateFrom.compareTo(today) <= 0) { //Wenn die Ausgabe in der Vergangenheit liegt bzw. heute ist
@@ -347,7 +347,7 @@ public class AddEditActivity extends AppCompatActivity {
         return null;
     }
 
-    //Bis-Datum und Intervall einblenden
+    //Bis-Datum und Interval einblenden
     private void setRecurring() {
         AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.VISIBLE);
         AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.VISIBLE);
@@ -356,17 +356,12 @@ public class AddEditActivity extends AppCompatActivity {
         dataInput();
     }
 
-    //Bis-Datum und Intervall ausblenden
+    //Bis-Datum und Interval ausblenden
     private void setUnrecurring() {
         AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
         AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
         ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
         recurringTextView.setText(R.string.not_recurring);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -401,9 +396,9 @@ public class AddEditActivity extends AppCompatActivity {
         description = expense.getDescription();
         if (expense.getImages().size() != 0)
             byteArray = expense.getImages().get(0);
-        if (expense instanceof Recurring_Expense) {
-            dateto = ((Recurring_Expense) expense).getDate_to();
-            intervall = ((Recurring_Expense) expense).getIntervall();
+        if (expense instanceof RecurringExpense) {
+            dateto = ((RecurringExpense) expense).getDate_to();
+            intervall = ((RecurringExpense) expense).getIntervall();
         }
         //Byte Array in Bitmap konvertieren
         if (byteArray != null)
@@ -491,7 +486,7 @@ public class AddEditActivity extends AppCompatActivity {
 
         int pos = 0;
         List<String> intervallValues = new ArrayList<>();
-        for (Intervall i: Intervall.values()) {
+        for (Interval i: Interval.values()) {
             intervallValues.add(i.name());
             if (i.name().equals(intervall))
                 pos = intervallValues.size() - 1;
@@ -588,9 +583,9 @@ public class AddEditActivity extends AppCompatActivity {
 
                 nextDate = calculateNextDate(dateFrom);
 
-                if (dateTo.compareTo(nextDate) < 0) { //Intervall muss sich zwischen von und bis Datum ausgehen
+                if (dateTo.compareTo(nextDate) < 0) { //Interval muss sich zwischen von und bis Datum ausgehen
                     dateToView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
-                    Toast.makeText(AddEditActivity.this, "'Bis'-Datum ist unzulänglich für das ausgewählte Intervall", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditActivity.this, "'Bis'-Datum ist unzulänglich für das ausgewählte Interval", Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 dateToView.setBackgroundColor(0);

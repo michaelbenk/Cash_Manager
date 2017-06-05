@@ -6,18 +6,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ShowDetails extends AppCompatActivity {
@@ -68,9 +62,9 @@ public class ShowDetails extends AppCompatActivity {
         description = expense.getDescription();
         if (expense.getImages().size() != 0)
             byteArray = expense.getImages().get(0);
-        if (expense instanceof Recurring_Expense) {
-            dateto = ((Recurring_Expense) expense).getDate_to();
-            intervall = ((Recurring_Expense) expense).getIntervall();
+        if (expense instanceof RecurringExpense) {
+            dateto = ((RecurringExpense) expense).getDate_to();
+            intervall = ((RecurringExpense) expense).getIntervall();
         }
         //Byte Array in Bitmap konvertieren
         if (byteArray != null)

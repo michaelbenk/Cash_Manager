@@ -29,9 +29,9 @@ import butterknife.InjectView;
 public class ForgotPasswordActivity extends AppCompatActivity {
     private static final String TAG = "ForgotPasswordActivity";
 
-    @InjectView(R.id.input_seqQuestionF) EditText _seqQuestionFText;
-    @InjectView(R.id.link_login) TextView _loginLink;
-    @InjectView(R.id.btn_forgot_password) Button _forgotPasswordButton;
+    @InjectView(R.id.input_seqQuestionF) EditText seqQuestionFText;
+    @InjectView(R.id.link_login) TextView loginLink;
+    @InjectView(R.id.btn_forgot_password) Button forgotPasswordButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,14 +51,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
-        _forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 forgotPassword();
             }
         });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
+        loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // No Changes - Return to the Login activity
@@ -75,7 +75,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             return;
         }
 
-        _forgotPasswordButton.setEnabled(false);
+        forgotPasswordButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(ForgotPasswordActivity.this,
                 R.style.AppTheme_NoActionBar);
@@ -96,7 +96,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     public void onForgotPasswordSuccess() {
-        _forgotPasswordButton.setEnabled(true);
+        forgotPasswordButton.setEnabled(true);
         setResult(RESULT_OK, null);
 
         Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
@@ -106,12 +106,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     public void onForgotPasswordFailed() {
         Toast.makeText(getBaseContext(), "Changing Password failed", Toast.LENGTH_LONG).show();
-        _forgotPasswordButton.setEnabled(true);
+        forgotPasswordButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
-        String seqQuestionF = _seqQuestionFText.getText().toString();
+        String seqQuestionF = seqQuestionFText.getText().toString();
 
         File myDir = getFilesDir();
         StringBuilder totalSeqQuestion = new StringBuilder();
@@ -132,10 +132,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
 
         if (!seqQuestionF.equals(totalSeqQuestion.toString())) {
-            _seqQuestionFText.setError("Answer does not match!");
+            seqQuestionFText.setError("Answer does not match!");
             valid = false;
         } else {
-            _seqQuestionFText.setError(null);
+            seqQuestionFText.setError(null);
         }
 
         return valid;

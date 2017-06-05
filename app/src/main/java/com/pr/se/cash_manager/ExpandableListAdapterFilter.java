@@ -21,7 +21,6 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> parentDataSource;
     private HashMap<String, List<Filter>> childDataSource;
-    private SharedPreferences prefs = null;
 
     public ExpandableListAdapterFilter(Context context, HashMap<String, List<Filter>> filterHashMap, List<String> parent ) {
         this.context = context;
@@ -73,9 +72,9 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.content_filter_list_header, null);
         }
 
-        ImageView img_selection = (ImageView) convertView.findViewById(R.id.content_filter_arrow);
+        ImageView imgSelection = (ImageView) convertView.findViewById(R.id.content_filter_arrow);
         int imageResourceId = isExpanded ? android.R.drawable.arrow_down_float : android.R.drawable.arrow_up_float;
-        img_selection.setImageResource(imageResourceId);
+        imgSelection.setImageResource(imageResourceId);
 
         final TextView lblListHeader = (TextView) convertView.findViewById(R.id.content_filter_list_header_text);
 

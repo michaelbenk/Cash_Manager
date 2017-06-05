@@ -15,7 +15,7 @@ import android.support.v4.content.ContextCompat;
  * Created by theresaprinz on 04.05.17.
  */
 
-class Utility {
+public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static boolean checkPermission(final Context context)

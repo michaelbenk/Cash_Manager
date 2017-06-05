@@ -26,11 +26,11 @@ import java.io.IOException;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    @InjectView(R.id.input_seqQuestion) EditText _seqQuestionText;
-    @InjectView(R.id.input_username) EditText _usernameText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_signup) Button _signupButton;
-    @InjectView(R.id.link_login) TextView _loginLink;
+    @InjectView(R.id.input_seqQuestion) EditText seqQuestionText;
+    @InjectView(R.id.input_username) EditText usernameText;
+    @InjectView(R.id.input_password) EditText passwordText;
+    @InjectView(R.id.btn_signup) Button signupButton;
+    @InjectView(R.id.link_login) TextView loginLink;
 
     // METHOD to create a new File with fileName and the content
     public void createFile(String fileName, String content) {
@@ -63,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
-        _signupButton.setOnClickListener(new View.OnClickListener() {
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -79,7 +79,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
+        loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
@@ -96,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        _signupButton.setEnabled(false);
+        signupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_NoActionBar);
@@ -104,9 +104,9 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String seqQuestion = _seqQuestionText.getText().toString();
-        String username = _usernameText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String seqQuestion = seqQuestionText.getText().toString();
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -121,45 +121,45 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
+        signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-        _signupButton.setEnabled(true);
+        signupButton.setEnabled(true);
     }
 
     public boolean validate() throws IOException {
         boolean valid = true;
 
-        String seqQuestion = _seqQuestionText.getText().toString();
-        String username = _usernameText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String seqQuestion = seqQuestionText.getText().toString();
+        String username = usernameText.getText().toString();
+        String password = passwordText.getText().toString();
 
         if (username.isEmpty() || username.length() < 3) {
-            _usernameText.setError("at least 3 alphanumeric characters!");
+            usernameText.setError("at least 3 alphanumeric characters!");
             valid = false;
         } else {
-            _usernameText.setError(null);
+            usernameText.setError(null);
             createFile("usernameFile", username);
         }
 
         if (password.isEmpty() || password.length() < 6) {
-            _passwordText.setError("at least 7 alphanumeric characters!");
+            passwordText.setError("at least 7 alphanumeric characters!");
             valid = false;
         } else {
             createFile("passwordFile", password);
-            _passwordText.setError(null);
+            passwordText.setError(null);
         }
 
         if (seqQuestion.isEmpty() || seqQuestion.length() < 3) {
-            _seqQuestionText.setError("at least 3 alphanumeric characters!");
+            seqQuestionText.setError("at least 3 alphanumeric characters!");
             valid = false;
         } else {
             createFile("seqQuestionFile", seqQuestion);
-            _seqQuestionText.setError(null);
+            seqQuestionText.setError(null);
         }
 
         return valid;
