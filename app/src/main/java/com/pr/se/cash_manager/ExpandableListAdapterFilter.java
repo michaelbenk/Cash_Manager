@@ -2,7 +2,6 @@ package com.pr.se.cash_manager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
+class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
     private List<Filter> filters = new ArrayList<>();
     private Context context;
     private List<String> parentDataSource;
     private HashMap<String, List<Filter>> childDataSource;
 
-    public ExpandableListAdapterFilter(Context context, HashMap<String, List<Filter>> filterHashMap, List<String> parent ) {
+    ExpandableListAdapterFilter(Context context, HashMap<String, List<Filter>> filterHashMap, List<String> parent) {
         this.context = context;
         this.parentDataSource = parent;
         this.childDataSource = filterHashMap;
@@ -124,7 +123,7 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
 
                         } else { //Wenn Alle gedrückt wurde -> alle Felder uncheck
                             for (Filter f : childDataSource.get(parentDataSource.get(groupPosition))) { //Alle anderen uncheck
-                                if (!f.getFilter().equals("Alle"))
+                                if (!f.getFilter().equals(context.getString(R.string.filter_all)))
                                     f.setCheck(false);
                             }
                         }
@@ -147,9 +146,9 @@ public class ExpandableListAdapterFilter extends BaseExpandableListAdapter {
                         }
                     }
                 }
-                filters.add(new Filter(context.getString(R.string.filter_Ausgabentyp), false, childDataSource.get("Ausgabentyp")));
-                filters.add(new Filter(context.getString(R.string.filter_Zeitraum), false, childDataSource.get("Zeitraum")));
-                filters.add(new Filter(context.getString(R.string.filter_kategorien), false, childDataSource.get("Kategorien")));
+                filters.add(new Filter(context.getString(R.string.filter_expenseType), false, childDataSource.get(context.getString(R.string.filter_expenseType))));
+                filters.add(new Filter(context.getString(R.string.filter_period), false, childDataSource.get(context.getString(R.string.filter_period))));
+                filters.add(new Filter(context.getString(R.string.filter_categories), false, childDataSource.get(context.getString(R.string.filter_categories))));
                 RW.writeFilter(context, filters, "filters");
 
                 Intent intent = new Intent(context, FilterActivity.class);

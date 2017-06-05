@@ -238,13 +238,13 @@ public class AddEditActivity extends AppCompatActivity {
 
                         final Expense finalElement = element;
 
-                        final CharSequence[] items = {"Änderung von allen Ausgaben (kann etwas dauern)", "Änderung von allen zukünftigen Ausgaben"};
+                        final CharSequence[] items = {getString(R.string.save_expense_Dialog_allExpenses), getString(R.string.save_expense_Dialog_futureExpeses)};
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
-                        builder.setTitle("Änderung von wiederkehrender Ausgabe");
+                        builder.setTitle(R.string.save_expense_Dialog_heading);
                         builder.setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int item) {
-                                if (items[item].equals("Änderung von allen Ausgaben (kann etwas dauern)")) {
+                                if (items[item].equals(getString(R.string.save_expense_Dialog_allExpenses))) {
                                     // Recurring Expense wird mit Änderung aller vergangenen Expenses eingefügt
 
                                     List<Expense> expToRemove = new ArrayList<>();
@@ -262,7 +262,7 @@ public class AddEditActivity extends AppCompatActivity {
                                     Intent intent = new Intent(AddEditActivity.this, MainActivity.class);
                                     startActivity(intent);
 
-                                } else if (items[item].equals("Änderung von allen zukünftigen Ausgaben")) {
+                                } else if (items[item].equals(getString(R.string.save_expense_Dialog_futureExpeses))) {
                                     // Recurring Expense wird ohne Änderung der vergangenen Expenses eingefügt
                                     list.add(finalElement);
                                     RW.writeExpenses(AddEditActivity.this, list, "expenses");
@@ -361,7 +361,7 @@ public class AddEditActivity extends AppCompatActivity {
         AddEditActivity.this.findViewById(R.id.activity_add_todate).setVisibility(View.INVISIBLE);
         AddEditActivity.this.findViewById(R.id.activity_add_intervall).setVisibility(View.INVISIBLE);
         ((ScrollView)AddEditActivity.this.findViewById(R.id.action_add_scrollview)).fullScroll(View.FOCUS_UP);
-        recurringTextView.setText(R.string.not_recurring);
+        recurringTextView.setText(R.string.non_recurring);
     }
 
     @Override
@@ -376,33 +376,35 @@ public class AddEditActivity extends AppCompatActivity {
     }
 
     private void dataInput() {
-        //Werte von Intent (ShowDetails) holen
-        list = RW.readExpenses(this, "expenses");
+        if (update) {
+            //Werte von Intent (ShowDetails) holen
+            list = RW.readExpenses(this, "expenses");
 
-        for (Expense e:list) {
-            if (e.getId().equals(id)){ 
-                expense = e;
-                break;
+            for (Expense e : list) {
+                if (e.getId().equals(id)) {
+                    expense = e;
+                    break;
+                }
             }
-        }
 
-        //Byte Array in Bitmap konvertieren
-        if (expense.getImages().size() != 0)
-            image = BitmapFactory.decodeByteArray(expense.getImages().get(0), 0, expense.getImages().get(0).length);
-        
-        sum = String.valueOf(expense.getSum());
-        date = expense.getDate();
-        category = expense.getCategory();
-        description = expense.getDescription();
-        if (expense.getImages().size() != 0)
-            byteArray = expense.getImages().get(0);
-        if (expense instanceof RecurringExpense) {
-            dateto = ((RecurringExpense) expense).getDate_to();
-            intervall = ((RecurringExpense) expense).getIntervall();
+            //Byte Array in Bitmap konvertieren
+            if (expense.getImages().size() != 0)
+                image = BitmapFactory.decodeByteArray(expense.getImages().get(0), 0, expense.getImages().get(0).length);
+
+            sum = String.valueOf(expense.getSum());
+            date = expense.getDate();
+            category = expense.getCategory();
+            description = expense.getDescription();
+            if (expense.getImages().size() != 0)
+                byteArray = expense.getImages().get(0);
+            if (expense instanceof RecurringExpense) {
+                dateto = ((RecurringExpense) expense).getDate_to();
+                intervall = ((RecurringExpense) expense).getIntervall();
+            }
+            //Byte Array in Bitmap konvertieren
+            if (byteArray != null)
+                image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         }
-        //Byte Array in Bitmap konvertieren
-        if (byteArray != null)
-            image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
         //Wertcheck der Summe sobald kein Fokus mehr auf den Wert liegt
         sumView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -412,7 +414,7 @@ public class AddEditActivity extends AppCompatActivity {
                     Double sum = Double.parseDouble(sumView.getText().toString());
                     if(sum < 0) {
                         sumView.setBackgroundColor(AddEditActivity.this.getResources().getColor(android.R.color.holo_green_light));
-                        Toast.makeText(AddEditActivity.this, "The Value must not be negative!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditActivity.this, getString(R.string.error_negValue), Toast.LENGTH_SHORT).show();
                     }else {
                         sumView.setBackgroundColor(0);
                     }
@@ -449,7 +451,7 @@ public class AddEditActivity extends AppCompatActivity {
                     }
 
                     categoryView.setBackgroundColor(AddEditActivity.this.getResources().getColor(android.R.color.holo_green_light));
-                    Toast.makeText(AddEditActivity.this, "This Category does not exist!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditActivity.this, getString(R.string.error_CategoryNotExists), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -563,7 +565,7 @@ public class AddEditActivity extends AppCompatActivity {
         //TODO Wert darf nur 2 Nachkommerstellen haben
         if(sum < 0) {
             sumView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
-            Toast.makeText(AddEditActivity.this, "The Value must not be negative!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddEditActivity.this, R.string.error_negValue, Toast.LENGTH_SHORT).show();
             return false;
         }else {
             sumView.setBackgroundColor(0);
@@ -577,7 +579,7 @@ public class AddEditActivity extends AppCompatActivity {
 
                 if (dateFrom.compareTo(dateTo) > 0){ //Bis-Datum muss größer als Von-Datum sein
                     dateToView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
-                    Toast.makeText(AddEditActivity.this, "Das 'Bis'-Datum muss größer als das 'Von'-Datum sein", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditActivity.this, R.string.error_TOgreaterFROM, Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -585,7 +587,7 @@ public class AddEditActivity extends AppCompatActivity {
 
                 if (dateTo.compareTo(nextDate) < 0) { //Interval muss sich zwischen von und bis Datum ausgehen
                     dateToView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
-                    Toast.makeText(AddEditActivity.this, "'Bis'-Datum ist unzulänglich für das ausgewählte Interval", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEditActivity.this, R.string.error_TOdateIntervall, Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 dateToView.setBackgroundColor(0);
@@ -605,7 +607,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         }
         categoryView.setBackgroundColor(this.getResources().getColor(android.R.color.holo_green_light));
-        Toast.makeText(AddEditActivity.this, "This Category does not exist!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddEditActivity.this, R.string.error_CategoryNotExists, Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -614,19 +616,19 @@ public class AddEditActivity extends AppCompatActivity {
         gregorianCalendar.setTime(date);
 
         switch (intervallView.getSelectedItem().toString()) {
-            case "jährlich":
+            case "yearly":
                 gregorianCalendar.add(Calendar.YEAR, 1);
                 break;
-            case "monatlich":
+            case "monthly":
                 gregorianCalendar.add(Calendar.MONTH, 1);
                 break;
-            case "quartalsweise":
+            case "quarterly":
                 gregorianCalendar.add(Calendar.MONTH, 3);
                 break;
-            case "täglich":
+            case "daily":
                 gregorianCalendar.add(Calendar.DAY_OF_YEAR, 1);
                 break;
-            case "wöchentlich":
+            case "weekly":
                 gregorianCalendar.add(Calendar.WEEK_OF_YEAR, 1);
                 break;
         }
@@ -636,20 +638,20 @@ public class AddEditActivity extends AppCompatActivity {
 
     //Menü für Foto:   Foto mit Kamera schießen oder aus Gallerie auswählen
     private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Library"};
+        final CharSequence[] items = {getString(R.string.save_picture_dialog_photo), getString(R.string.save_picture_dialog_Libarary)};
         AlertDialog.Builder builder = new AlertDialog.Builder(AddEditActivity.this);
-        builder.setTitle("Foto hinzufügen");
+        builder.setTitle(R.string.save_picture_dialog_title);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 boolean result = Utility.checkPermission(AddEditActivity.this);
 
-                if (items[item].equals("Take Photo")) {
-                    userChoosenTask = "Take Photo";
+                if (items[item].equals(getString(R.string.save_picture_dialog_photo))) {
+                    userChoosenTask = getString(R.string.save_picture_dialog_photo);
                     if (result)
                         cameraIntent();
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask = "Choose from Library";
+                } else if (items[item].equals(getString(R.string.save_picture_dialog_Libarary))) {
+                    userChoosenTask = getString(R.string.save_picture_dialog_Libarary);
                     if (result)
                         galleryIntent();
                 }
@@ -663,7 +665,7 @@ public class AddEditActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.save_picture_dialog_SelFile)), SELECT_FILE);
     }
 
     //Foto mit Kamera schießen
@@ -673,7 +675,7 @@ public class AddEditActivity extends AppCompatActivity {
 
     /* Photo album for this application */
     private String getAlbumName() {
-        return "CashManager";
+        return getString(R.string.app_name);
     }
 
     private File getAlbumDir() {
@@ -805,25 +807,19 @@ public class AddEditActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (userChoosenTask){
-            case "Take Photo":
-                switch (requestCode) {
-                    case ACTION_TAKE_PHOTO_B: {
-                        if (resultCode == RESULT_OK) {
-                            handleBigCameraPhoto();
-                            fab_del.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    } // ACTION_TAKE_PHOTO_B
-                } // switch
-                break;
-            case "Choose from Library":
-                if (resultCode == RESULT_OK){
-                    Uri targetUri = data.getData();
-                    mCurrentPhotoPath = getRealPathFromURI(targetUri);
-                    setPic();
+        if (userChoosenTask.equals(getString(R.string.save_picture_dialog_photo))){
+            if (requestCode == ACTION_TAKE_PHOTO_B){
+                if (resultCode == RESULT_OK) {
+                    handleBigCameraPhoto();
+                    fab_del.setVisibility(View.VISIBLE);
                 }
-                break;
+            }
+        }else if (userChoosenTask.equals(getString(R.string.save_picture_dialog_Libarary))){
+            if (resultCode == RESULT_OK){
+                Uri targetUri = data.getData();
+                mCurrentPhotoPath = getRealPathFromURI(targetUri);
+                setPic();
+            }
         }
 
     }

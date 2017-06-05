@@ -3,17 +3,13 @@ package com.pr.se.cash_manager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,9 +32,9 @@ public class FilterActivity extends AppCompatActivity {
         ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.activity_filter_ex_list);
         filterHashMap = new HashMap<>();
         parent = new ArrayList<>();
-        parent.add(this.getString(R.string.filter_Ausgabentyp));
-        parent.add(this.getString(R.string.filter_Zeitraum));
-        parent.add(this.getString(R.string.filter_kategorien));
+        parent.add(this.getString(R.string.filter_expenseType));
+        parent.add(this.getString(R.string.filter_period));
+        parent.add(this.getString(R.string.filter_categories));
 
         this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
 
@@ -72,38 +68,38 @@ public class FilterActivity extends AppCompatActivity {
     private void updateFilterList() {
         filters = RW.readFilter(this, "filters");
 
-        filterHashMap.put(this.getString(R.string.filter_Ausgabentyp), filters.get(0).getSubfilter());
-        filterHashMap.put(this.getString(R.string.filter_Zeitraum), filters.get(1).getSubfilter());
-        filterHashMap.put(this.getString(R.string.filter_kategorien), filters.get(2).getSubfilter());
+        filterHashMap.put(this.getString(R.string.filter_expenseType), filters.get(0).getSubfilter());
+        filterHashMap.put(this.getString(R.string.filter_period), filters.get(1).getSubfilter());
+        filterHashMap.put(this.getString(R.string.filter_categories), filters.get(2).getSubfilter());
     }
 
     private void firstFilter() {
         List<Filter> ausgabentypen = new ArrayList<>();
-        ausgabentypen.add(new Filter(this.getString(R.string.filter_Alle), true));
+        ausgabentypen.add(new Filter(this.getString(R.string.filter_all), true));
         ausgabentypen.add(new Filter(this.getString(R.string.recurring), false));
-        ausgabentypen.add(new Filter(this.getString(R.string.not_recurring), false));
-        filterHashMap.put(this.getString(R.string.filter_Ausgabentyp), ausgabentypen);
+        ausgabentypen.add(new Filter(this.getString(R.string.non_recurring), false));
+        filterHashMap.put(this.getString(R.string.filter_expenseType), ausgabentypen);
 
         List<Filter> zeitraum = new ArrayList<>();
-        zeitraum.add(new Filter(this.getString(R.string.filter_Alle), true));
-        zeitraum.add(new Filter(this.getString(R.string.filter_letzteWoche), false));
-        zeitraum.add(new Filter(this.getString(R.string.filter_letzterMonat), false));
-        zeitraum.add(new Filter(this.getString(R.string.filter_letztesJahr), false));
-        filterHashMap.put(this.getString(R.string.filter_Zeitraum), zeitraum);
+        zeitraum.add(new Filter(this.getString(R.string.filter_all), true));
+        zeitraum.add(new Filter(this.getString(R.string.filter_lastWeek), false));
+        zeitraum.add(new Filter(this.getString(R.string.filter_lastMonth), false));
+        zeitraum.add(new Filter(this.getString(R.string.filter_lastYear), false));
+        filterHashMap.put(this.getString(R.string.filter_period), zeitraum);
 
         List<Category> kategorien = RW.readCategories(this, "categories");
         List<Filter> kat = new ArrayList<>();
-        kat.add(new Filter(this.getString(R.string.filter_Alle), true));
+        kat.add(new Filter(this.getString(R.string.filter_all), true));
         for (Category c : kategorien) {
             kat.add(new Filter(c.toString(), false));
             for (Category sub : c.getSubCategories()) {
                 kat.add(new Filter(sub.toString(), false));
             }
         }
-        filterHashMap.put(this.getString(R.string.filter_kategorien), kat);
-        filters.add(new Filter(getString(R.string.filter_Ausgabentyp), false, ausgabentypen));
-        filters.add(new Filter(getString(R.string.filter_Zeitraum), false, zeitraum));
-        filters.add(new Filter(getString(R.string.filter_kategorien), false, kat));
+        filterHashMap.put(this.getString(R.string.filter_categories), kat);
+        filters.add(new Filter(getString(R.string.filter_expenseType), false, ausgabentypen));
+        filters.add(new Filter(getString(R.string.filter_period), false, zeitraum));
+        filters.add(new Filter(getString(R.string.filter_categories), false, kat));
         RW.writeFilter(this, filters, "filters");
         this.prefs.edit().putBoolean("firstFilter", false).apply();
     }

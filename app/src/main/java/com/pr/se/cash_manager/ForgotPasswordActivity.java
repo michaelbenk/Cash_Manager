@@ -22,10 +22,6 @@ import java.io.InputStreamReader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by ivanlazic on 11.04.17.
- */
-
 public class ForgotPasswordActivity extends AppCompatActivity {
     private static final String TAG = "ForgotPasswordActivity";
 

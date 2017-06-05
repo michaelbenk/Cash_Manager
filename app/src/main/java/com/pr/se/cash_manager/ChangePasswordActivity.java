@@ -19,9 +19,6 @@ import java.io.FileOutputStream;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by ivanlazic on 13.04.17.
- */
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -143,7 +140,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public void createFile(String fileName, String content) {
-        FileOutputStream fos = null;
+        FileOutputStream fos;
 
         try {
             fos = openFileOutput(fileName, Context.MODE_PRIVATE);

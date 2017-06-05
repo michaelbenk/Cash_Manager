@@ -13,15 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Uni on 31.03.2017.
- */
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
 
-    public ExpandableListAdapter(Context context) {
+     ExpandableListAdapter(Context context) {
         this.context = context;
     }
 

@@ -11,14 +11,10 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-/**
- * Created by theresaprinz on 04.05.17.
- */
-
-public class Utility {
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+class Utility {
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static boolean checkPermission(final Context context)
+    static boolean checkPermission(final Context context)
     {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
@@ -27,8 +23,8 @@ public class Utility {
                 if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                     alertBuilder.setCancelable(true);
-                    alertBuilder.setTitle("Permission necessary");
-                    alertBuilder.setMessage("External storage permission is necessary");
+                    alertBuilder.setTitle(R.string.error_Dialog_title_Permission);
+                    alertBuilder.setMessage(R.string.error_Dialog_storagePermission);
                     alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                         public void onClick(DialogInterface dialog, int which) {

@@ -19,12 +19,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by ivanlazic on 11.04.17.
- */
-
 public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+    private final String TAG = getString(R.string.activity_title_Signup);
 
     @InjectView(R.id.input_seqQuestion) EditText seqQuestionText;
     @InjectView(R.id.input_username) EditText usernameText;
@@ -101,7 +97,7 @@ public class SignupActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_NoActionBar);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getString(R.string.signup_creatingAccount));
         progressDialog.show();
 
         String seqQuestion = seqQuestionText.getText().toString();
@@ -127,7 +123,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.error_signup_loginFaild, Toast.LENGTH_LONG).show();
         signupButton.setEnabled(true);
     }
 
@@ -139,7 +135,7 @@ public class SignupActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (username.isEmpty() || username.length() < 3) {
-            usernameText.setError("at least 3 alphanumeric characters!");
+            usernameText.setError(getString(R.string.error_signup_3_num_characters));
             valid = false;
         } else {
             usernameText.setError(null);
@@ -147,7 +143,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (password.isEmpty() || password.length() < 6) {
-            passwordText.setError("at least 7 alphanumeric characters!");
+            passwordText.setError(getString(R.string.error_signup_7_num_characters));
             valid = false;
         } else {
             createFile("passwordFile", password);
@@ -155,7 +151,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (seqQuestion.isEmpty() || seqQuestion.length() < 3) {
-            seqQuestionText.setError("at least 3 alphanumeric characters!");
+            seqQuestionText.setError(getString(R.string.error_signup_3_num_characters));
             valid = false;
         } else {
             createFile("seqQuestionFile", seqQuestion);

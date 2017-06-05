@@ -17,20 +17,64 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_logout">Logout</string>
 
-    <string name="save">Save</string>
 
-    <string name="not_recurring">nicht wiederkehrende Kosten</string>
-    <string name="recurring">wiederkehrende Kosten</string>
+
+    <string name="non_recurring">Non-recurring</string>
+    <string name="recurring">Recurring</string>
     <string name="default_sum">10.00</string>
 
-    <string name="filter_Alle">Alle</string>
-    <string name="filter_Ausgabentyp">Ausgabentyp</string>
-    <string name="filter_letzteWoche">letzte Woche</string>
-    <string name="filter_letzterMonat">letzter Monat</string>
-    <string name="filter_letztesJahr">letztes Jahr</string>
-    <string name="filter_Zeitraum">Zeitraum</string>
-    <string name="filter_kategorien">Kategorien</string>
-    <string name="title_activity_filter">FilterActivity</string>
+    <string name="activity_title_filter">FilterActivity</string>
+    <string name="activity_title_Signup">SignupActivity</string>
+    <string name="activity_title_Login">LoginActivity</string>
+
+    <string name="filter_all">All</string>
+    <string name="filter_expenseType">Expense type</string>
+    <string name="filter_lastWeek">Last week</string>
+    <string name="filter_lastMonth">Last month</string>
+    <string name="filter_lastYear">Last year</string>
+    <string name="filter_period">Period</string>
+    <string name="filter_categories">Categories</string>
 
 
+    <string name="save_expense_Dialog_allExpenses">Change of all expenses (it might take some time)</string>
+    <string name="save_expense_Dialog_futureExpeses">Change of all future expenses</string>
+    <string name="save_expense_Dialog_heading">Change of recurring expenses</string>
+
+    <string name="save_picture_dialog_photo">Take Photo</string>
+    <string name="save_picture_dialog_Libarary">Choose from Library</string>
+    <string name="save_picture_dialog_title">Add picture</string>
+    <string name="save_picture_dialog_SelFile">Select File</string>
+
+    <string name="error_TOgreaterFROM">The TO date have to be later than the FROM date.</string>
+    <string name="error_negValue">The Value must not be negative!</string>
+    <string name="error_TOdateIntervall">TO date is not correct for the chosen intervall.</string>
+    <string name="error_CategoryNotExists">This Category does not exist!</string>
+
+    <string name="error_Dialog_title_Permission">Permission necessary</string>
+    <string name="error_Dialog_storagePermission">External storage permission is necessary</string>
+
+    <string name="signup_creatingAccount">Creating Account...</string>
+    <string name="error_signup_loginFaild">Login failed</string>
+    <string name="error_signup_3_num_characters">at least 3 alphanumeric characters!</string>
+    <string name="error_signup_7_num_characters">at least 7 alphanumeric characters!</string>
+
+
+    <string name="view_save">Save</string>
+    <string name="view_category">Category</string>
+    <string name="view_comment">Comment</string>
+    <string name="view_change_password">Change Password</string>
+    <string name="view_cancel">Cancel</string>
+    <string name="view_security_question">Security Question:</string>
+    <string name="view_next">Next</string>
+    <string name="view_login">Login</string>
+    <string name="view_no_account">No account yet? Sign up!</string>
+    <string name="view_forgot_password">Forgot Password?</string>
+    <string name="view_already_member">Already a member? Login!</string>
+    <string name="view_childhood_hero">Who was your childhood hero?</string>
+    <string name="currency_euro">€</string>
+    <string name="view_android_studio">Android Studio</string>
+    <string name="view_android_studio_mail">android.studio@android.com</string>
+    <string name="view_password">Password</string>
+    <string name="view_confirm_password">Confirm Password</string>
+    <string name="view_username">Username</string>
 </resources>

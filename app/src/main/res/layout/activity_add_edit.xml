@@ -28,7 +28,7 @@
                 android:layout_gravity="end"
                 android:gravity="center"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:text="Save"/>
+                android:text="@string/view_save"/>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
@@ -150,7 +150,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_toRightOf="@+id/activity_add_image_category"
                             android:inputType="textNoSuggestions"
-                            android:text="Category"
+                            android:text="@string/view_category"
                             android:textColor="#757575"
                             android:textSize="@dimen/details_heading"/>
 
@@ -164,7 +164,7 @@
                             android:inputType="textMultiLine"
                             android:maxLength="500"
                             android:textColor="#757575"
-                            android:text="Comment"
+                            android:text="@string/view_comment"
                             android:textSize="@dimen/details_text" />
 
                     </RelativeLayout>
@@ -199,7 +199,7 @@
                             android:layout_toRightOf="@+id/activity_add_switch_recurring"
                             android:gravity="center"
                             android:textSize="@dimen/details_heading"
-                            android:text="nicht wiederkehrende Kosten"/>
+                            android:text="@string/non_recurring"/>
 
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>

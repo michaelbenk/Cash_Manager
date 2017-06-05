@@ -23,13 +23,10 @@ import java.io.InputStreamReader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by ivanlazic on 11.04.17.
- */
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "LoginActivity";
+    private final String TAG = getString(R.string.activity_title_Login);
     private static final int REQUEST_SIGNUP = 0;
 
     @InjectView(R.id.input_username) EditText usernameText;

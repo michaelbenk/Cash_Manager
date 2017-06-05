@@ -221,11 +221,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_add) {
-            return true;
-        }
+        return id == R.id.action_add || id == R.id.action_delete || super.onOptionsItemSelected(item);
 
-        return id == R.id.action_delete || super.onOptionsItemSelected(item);
     }
 
     /*
@@ -273,46 +270,44 @@ public class MainActivity extends AppCompatActivity
 
                 }
             }
-            String zeitraum = "";
+            String period = "";
             for (Filter subfilter : filter.get(1).getSubfilter()) {
                 if (subfilter.isCheck()) {
-                    zeitraum = subfilter.getFilter();
+                    period = subfilter.getFilter();
 
                 }
             }
-            List<String> kategorienfilter = new ArrayList<>();
+            List<String> categorieFilter = new ArrayList<>();
             for (Filter subfilter : filter.get(2).getSubfilter()) {
                 if (subfilter.isCheck()) {
-                    kategorienfilter.add(subfilter.getFilter());
+                    categorieFilter.add(subfilter.getFilter());
                 }
             }
-            if (!recurringOrNot.equals("Alle")) {
+            if (!recurringOrNot.equals(getString(R.string.filter_all))) {
                 List<Expense> hilf = new ArrayList<>();
                 for (Expense ex : list) {
-                    if (recurringOrNot.equals("wiederkehrende Kosten") && (ex instanceof RecurringExpense)) {
+                    if (recurringOrNot.equals(getString(R.string.recurring)) && (ex instanceof RecurringExpense)) {
                         hilf.add(ex);
-                    } else if (recurringOrNot.equals("nicht wiederkehrende Kosten") && !(ex instanceof RecurringExpense)) {
+                    } else if (recurringOrNot.equals(getString(R.string.non_recurring)) && !(ex instanceof RecurringExpense)) {
                         hilf.add(ex);
                     }
                 }
                 list = hilf;
             }
 
-            if (!zeitraum.equals("Alle")) {
+            if (!period.equals(getString(R.string.filter_all))) {
                 List<Expense> hilf = new ArrayList<>();
                 Date today = new Date();
                 gregorianCalendar.setTime(today);
-                switch (zeitraum) {
-                    case "letzte Woche":
-                        gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
-                        gregorianCalendar.add(Calendar.MONTH, 1);
-                    case "letzter Monat":
-                        gregorianCalendar.add(Calendar.MONTH, -1);
-                        break;
-                    case "letztes Jahr":
-                        gregorianCalendar.add(Calendar.YEAR, -1);
-                        break;
-                }
+
+                if (period.equals(getString(R.string.filter_lastWeek))) {
+                    gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
+                    gregorianCalendar.add(Calendar.MONTH, 1);
+                } else if (period.equals(getString(R.string.filter_lastMonth)))
+                    gregorianCalendar.add(Calendar.MONTH, -1);
+                else if (period.equals(getString(R.string.filter_lastYear)))
+                    gregorianCalendar.add(Calendar.YEAR, -1);
+
                 Date time = gregorianCalendar.getTime();
 
                 for (Expense ex : list) {
@@ -327,10 +322,10 @@ public class MainActivity extends AppCompatActivity
                 }
                 list = hilf;
             }
-            if (!kategorienfilter.get(0).equals("Alle")) {
+            if (!categorieFilter.get(0).equals(getString(R.string.filter_all))) {
                 List<Expense> hilf = new ArrayList<>();
                 for (Expense ex : list) {
-                    for (String cat:kategorienfilter){
+                    for (String cat:categorieFilter){
                         if (ex.getCategory().equals(cat)){
                             hilf.add(ex);
                         }
@@ -348,13 +343,6 @@ public class MainActivity extends AppCompatActivity
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                byte[] byteArray = null;
-
-                if (list.get(position).getImages().size() != 0){
-                    byteArray = list.get(position).getImages().get(0);
-                }
-
                 Intent intent = new Intent(MainActivity.this, ShowDetails.class);
                 intent.putExtra("update", true);
                 intent.putExtra("id", list.get(position).getId());
@@ -443,19 +431,19 @@ public class MainActivity extends AppCompatActivity
         gregorianCalendar.setTime(date);
 
         switch (intervall) {
-            case "jährlich":
+            case "yearly":
                 gregorianCalendar.add(Calendar.YEAR, 1);
                 break;
-            case "monatlich":
+            case "monthly":
                 gregorianCalendar.add(Calendar.MONTH, 1);
                 break;
-            case "quartalsweise":
+            case "quarterly":
                 gregorianCalendar.add(Calendar.MONTH, 3);
                 break;
-            case "täglich":
+            case "daily":
                 gregorianCalendar.add(Calendar.DAY_OF_YEAR, 1);
                 break;
-            case "wöchentlich":
+            case "weekly":
                 gregorianCalendar.add(Calendar.WEEK_OF_YEAR, 1);
                 break;
         }
@@ -505,7 +493,7 @@ public class MainActivity extends AppCompatActivity
             categories.add(cat1);
             categories.add(cat2);
 
-            String[] description = new String[]{"Haushalt", "Freizeit", "Wohnung", "Essen"};
+            String[] description = new String[]{"Household", "Leisure", "Flat", "Food"};
             ArrayList<Expense> expenses = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, 2017);
@@ -530,7 +518,7 @@ public class MainActivity extends AppCompatActivity
             Expense e4 = new Expense(6.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), description[3]);
             expenses.add(e4);
             gregorianCalendar.add(Calendar.YEAR, -1);
-            Expense e5 = new RecurringExpense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Miete", sdf.format(calendar2.getTime()), Interval.monatlich.name());
+            Expense e5 = new RecurringExpense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Rent", sdf.format(calendar2.getTime()), Interval.monthly.name());
             gregorianCalendar.add(Calendar.MONTH, 1);
             ((RecurringExpense) e5).setDate_next(sdf.format(gregorianCalendar.getTime()));
             expenses.add(e5);

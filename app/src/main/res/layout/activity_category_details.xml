@@ -28,7 +28,7 @@
                 android:layout_gravity="end"
                 android:gravity="center"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:text="@string/save"/>
+                android:text="@string/view_save"/>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

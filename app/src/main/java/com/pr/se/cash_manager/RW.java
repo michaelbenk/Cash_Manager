@@ -13,13 +13,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by Uni on 22.03.2017.
- */
+class RW {
 
-public class RW {
-
-    public static List<Expense> readExpenses(Context context, String file) {
+    static List<Expense> readExpenses(Context context, String file) {
         FileInputStream fis;
         List<Expense> list = new ArrayList<>();
         try {
@@ -34,7 +30,7 @@ public class RW {
         return list;
     }
 
-    public static void writeExpenses(Context context, List<Expense> list, String file) {
+    static void writeExpenses(Context context, List<Expense> list, String file) {
         Collections.sort(list, new Comparator<Expense>() {
             @Override
             public int compare(Expense e1, Expense e2) {
@@ -47,6 +43,7 @@ public class RW {
                     calendar1.setTime(sdf.parse(e1.getDate()));
                     calendar2.setTime(sdf.parse(e2.getDate()));
                 } catch (Exception e) {
+                    //TODO Empty catch block
                 }
 
                 return calendar2.compareTo(calendar1);
@@ -64,7 +61,7 @@ public class RW {
         }
     }
 
-    public static List<Category> readCategories(Context context, String file) {
+     static List<Category> readCategories(Context context, String file) {
         FileInputStream fis;
         List<Category> list = new ArrayList<>();
         try {
@@ -79,7 +76,7 @@ public class RW {
         return list;
     }
 
-    public static void writeCategories(Context context, List<Category> list, String file) {
+     static void writeCategories(Context context, List<Category> list, String file) {
         Collections.sort(list, new Comparator<Category>() {
             @Override
             public int compare(Category c1, Category c2) {
@@ -98,7 +95,7 @@ public class RW {
         }
     }
 
-    public static List<Filter> readFilter(Context context, String file) {
+     static List<Filter> readFilter(Context context, String file) {
         FileInputStream fis;
         List<Filter> list = new ArrayList<>();
         try {
@@ -113,7 +110,7 @@ public class RW {
         return list;
     }
 
-    public static void writeFilter(Context context, List<Filter> list, String file) {
+     static void writeFilter(Context context, List<Filter> list, String file) {
         FileOutputStream fos;
         try {
             fos = context.openFileOutput(file, Context.MODE_PRIVATE);

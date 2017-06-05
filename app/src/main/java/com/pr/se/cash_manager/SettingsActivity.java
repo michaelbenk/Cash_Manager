@@ -1,9 +1,5 @@
 package com.pr.se.cash_manager;
 
-/**
- * Created by ivanlazic on 24.04.17.
- */
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
