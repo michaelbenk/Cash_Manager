@@ -150,7 +150,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_toRightOf="@+id/activity_add_image_category"
                             android:inputType="textNoSuggestions"
-                            android:text="@string/view_category"
+                            android:hint="@string/view_category"
                             android:textColor="#757575"
                             android:textSize="@dimen/details_heading"/>
 
@@ -164,7 +164,7 @@
                             android:inputType="textMultiLine"
                             android:maxLength="500"
                             android:textColor="#757575"
-                            android:text="@string/view_comment"
+                            android:hint="@string/view_comment"
                             android:textSize="@dimen/details_text" />
 
                     </RelativeLayout>

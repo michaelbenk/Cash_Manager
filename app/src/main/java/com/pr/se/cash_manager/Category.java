@@ -10,10 +10,12 @@ import java.util.UUID;
 public class Category implements Serializable {
     final String id = UUID.randomUUID().toString();
     private String name;
+    private double limit;
     private List<Category> subcategories = new ArrayList<>();
 
-    public Category(String name, boolean subcategories) {
+    public Category(String name, double limit, boolean subcategories) {
         this.name = name;
+        this.limit = limit;
 
         if (subcategories) {
             this.subcategories = new ArrayList<>();
@@ -59,6 +61,14 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(double limit) {
+        this.limit = limit;
     }
 
     public String getId() {

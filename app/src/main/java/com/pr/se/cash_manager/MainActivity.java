@@ -483,10 +483,10 @@ public class MainActivity extends AppCompatActivity
 
         try {
             ArrayList<Category> categories = new ArrayList<>();
-            Category cat1 = new Category("Food", true);
-            Category sub1 = new Category("Restaurant", false);
-            Category sub2 = new Category("Sweets", false);
-            Category cat2 = new Category("Others", true);
+            Category cat1 = new Category("Food", 0,  true);
+            Category sub1 = new Category("Restaurant", 0, false);
+            Category sub2 = new Category("Sweets", 0, false);
+            Category cat2 = new Category("Others", 0, true);
             cat1.addSubCategory(sub1);
             cat1.addSubCategory(sub2);
             categories.add(cat1);

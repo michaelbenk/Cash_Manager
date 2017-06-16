@@ -24,6 +24,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
     private String selectedCategory;
 
     private EditText nameView;
+    private EditText limitView;
     private Spinner categoriesView;
     private TextView saveView;
 
@@ -39,6 +40,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
 
         this.categories = RW.readCategories(this, "categories");
         this.nameView = (EditText) findViewById(R.id.activity_categories_det_input_bez);
+        this.limitView = (EditText) findViewById(R.id.activity_categories_det_input_limit);
         this.categoriesView = (Spinner) findViewById(R.id.activity_categories_det_input_cat);
         this.saveView = (TextView) findViewById(R.id.activity_categories_det_save);
 
@@ -48,6 +50,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                 if (c.getId().equals(cat)) {
                     this.category = c;
                     this.nameView.setText(c.getName());
+                    this.limitView.setText(Double.toString(c.getLimit()));
                 }
             }
         }
@@ -58,6 +61,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                 if (c.getId().equals(subCat)) {
                     this.subCategory = c;
                     this.nameView.setText(c.getName());
+                    this.limitView.setText(Double.toString(c.getLimit()));
                 }
             }
         }
@@ -84,13 +88,13 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                     Category remove = null;
                     if (category == null && subCategory == null) {// neue Kategorie
                         if (selectedCategory == null || selectedCategory.equals(" ")) {
-                            categories.add(new Category(nameView.getText().toString(), true));
+                            categories.add(new Category(nameView.getText().toString(), Double.parseDouble(limitView.getText().toString()), true));
                         } else {
                             Category c;
                             for (int i = 0; i < categories.size(); i++) { //Fügt die neue Kategorie unter der selektierten Kategorie ein
                                 c = categories.get(i);
                                 if (c.getName().equals(selectedCategory)) {
-                                    categories.get(i).addSubCategory(new Category(nameView.getText().toString(), false));
+                                    categories.get(i).addSubCategory(new Category(nameView.getText().toString(), Double.parseDouble(limitView.getText().toString()), true));
                                 }
                             }
                         }
@@ -108,6 +112,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                                     }
                                     if (c.getName().equals(selectedCategory)) {
                                         category.setName(nameView.getText().toString());
+                                        category.setLimit(Double.parseDouble(limitView.getText().toString()));
                                         category.setCategories(null);
                                         categories.get(i).addSubCategory(category);
                                         // was passiert mit expenses
@@ -130,6 +135,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                                     }
                                     if (c.getName().equals(selectedCategory)) {
                                         subCategory.setName(nameView.getText().toString());
+                                        subCategory.setLimit(Double.parseDouble(limitView.getText().toString()));
                                         subCategory.setCategories(null);
                                         categories.get(i).addSubCategory(subCategory);
                                     }
@@ -150,6 +156,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
 
                     if (subCategory != null && selectedCategory.equals(" ")) {
                         subCategory.setName(nameView.getText().toString());
+                        subCategory.setLimit(Double.parseDouble(limitView.getText().toString()));
                         subCategory.setCategories(new ArrayList<Category>());
                         categories.add(subCategory);
                     }
