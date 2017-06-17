@@ -60,7 +60,8 @@
     <string name="view_category">Category</string>
     <string name="view_comment">Comment</string>
     <string name="view_limit">Limit</string>
-    <string name="view_betrag">Betrag</string>
+    <string name="view_value">Value</string>
+    <string name="view_exceeded">Limit exceeded by&#160;</string>
 
     <string name="view_android_studio">Android Studio</string>
     <string name="view_android_studio_mail">android.studio@android.com</string>

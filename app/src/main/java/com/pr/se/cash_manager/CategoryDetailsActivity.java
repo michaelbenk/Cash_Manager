@@ -106,6 +106,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                             if (subCategory == null) {
                                 if (selectedCategory.equals(" ")) {
                                     categories.get(i).setName(nameView.getText().toString());
+                                    categories.get(i).setLimit(Double.parseDouble(limitView.getText().toString()));
                                 } else {
                                     if (c.getId().equals(category.getId())) {
                                         remove = categories.get(i);

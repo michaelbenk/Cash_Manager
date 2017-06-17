@@ -11,6 +11,7 @@ public class Category implements Serializable {
     final String id = UUID.randomUUID().toString();
     private String name;
     private double limit;
+    private double sum;
     private List<Category> subcategories = new ArrayList<>();
 
     public Category(String name, double limit, boolean subcategories) {
@@ -54,6 +55,12 @@ public class Category implements Serializable {
             this.sortSubCategories();
         }
     }
+
+    public void addSum(double sum) { this.sum += sum; }
+
+    public void zeroSum() { this.sum = 0; }
+
+    public double getSum() { return this.sum; }
 
     public String getName() {
         return name;

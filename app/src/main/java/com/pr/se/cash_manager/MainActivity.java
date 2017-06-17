@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,6 +43,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +58,7 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     private SharedPreferences prefs = null;
     private boolean isListSelected = false;
     private List<Expense> list;
@@ -66,6 +69,10 @@ public class MainActivity extends AppCompatActivity
     private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private GregorianCalendar gregorianCalendar = new GregorianCalendar();
     private Bitmap image;
+    private GregorianCalendar gc;
+    private List<Expense> limitList = new LinkedList<>();
+    private List<Category> cat = new LinkedList<>();
+    private List<Category> catout = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +267,43 @@ public class MainActivity extends AppCompatActivity
         this.list = RW.readExpenses(this, "expenses");
         updateRecurringExpenses(list);
         this.list = RW.readExpenses(this, "expenses");
+
+        // Check limit ----------------------------------------------------------------------------------------------------------------------------
+        List<Category> cate = new LinkedList<>();
+        if(cat.size() == 0) {
+            this.cat = RW.readCategories(this, "categories");
+            for (Category ca : cat) {
+                cate.add(ca);
+                for (Category c : ca.getSubCategories()) {
+                    cate.add(c);
+                }
+            }
+        }
+
+        gc = new GregorianCalendar();
+
+        for(Expense ex : list){
+            try{
+                if(gc.getTime().getMonth() == sdf.parse(ex.getDate()).getMonth() && gc.getTime().getYear() == sdf.parse(ex.getDate()).getYear()){
+                    limitList.add(ex);
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        for(int i = 0; i < cate.size(); i++){
+            cate.get(i).zeroSum();
+            for(int j = 0; j < limitList.size(); j++){
+                if(!(Double.compare(cate.get(i).getLimit(), 0) == 0)
+                        && limitList.get(j).getCategory().equals(cate.get(i).getName()))
+                    cate.get(i).addSum(limitList.get(j).getSum());
+            }
+            if(Double.compare(cate.get(i).getLimit(), cate.get(i).getSum()) < 0)
+                Toast.makeText(MainActivity.this, getString(R.string.view_exceeded)+cate.get(i).getName(), Toast.LENGTH_SHORT).show();
+        }
+
         this.filter = RW.readFilter(this, "filters");
         if (filter.size() != 0) { // Wenn Filter gesetzt wurde
             String recurringOrNot = "";
@@ -360,6 +404,14 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
+    }
+
+    private Category findCategory(String name){
+        for(Category c : cat){
+            if(c.getName() == name)
+                return c;
+        }
+        return null;
     }
 
     private void updateRecurringExpenses(List<Expense> list) {
@@ -486,7 +538,7 @@ public class MainActivity extends AppCompatActivity
             Category cat1 = new Category("Food", 0,  true);
             Category sub1 = new Category("Restaurant", 0, false);
             Category sub2 = new Category("Sweets", 0, false);
-            Category cat2 = new Category("Others", 0, true);
+            Category cat2 = new Category("Others", 10, true);
             cat1.addSubCategory(sub1);
             cat1.addSubCategory(sub2);
             categories.add(cat1);

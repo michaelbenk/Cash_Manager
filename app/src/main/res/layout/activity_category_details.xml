@@ -141,7 +141,6 @@
                     android:layout_toRightOf="@+id/activity_categories_det_image_limit"
                     android:maxLength="75"
                     android:textColor="#757575"
-
                     android:hint="@string/view_limit"
                     android:textSize="@dimen/details_heading"/>
             </RelativeLayout>
