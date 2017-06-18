@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,7 +89,10 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                     Category remove = null;
                     if (category == null && subCategory == null) {// neue Kategorie
                         if (selectedCategory == null || selectedCategory.equals(" ")) {
-                            categories.add(new Category(nameView.getText().toString(), Double.parseDouble(limitView.getText().toString()), true));
+                            if(limitView.getText().toString().equals(""))
+                                categories.add(new Category(nameView.getText().toString(), 0, true));
+                            else
+                                categories.add(new Category(nameView.getText().toString(), Double.parseDouble(limitView.getText().toString()), true));
                         } else {
                             Category c;
                             for (int i = 0; i < categories.size(); i++) { //Fügt die neue Kategorie unter der selektierten Kategorie ein
@@ -103,7 +107,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                         Category s;
                         for (int i = 0; i < categories.size(); i++) {
                             c = categories.get(i);
-                            if (subCategory == null) {
+                            if (subCategory == null && c.getId().equals(category.getId())) {
                                 if (selectedCategory.equals(" ")) {
                                     categories.get(i).setName(nameView.getText().toString());
                                     categories.get(i).setLimit(Double.parseDouble(limitView.getText().toString()));
@@ -119,7 +123,7 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                                         // was passiert mit expenses
                                     }
                                 }
-                            } else {
+                            } else if (subCategory != null){
                                 if (selectedCategory.equals(" ")) {
                                     for (int j = 0; j < categories.get(i).getSubCategories().size(); j++) {
                                         s = categories.get(i).getSubCategories().get(j);

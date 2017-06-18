@@ -16,7 +16,11 @@ public class Category implements Serializable {
 
     public Category(String name, double limit, boolean subcategories) {
         this.name = name;
-        this.limit = limit;
+        if(limit < 0)
+            this.limit = 0;
+        else
+            this.limit = limit;
+        this.sum = 0;
 
         if (subcategories) {
             this.subcategories = new ArrayList<>();

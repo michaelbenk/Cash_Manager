@@ -270,39 +270,47 @@ public class MainActivity extends AppCompatActivity
 
         // Check limit ----------------------------------------------------------------------------------------------------------------------------
         List<Category> cate = new LinkedList<>();
-        if(cat.size() == 0) {
-            this.cat = RW.readCategories(this, "categories");
-            for (Category ca : cat) {
-                cate.add(ca);
-                for (Category c : ca.getSubCategories()) {
-                    cate.add(c);
-                }
-            }
-        }
-
         gc = new GregorianCalendar();
 
-        for(Expense ex : list){
-            try{
-                if(gc.getTime().getMonth() == sdf.parse(ex.getDate()).getMonth() && gc.getTime().getYear() == sdf.parse(ex.getDate()).getYear()){
-                    limitList.add(ex);
+
+
+        if(cat.size() == 0) {
+            for(Expense ex : list){
+                try{
+                    if(gc.getTime().getMonth() == sdf.parse(ex.getDate()).getMonth() && gc.getTime().getYear() == sdf.parse(ex.getDate()).getYear()){
+                        limitList.add(ex);
+                    }
+                }
+                catch(Exception e){
+                    e.printStackTrace();
                 }
             }
-            catch(Exception e){
-                e.printStackTrace();
+            this.cat = RW.readCategories(this, "categories");
+            for (Category ca : cat) {
+                if(ca.getLimit() != 0){
+                    ca.zeroSum();
+                    for(Expense e : limitList){
+                        if(e.getCategory().equals(ca.getName()))
+                            ca.addSum(e.getSum());
+                    }
+                    if(ca.getLimit() < ca.getSum())
+                        Toast.makeText(MainActivity.this, getString(R.string.view_exceeded)+ca.getName(), Toast.LENGTH_SHORT).show();
+                }
+                for (Category c : ca.getSubCategories()) {
+                    if(c.getLimit() != 0){
+                        c.zeroSum();
+                        for(Expense e : limitList){
+                            if(e.getCategory().equals(c.getName()))
+                                c.addSum(e.getSum());
+                        }
+                        if(c.getLimit() < c.getSum())
+                            Toast.makeText(MainActivity.this, getString(R.string.view_exceeded)+c.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }
 
-        for(int i = 0; i < cate.size(); i++){
-            cate.get(i).zeroSum();
-            for(int j = 0; j < limitList.size(); j++){
-                if(!(Double.compare(cate.get(i).getLimit(), 0) == 0)
-                        && limitList.get(j).getCategory().equals(cate.get(i).getName()))
-                    cate.get(i).addSum(limitList.get(j).getSum());
-            }
-            if(Double.compare(cate.get(i).getLimit(), cate.get(i).getSum()) < 0)
-                Toast.makeText(MainActivity.this, getString(R.string.view_exceeded)+cate.get(i).getName(), Toast.LENGTH_SHORT).show();
-        }
+        RW.writeCategories(MainActivity.this, cat, "categories");
 
         this.filter = RW.readFilter(this, "filters");
         if (filter.size() != 0) { // Wenn Filter gesetzt wurde
@@ -404,14 +412,6 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-    }
-
-    private Category findCategory(String name){
-        for(Category c : cat){
-            if(c.getName() == name)
-                return c;
-        }
-        return null;
     }
 
     private void updateRecurringExpenses(List<Expense> list) {
@@ -538,7 +538,7 @@ public class MainActivity extends AppCompatActivity
             Category cat1 = new Category("Food", 0,  true);
             Category sub1 = new Category("Restaurant", 0, false);
             Category sub2 = new Category("Sweets", 0, false);
-            Category cat2 = new Category("Others", 10, true);
+            Category cat2 = new Category("Others", 1500, true);
             cat1.addSubCategory(sub1);
             cat1.addSubCategory(sub2);
             categories.add(cat1);

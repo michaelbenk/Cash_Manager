@@ -2,11 +2,15 @@ package com.pr.se.cash_manager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,6 +48,7 @@ import java.util.List;
 
         final TextView txtListChild = (TextView) convertView.findViewById(R.id.content_categories_list_element_text);
         final ImageView delListChild = (ImageView) convertView.findViewById(R.id.content_categories_delete);
+        final ProgressBar elementprogressbar = (ProgressBar) convertView.findViewById((R.id.content_categories_list_element_progressbar));
         delListChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +74,12 @@ import java.util.List;
         });
 
         txtListChild.setText(childText);
+
+        if(((Category) getChild(groupPosition, childPosition)).getLimit() > 0){
+            elementprogressbar.setVisibility(View.VISIBLE);
+
+        }
+        setProgressBar(elementprogressbar, ((Category) getChild(groupPosition, childPosition)));
         return convertView;
     }
 
@@ -108,6 +119,9 @@ import java.util.List;
         final List<Category> categories = RW.readCategories(context, "categories");
 
         final TextView lblListHeader = (TextView) convertView.findViewById(R.id.content_categories_list_header_text);
+
+        final ProgressBar headerprogressbar = (ProgressBar) convertView.findViewById(R.id.content_categories_list_header_progressbar);
+
         lblListHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +152,29 @@ import java.util.List;
         });
 
         lblListHeader.setText(headerTitle);
+        setProgressBar(headerprogressbar, ((Category) getGroup(groupPosition)));
         return convertView;
+    }
+
+    public void setProgressBar(ProgressBar progressBar, Category c){
+        try{
+            progressBar.setVisibility(View.INVISIBLE);
+            if(c.getLimit() != 0){
+                progressBar.setMax(100);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+            int progressvalue = (int)(c.getSum()/(c.getLimit()/100));
+            if(progressvalue < 60)
+                progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+            else if(progressvalue < 80)
+                progressBar.getProgressDrawable().setColorFilter(Color.parseColor("#ffa500"), PorterDuff.Mode.SRC_IN);
+            else
+                progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            progressBar.setProgress(progressvalue);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            progressBar.setProgress(0);
+        }
     }
 
     @Override
