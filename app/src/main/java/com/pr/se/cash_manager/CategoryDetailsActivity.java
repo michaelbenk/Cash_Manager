@@ -98,7 +98,10 @@ public class CategoryDetailsActivity extends AppCompatActivity {
                             for (int i = 0; i < categories.size(); i++) { //Fügt die neue Kategorie unter der selektierten Kategorie ein
                                 c = categories.get(i);
                                 if (c.getName().equals(selectedCategory)) {
-                                    categories.get(i).addSubCategory(new Category(nameView.getText().toString(), Double.parseDouble(limitView.getText().toString()), true));
+                                    if(limitView.getText().toString().equals(""))
+                                        categories.get(i).addSubCategory(new Category(nameView.getText().toString(), 0, true));
+                                    else
+                                        categories.get(i).addSubCategory(new Category(nameView.getText().toString(), Double.parseDouble(limitView.getText().toString()), true));
                                 }
                             }
                         }
