@@ -3,192 +3,30 @@
 
     <item
         is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/eedef148df5c72a8701f5cc6ae8be18d5916cf3e/output/jars/classes.jar"
+        jar="C:\Users\micha\.gradle\caches\modules-2\files-2.1\net.sf.opencsv\opencsv\2.3\c23708cdb9e80a144db433e23344a788a1fd6599\opencsv-2.3.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_e658594e58ddd79131bacf2f4ec14542ba67786b.jar" />
+        sha1="c23708cdb9e80a144db433e23344a788a1fd6599">
+        <dex dex="C:\JKU\SS17\PR_SE\Cash_Manager\app\build\intermediates\pre-dexed\debug\opencsv-2.3_cb2ee8b91cccc99485f2d94e6e1c948d3174969e.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/fa418d2702722c04276c7d645d4758ff670f4b14/output/jars/classes.jar"
+        jar="C:\Users\micha\.gradle\caches\modules-2\files-2.1\net.sourceforge.jexcelapi\jxl\2.6.12\7faf62e0697f7a88954622dfe8c8de33ed142ac7\jxl-2.6.12.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_c4594ffddbcd164361f2f4a199239520d5a594fa.jar" />
+        sha1="7faf62e0697f7a88954622dfe8c8de33ed142ac7">
+        <dex dex="C:\JKU\SS17\PR_SE\Cash_Manager\app\build\intermediates\pre-dexed\debug\jxl-2.6.12_43e22e03bf28b69138131aeafa985675b1f67e00.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/efbbf2f2212212c9b6e9d8d999c96ce91fafde15/output/jars/classes.jar"
+        jar="C:\Users\micha\.gradle\caches\modules-2\files-2.1\log4j\log4j\1.2.14\3b254c872b95141751f414e353a25c2ac261b51\log4j-1.2.14.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_ab7a81a7d76acef5c7d5f6459e5d9891be09879a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/a124d673a0a57956efd2863e2c2976d96c1f826c/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_af972ecddbea404aecbb9d5a30c338e1a33c2708.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/StudioProjects/Cash_Manager/modules/CircleImageView-master/circleimageview/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c019a726148e49d8e1ff0ea7d516dc5978d2b072">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_b9c3029b44e741da2249950bf67df241de757d93.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/efbbf2f2212212c9b6e9d8d999c96ce91fafde15/output/jars/libs/internal_impl-24.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/internal_impl-24.0.0_f9a34c91af477af8f3ea369a1fce29eab6e43324.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/b096916d4c3a3d3089368d7983a736c48c10ea2e/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_73ff0cd674fe7091aced3844cd0273b02aa3816e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_ff98183761a0341168cbdde527bd03ecdd0d22c1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/92e6e953acfa4b73499bdbbd1814d41bfd9d1aaf/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_4c9e4012b4c513836a766bba3e145f992025c85c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/79041c42263945f175c304808029ca32338e228b/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="a1ed98e01bd58976d80c062fd0ea2968a1ff68a1">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_c4fddb57ecf67c769cb7f4de6270ede4baf6b6c5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/d3ac71d27eba983cf2dc49c1582a29c34e0bb5cb/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_a5a2cfae7f55b25aa640006c8a38774f61b206df.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/a336060e4edf5f4d5ac2e07be744c4f1bf916c4e/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ca851be26ff89f5b32cc222cee98139fb3fac830">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_31e5d75cf07e1a1daa05814fac6396b4fe94e278.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_340cfdb8667da499b4a188de6dec75851cbd1fd5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="f5023cb4b9f02dbf48684a1297fec685c24226ba">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_32b528f266a425d841e91992b05c0cb987099fc3/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/22bc4f979f5491991eb53160ab4edbd6e9266362/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_81bd9082f68ab0e047bc9d489167ffa9ddaad581.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/6.1.0/63735f48b82bcd24cdd33821342428252eb1ca5a/butterknife-6.1.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="63735f48b82bcd24cdd33821342428252eb1ca5a">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/butterknife-6.1.0_e841ea3a1ece83c75da54487701b6d570496fad1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/42e9ddc52799df99d8e904a20e9f9c8984e74ced/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_b286eabae8f7d51241b16c1fa18ecf4e3aabb7bf.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/support-annotations-24.0.0_1c06bb55ff935e233dbe272d01dfddd563333a06.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/23adc68b8e38b48d758ade3108a4ea3e1aa3285d/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_47edd629af062c27b7cac2c5aa2c9b970cfe6d26.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/StudioProjects/Cash_Manager/modules/MPAndroidChart-master/MPChartLib/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c7575654b21f1a915ac1fe048c34a22d64693ab3">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_2597dd54b1ad2613d61fa97035d152886167e995.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/lukassessler/.android/build-cache/b7c497e1aef425c8c83a05d26ebb7513e1f28e36/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
-        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_0feb84a76d9b1aa48b316c459a0d60ffcfc24852.jar" />
+        sha1="03b254c872b95141751f414e353a25c2ac261b51">
+        <dex dex="C:\JKU\SS17\PR_SE\Cash_Manager\app\build\intermediates\pre-dexed\debug\log4j-1.2.14_787b0c7daa823990379d96ddcba8a9c2540a90d0.jar" />
     </item>
 
 </items>

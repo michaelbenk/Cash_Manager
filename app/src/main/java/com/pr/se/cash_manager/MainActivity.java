@@ -1,11 +1,14 @@
 package com.pr.se.cash_manager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -36,6 +39,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +50,17 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import au.com.bytecode.opencsv.CSVWriter;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 
 /**
  * The MainActivity is the main activity of the application. It implements the whole layout.
@@ -239,7 +254,57 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_export) {
-            // TODO ExportActivity, ExportLayout, etc.
+            final String[] dList = {"All Expenses","Current Filter"};
+            final ArrayList<String> dialogList = new ArrayList();
+            int selected = -1;
+
+            dialogList.add("all");
+            dialogList.add("current");
+
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Choose export option")
+                .setSingleChoiceItems(dList, -1, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg0) {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        lv.setTag(arg0);
+                    }
+                })
+                .setPositiveButton(
+                    "CSV",
+                    new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int id) {
+                            ListView lw = ((AlertDialog)dialog).getListView();
+                            int selected = (Integer) lw.getTag();
+                            exportExpensesCSV(selected);
+                        }
+                    })
+
+                .setNeutralButton("Cancel",
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    })
+
+                .setNegativeButton(
+                    "XLS",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            ListView lw = ((AlertDialog)dialog).getListView();
+                            int selected = (Integer) lw.getTag();
+                            exportExpensesXLS(selected);
+                            dialog.cancel();
+                        }
+                    }
+                )
+                .create();
+            alertDialog.show();
 
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -254,6 +319,225 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) this.findViewById(R.id.activity_main_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void exportExpensesCSV(int mode) {
+
+        List<Expense> exportList = this.list;
+        Date today = new Date();
+
+        final String fileName = "Cash_Manager_" + today.toString() + ".csv";
+
+        //Saving file in external storage
+        File sdCard = Environment.getExternalStorageDirectory();
+        File directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
+
+        //create directory if not exist
+        if (!directory.isDirectory()) {
+            directory.mkdirs();
+        }
+
+        //file path
+        File file = new File(directory, fileName);
+
+        //write list into directory
+        if (mode == 0) {  //unfiltered list
+
+            try{
+                exportList = RW.readExpenses(this, "expenses");
+
+                CSVWriter writer = new CSVWriter(new FileWriter(file));
+
+                String firstLine = "date,category,price,description";
+                writer.writeNext(firstLine.split(","));
+
+                // feed in your array (or convert your data to an array)
+                String[] entries;
+                int row = 1;
+
+
+
+                for (Expense ex : exportList) {
+                    String date = ex.getDate();
+                    String category = ex.getCategory();
+                    String price = ex.getSum() + "";
+                    String description = ex.getDescription();
+                    String line = date + "," + category + "," + price + "," + description;
+                    entries = line.split(",");
+                    writer.writeNext(entries);
+                    row++;
+                }
+
+                writer.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else { //filtered list
+            try {
+                CSVWriter writer = new CSVWriter(new FileWriter(file));
+
+                String firstLine = "date,category,price,description";
+                writer.writeNext(firstLine.split(","));
+
+                // feed in your array (or convert your data to an array)
+                String[] entries;
+                int row = 1;
+
+                for (Expense ex : exportList) {
+                    String date = ex.getDate();
+                    String category = ex.getCategory();
+                    String price = ex.getSum() + "";
+                    String description = ex.getDescription();
+                    String line = date + "," + category + "," + price + "," + description;
+                    entries = line.split(",");
+                    writer.writeNext(entries);
+                    row++;
+                }
+
+                writer.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void exportExpensesXLS(int mode){
+
+        List<Expense> exportList = this.list;
+        Date today = new Date();
+
+        //Saving file in external storage
+        File sdCard = Environment.getExternalStorageDirectory();
+        File directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
+
+        //create directory if not exist
+        if (!directory.isDirectory()) {
+            directory.mkdirs();
+        }
+
+        final String fileName = "Cash_Manager_" + today.toString() + ".xls";
+
+        //file path
+        File file = new File(directory, fileName);
+
+        //write list into directory
+        if (mode == 0) {
+
+            exportList = RW.readExpenses(this, "expenses");
+
+            WorkbookSettings wbSettings = new WorkbookSettings();
+            wbSettings.setLocale(new Locale("en", "EN"));
+            WritableWorkbook workbook;
+
+            try {
+                workbook = Workbook.createWorkbook(file, wbSettings);
+                //Excel sheet name. 0 represents first sheet
+                WritableSheet sheet = workbook.createSheet("Expenses", 0);
+
+                try {
+                    sheet.addCell(new Label(0, 0, "Date")); // column and row
+                    sheet.addCell(new Label(1, 0, "Category"));
+                    sheet.addCell(new Label(2, 0, "Price"));
+                    sheet.addCell(new Label(3, 0, "Description"));
+                    int row = 1;
+                    for (Expense ex : exportList) {
+
+                        String date = ex.getDate();
+                        String category = ex.getCategory();
+                        String price = ex.getSum() + "";
+                        String description = ex.getDescription();
+
+                        sheet.addCell(new Label(0, row, date)); // column and row
+                        sheet.addCell(new Label(1, row, category));
+                        sheet.addCell(new Label(2, row, price));
+                        sheet.addCell(new Label(3, row, description));
+                        row++;
+                    }
+
+                } catch (RowsExceededException e) {
+                    e.printStackTrace();
+                } catch (WriteException e) {
+                    e.printStackTrace();
+                }
+                workbook.write();
+                try {
+                    workbook.close();
+                } catch (WriteException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            WorkbookSettings wbSettings = new WorkbookSettings();
+            wbSettings.setLocale(new Locale("en", "EN"));
+            WritableWorkbook workbook;
+
+            try {
+                workbook = Workbook.createWorkbook(file, wbSettings);
+                //Excel sheet name. 0 represents first sheet
+                WritableSheet sheet = workbook.createSheet("Expenses", 0);
+
+                try {
+                    sheet.addCell(new Label(0, 0, "Date")); // column and row
+                    sheet.addCell(new Label(1, 0, "Category"));
+                    sheet.addCell(new Label(2, 0, "Price"));
+                    sheet.addCell(new Label(3, 0, "Description"));
+                    int row = 1;
+                    for (Expense ex : exportList) {
+
+                        String date = ex.getDate();
+                        String category = ex.getCategory();
+                        String price = ex.getSum() + "";
+                        String description = ex.getDescription();
+
+                        sheet.addCell(new Label(0, row, date)); // column and row
+                        sheet.addCell(new Label(1, row, category));
+                        sheet.addCell(new Label(2, row, price));
+                        sheet.addCell(new Label(3, row, description));
+                        row++;
+                    }
+
+                } catch (RowsExceededException e) {
+                    e.printStackTrace();
+                } catch (WriteException e) {
+                    e.printStackTrace();
+                }
+                workbook.write();
+                try {
+                    workbook.close();
+                } catch (WriteException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * checks if there is permission to write to external storage
+     * @return
+     */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Opens export dialog -> user can choose if he wants to export all expenses or the current filter
+     */
+    public void exportDialog() {
+
     }
 
     /**
