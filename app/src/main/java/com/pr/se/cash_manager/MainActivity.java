@@ -254,58 +254,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_export) {
-            final String[] dList = {"All Expenses","Current Filter"};
-            final ArrayList<String> dialogList = new ArrayList();
-            int selected = -1;
-
-            dialogList.add("all");
-            dialogList.add("current");
-
-
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setTitle("Choose export option")
-                .setSingleChoiceItems(dList, -1, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int arg0) {
-                        ListView lv = ((AlertDialog) dialog).getListView();
-                        lv.setTag(arg0);
-                    }
-                })
-                .setPositiveButton(
-                    "CSV",
-                    new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int id) {
-                            ListView lw = ((AlertDialog)dialog).getListView();
-                            int selected = (Integer) lw.getTag();
-                            exportExpensesCSV(selected);
-                        }
-                    })
-
-                .setNeutralButton("Cancel",
-                    new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                            dialog.cancel();
-                        }
-                    })
-
-                .setNegativeButton(
-                    "XLS",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            ListView lw = ((AlertDialog)dialog).getListView();
-                            int selected = (Integer) lw.getTag();
-                            exportExpensesXLS(selected);
-                            dialog.cancel();
-                        }
-                    }
-                )
-                .create();
-            alertDialog.show();
-
+            exportDialog();
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
@@ -321,6 +270,67 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * builds and shows export dialog
+     */
+    public void exportDialog(){
+        final String[] dList = {"All Expenses","Current Filter"};
+        final ArrayList<String> dialogList = new ArrayList();
+        int selected = -1;
+
+        dialogList.add("all");
+        dialogList.add("current");
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Choose export option")
+                .setSingleChoiceItems(dList, -1, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg0) {
+                        ListView lv = ((AlertDialog) dialog).getListView();
+                        lv.setTag(arg0);
+                    }
+                })
+                .setPositiveButton(
+                        "CSV",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+                                ListView lw = ((AlertDialog)dialog).getListView();
+                                int selected = (Integer) lw.getTag();
+                                exportExpensesCSV(selected);
+                            }
+                        })
+
+                .setNeutralButton("Cancel",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                dialog.cancel();
+                            }
+                        })
+
+                .setNegativeButton(
+                        "XLS",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                ListView lw = ((AlertDialog)dialog).getListView();
+                                int selected = (Integer) lw.getTag();
+                                exportExpensesXLS(selected);
+                                dialog.cancel();
+                            }
+                        }
+                )
+                .create();
+        alertDialog.show();
+    }
+
+    /**
+     * Exports all or currently displayed expenses to CSV file
+     * @param mode a int that decides whether all expenses (= 0) or the currently displayed expenses (= 1) should be exported
+     */
     public void exportExpensesCSV(int mode) {
 
         List<Expense> exportList = this.list;
@@ -405,6 +415,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Exports all or currently displayed expenses to XLS file
+     * @param mode a int that decides whether all expenses (= 0) or the currently displayed expenses (= 1) should be exported
+     */
     public void exportExpensesXLS(int mode){
 
         List<Expense> exportList = this.list;
@@ -425,7 +439,7 @@ public class MainActivity extends AppCompatActivity
         File file = new File(directory, fileName);
 
         //write list into directory
-        if (mode == 0) {
+        if (mode == 0) { //all
 
             exportList = RW.readExpenses(this, "expenses");
 
@@ -472,7 +486,7 @@ public class MainActivity extends AppCompatActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        } else {    //filted
 
             WorkbookSettings wbSettings = new WorkbookSettings();
             wbSettings.setLocale(new Locale("en", "EN"));
@@ -484,10 +498,13 @@ public class MainActivity extends AppCompatActivity
                 WritableSheet sheet = workbook.createSheet("Expenses", 0);
 
                 try {
+                    //add titles
                     sheet.addCell(new Label(0, 0, "Date")); // column and row
                     sheet.addCell(new Label(1, 0, "Category"));
                     sheet.addCell(new Label(2, 0, "Price"));
                     sheet.addCell(new Label(3, 0, "Description"));
+
+                    //add values
                     int row = 1;
                     for (Expense ex : exportList) {
 
@@ -523,7 +540,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * checks if there is permission to write to external storage
-     * @return
+     * @return true if permission to write to external storage; false if no permission
      */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -533,12 +550,6 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    /**
-     * Opens export dialog -> user can choose if he wants to export all expenses or the current filter
-     */
-    public void exportDialog() {
-
-    }
 
     /**
      * Ausgaben werden sortiert
