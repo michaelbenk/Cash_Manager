@@ -339,8 +339,14 @@ public class MainActivity extends AppCompatActivity
         final String fileName = "Cash_Manager_" + today.toString() + ".csv";
 
         //Saving file in external storage
-        File sdCard = Environment.getExternalStorageDirectory();
-        File directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
+        File sdCard = null;
+        File directory = null;
+        if(isExternalStorageWritable()) {
+            sdCard = Environment.getExternalStorageDirectory();
+            directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
+        } else {
+            directory = new File("/Cash Manager");
+        }
 
         //create directory if not exist
         if (!directory.isDirectory()) {
@@ -425,8 +431,15 @@ public class MainActivity extends AppCompatActivity
         Date today = new Date();
 
         //Saving file in external storage
-        File sdCard = Environment.getExternalStorageDirectory();
-        File directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
+        File sdCard = null;
+        File directory = null;
+        if(isExternalStorageWritable()) {
+            sdCard = Environment.getExternalStorageDirectory();
+            directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
+        } else {
+            directory = new File("/Cash Manager");
+        }
+
 
         //create directory if not exist
         if (!directory.isDirectory()) {
