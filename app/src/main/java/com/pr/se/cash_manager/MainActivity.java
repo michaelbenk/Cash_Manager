@@ -223,30 +223,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     /*
-        Option in der Toolbar mit Menü: Add, Delete
-        Keine Funktionalität dahinter!
-        Wird das überhaupt gebraucht?
-    */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    /*
-        Option in der Toolbar mit Menü: Add, Delete
-        Keine Funktionalität dahinter!
-        Wird das überhaupt gebraucht?
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        return id == R.id.action_add || id == R.id.action_delete || super.onOptionsItemSelected(item);
-
-    }
-
-    /*
         Option in der Toolbar mit Menü: Export, Setting, Logout
      */
     @Override
