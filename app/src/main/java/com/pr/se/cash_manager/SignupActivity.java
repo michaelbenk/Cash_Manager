@@ -19,14 +19,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class SignupActivity extends AppCompatActivity {
-    private final String TAG = getString(R.string.activity_title_Signup);
+/**
+ * Created by ivanlazic on 11.04.17.
+ */
 
-    @InjectView(R.id.input_seqQuestion) EditText seqQuestionText;
-    @InjectView(R.id.input_username) EditText usernameText;
-    @InjectView(R.id.input_password) EditText passwordText;
-    @InjectView(R.id.btn_signup) Button signupButton;
-    @InjectView(R.id.link_login) TextView loginLink;
+public class SignupActivity extends AppCompatActivity {
+    private static final String TAG = "SignupActivity";
+
+    @InjectView(R.id.input_seqQuestion) EditText _seqQuestionText;
+    @InjectView(R.id.input_username) EditText _usernameText;
+    @InjectView(R.id.input_password) EditText _passwordText;
+    @InjectView(R.id.btn_signup) Button _signupButton;
+    @InjectView(R.id.link_login) TextView _loginLink;
 
     // METHOD to create a new File with fileName and the content
     public void createFile(String fileName, String content) {
@@ -59,15 +63,10 @@ public class SignupActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-
-                    File dir = getFilesDir();
-
-                    deleteRecursive(dir.getPath());
-
                     signup();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -75,7 +74,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        loginLink.setOnClickListener(new View.OnClickListener() {
+        _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
@@ -92,17 +91,17 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        signupButton.setEnabled(false);
+        _signupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_NoActionBar);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.signup_creatingAccount));
+        progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String seqQuestion = seqQuestionText.getText().toString();
-        String username = usernameText.getText().toString();
-        String password = passwordText.getText().toString();
+        String seqQuestion = _seqQuestionText.getText().toString();
+        String username = _usernameText.getText().toString();
+        String password = _passwordText.getText().toString();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -117,45 +116,45 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
-        signupButton.setEnabled(true);
+        _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), R.string.error_signup_loginFaild, Toast.LENGTH_LONG).show();
-        signupButton.setEnabled(true);
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        _signupButton.setEnabled(true);
     }
 
     public boolean validate() throws IOException {
         boolean valid = true;
 
-        String seqQuestion = seqQuestionText.getText().toString();
-        String username = usernameText.getText().toString();
-        String password = passwordText.getText().toString();
+        String seqQuestion = _seqQuestionText.getText().toString();
+        String username = _usernameText.getText().toString();
+        String password = _passwordText.getText().toString();
 
         if (username.isEmpty() || username.length() < 3) {
-            usernameText.setError(getString(R.string.error_signup_3_num_characters));
+            _usernameText.setError("at least 3 alphanumeric characters!");
             valid = false;
         } else {
-            usernameText.setError(null);
+            _usernameText.setError(null);
             createFile("usernameFile", username);
         }
 
         if (password.isEmpty() || password.length() < 6) {
-            passwordText.setError(getString(R.string.error_signup_7_num_characters));
+            _passwordText.setError("at least 7 alphanumeric characters!");
             valid = false;
         } else {
             createFile("passwordFile", password);
-            passwordText.setError(null);
+            _passwordText.setError(null);
         }
 
         if (seqQuestion.isEmpty() || seqQuestion.length() < 3) {
-            seqQuestionText.setError(getString(R.string.error_signup_3_num_characters));
+            _seqQuestionText.setError("at least 3 alphanumeric characters!");
             valid = false;
         } else {
             createFile("seqQuestionFile", seqQuestion);
-            seqQuestionText.setError(null);
+            _seqQuestionText.setError(null);
         }
 
         return valid;
@@ -167,7 +166,9 @@ public class SignupActivity extends AppCompatActivity {
 
         if (fileOrDirectory.isDirectory()){
             for (File child : fileOrDirectory.listFiles())
+
                 deleteRecursive(child.getPath());
+
             fileOrDirectory.delete();
         }else{
 

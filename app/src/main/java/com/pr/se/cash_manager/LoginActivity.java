@@ -23,17 +23,20 @@ import java.io.InputStreamReader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+/**
+ * Created by ivanlazic on 11.04.17.
+ */
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final String TAG = getString(R.string.activity_title_Login);
+    private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @InjectView(R.id.input_username) EditText usernameText;
-    @InjectView(R.id.input_password) EditText passwordText;
-    @InjectView(R.id.btn_login) Button loginButton;
-    @InjectView(R.id.link_signup) TextView signupLink;
-    @InjectView(R.id.link_forgot_password) TextView forgotPasswordLink;
+    @InjectView(R.id.input_username) EditText _usernameText;
+    @InjectView(R.id.input_password) EditText _passwordText;
+    @InjectView(R.id.btn_login) Button _loginButton;
+    @InjectView(R.id.link_signup) TextView _signupLink;
+    @InjectView(R.id.link_forgot_password) TextView _forgotPasswordLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signupLink.setOnClickListener(new View.OnClickListener() {
+        _signupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -71,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+        _forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -89,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        loginButton.setEnabled(false);
+        _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_NoActionBar);
@@ -97,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String username = usernameText.getText().toString();
-        String password = passwordText.getText().toString();
+        String username = _usernameText.getText().toString();
+        String password = _passwordText.getText().toString();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -128,20 +131,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-        loginButton.setEnabled(true);
+        _loginButton.setEnabled(true);
         finish();
     }
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Invalid username or password!", Toast.LENGTH_LONG).show();
-        loginButton.setEnabled(true);
+        _loginButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String username = usernameText.getText().toString();
-        String password = passwordText.getText().toString();
+        String username = _usernameText.getText().toString();
+        String password = _passwordText.getText().toString();
         File myDir = getFilesDir();
         StringBuilder totalUsername = new StringBuilder();
         StringBuilder totalPassword = new StringBuilder();
@@ -177,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if ( (totalUsername.toString().equals(username)) && (totalPassword.toString().equals(password)) ) {
-            usernameText.setError(null);
-            passwordText.setError(null);
+            _usernameText.setError(null);
+            _passwordText.setError(null);
         } else {
             valid = false;
         }
