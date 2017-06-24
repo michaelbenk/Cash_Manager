@@ -128,7 +128,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="16dp"
-                    android:src="@mipmap/ic_info" />
+                    app:srcCompat="@drawable/ic_limit_budget"/>
 
                 <EditText
                     android:id="@+id/activity_categories_det_input_limit"
