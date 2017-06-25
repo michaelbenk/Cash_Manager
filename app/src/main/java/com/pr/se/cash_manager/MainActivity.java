@@ -821,14 +821,25 @@ public class MainActivity extends AppCompatActivity
             ArrayList<Category> categories = new ArrayList<>();
             Category cat1 = new Category("Food", 0,  true);
             Category sub1 = new Category("Restaurant", 0, false);
-            Category sub2 = new Category("Sweets", 0, false);
-            Category cat2 = new Category("Others", 1500, true);
+
+            Category cat3 = new Category("Car", 0, true);
+            Category sub2 = new Category("Fuel", 0, false);
+            Category sub3 = new Category("Insurance", 0, false);
+
+            Category cat4 = new Category("Rent", 0, true);
+
+            Category cat2 = new Category("Others", 500, true);
+
             cat1.addSubCategory(sub1);
-            cat1.addSubCategory(sub2);
             categories.add(cat1);
+
+            cat3.addSubCategory(sub2);
+            cat3.addSubCategory(sub3);
+            categories.add(cat3);
+
+            categories.add(cat4);
             categories.add(cat2);
 
-            String[] description = new String[]{"Household", "Leisure", "Flat", "Food"};
             ArrayList<Expense> expenses = new ArrayList<>();
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, 2017);
@@ -841,19 +852,19 @@ public class MainActivity extends AppCompatActivity
             calendar2.set(Calendar.DAY_OF_MONTH, 28);
 
             gregorianCalendar.setTime(calendar.getTime());
-            Expense e1 = new Expense(246.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), description[0]);
+            Expense e1 = new Expense(76.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), "Birthday");
             expenses.add(e1);
             gregorianCalendar.add(Calendar.MONTH, -1);
-            Expense e2 = new Expense(46.23, sdf.format(gregorianCalendar.getTime()), sub2.toString(), description[1]);
+            Expense e2 = new Expense(46.23, sdf.format(gregorianCalendar.getTime()), sub2.toString(), "450 km");
             expenses.add(e2);
             gregorianCalendar.add(Calendar.WEEK_OF_YEAR, -1);
-            Expense e3 = new Expense(26.23, sdf.format(gregorianCalendar.getTime()), cat1.toString(), description[2]);
+            Expense e3 = new Expense(26.23, sdf.format(gregorianCalendar.getTime()), cat1.toString(), "");
             expenses.add(e3);
             gregorianCalendar.add(Calendar.WEEK_OF_YEAR, 3);
-            Expense e4 = new Expense(6.23, sdf.format(gregorianCalendar.getTime()), sub1.toString(), description[3]);
+            Expense e4 = new Expense(6.23, sdf.format(gregorianCalendar.getTime()), cat1.toString(), "");
             expenses.add(e4);
-            gregorianCalendar.add(Calendar.YEAR, -1);
-            Expense e5 = new RecurringExpense(400.50, sdf.format(gregorianCalendar.getTime()), cat2.toString(), "Rent", sdf.format(calendar2.getTime()), Interval.monthly.name());
+            gregorianCalendar.add(Calendar.MONTH, -1);
+            Expense e5 = new RecurringExpense(410.50, sdf.format(gregorianCalendar.getTime()), cat4.toString(), "flat", sdf.format(calendar2.getTime()), Interval.monthly.name());
             gregorianCalendar.add(Calendar.MONTH, 1);
             ((RecurringExpense) e5).setDate_next(sdf.format(gregorianCalendar.getTime()));
             expenses.add(e5);

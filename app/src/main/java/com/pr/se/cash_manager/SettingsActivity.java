@@ -2,18 +2,14 @@ package com.pr.se.cash_manager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.*;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -43,7 +39,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference p) {
 
-                deleteExpenseKategories();
+                deleteLists();
                 this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
                 this.prefs.edit().putBoolean("firstFilter", true).apply();
                 this.prefs.edit().putBoolean("firstrun", true).apply();
@@ -56,7 +52,7 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
-    private void deleteExpenseKategories() {
+    private void deleteLists() {
         RW.writeCategories(this, new ArrayList<Category>(), "categories");
         RW.writeExpenses(this, new ArrayList<Expense>(), "expenses");
         RW.writeFilter(this, new ArrayList<Filter>(), "filters");

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() throws IOException {
         Log.d(TAG, "Signup");
 
-        deleteExpenseKategories();
+        deleteLists();
         this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
         this.prefs.edit().putBoolean("firstFilter", true).apply();
         this.prefs.edit().putBoolean("firstrun", true).apply();
@@ -172,7 +171,7 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void deleteExpenseKategories() {
+    private void deleteLists() {
         RW.writeCategories(this, new ArrayList<Category>(), "categories");
         RW.writeExpenses(this, new ArrayList<Expense>(), "expenses");
         RW.writeFilter(this, new ArrayList<Filter>(), "filters");
