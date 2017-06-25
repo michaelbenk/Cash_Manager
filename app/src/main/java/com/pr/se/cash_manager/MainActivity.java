@@ -41,6 +41,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -319,18 +320,23 @@ public class MainActivity extends AppCompatActivity
     public void exportExpensesCSV(int mode) {
 
         List<Expense> exportList = this.list;
-        Date today = new Date();
 
-        final String fileName = "Cash_Manager_" + today.toString() + ".csv";
+        Date dateInstance = Calendar.getInstance().getTime();
+
+        // Display a date in day, month, year, hour, minutes, seconds format
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy_hh:mm:ss");
+        String today = formatter.format(dateInstance);
+
+        final String fileName = "Cash_Manager_" + today + ".csv";
 
         //Saving file in external storage
         File sdCard = null;
         File directory = null;
         if(isExternalStorageWritable()) {
-            sdCard = Environment.getExternalStorageDirectory();
+            sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
         } else {
-            directory = new File("/Cash Manager");
+            directory = new File("/Documents/Cash Manager");
         }
 
         //create directory if not exist
@@ -371,7 +377,7 @@ public class MainActivity extends AppCompatActivity
 
                 writer.close();
 
-                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Saved " + fileName + " to Documents/Cash Manager!", Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -400,7 +406,7 @@ public class MainActivity extends AppCompatActivity
 
                 writer.close();
 
-                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Saved " + fileName + " to Documents/Cash Manager!", Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -418,16 +424,21 @@ public class MainActivity extends AppCompatActivity
     public void exportExpensesXLS(int mode){
 
         List<Expense> exportList = this.list;
-        Date today = new Date();
+
+        Date dateInstance = Calendar.getInstance().getTime();
+
+        // Display a date in day, month, year, hour, minutes, seconds format
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy_hh:mm:ss");
+        String today = formatter.format(dateInstance);
 
         //Saving file in external storage
         File sdCard = null;
         File directory = null;
         if(isExternalStorageWritable()) {
-            sdCard = Environment.getExternalStorageDirectory();
+            sdCard = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
             directory = new File(sdCard.getAbsolutePath() + "/Cash Manager");
         } else {
-            directory = new File("/Cash Manager");
+            directory = new File("/Documents/Cash Manager");
         }
 
 
@@ -436,7 +447,7 @@ public class MainActivity extends AppCompatActivity
             directory.mkdirs();
         }
 
-        final String fileName = "Cash_Manager_" + today.toString() + ".xls";
+        final String fileName = "Cash_Manager_" + today + ".xls";
 
         //file path
         File file = new File(directory, fileName);
@@ -482,7 +493,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 workbook.write();
 
-                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Saved " + fileName + " to Documents/Cash Manager!", Toast.LENGTH_LONG).show();
 
                 try {
                     workbook.close();
@@ -533,7 +544,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 workbook.write();
 
-                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Saved " + fileName + " to Documents/Cash Manager!", Toast.LENGTH_LONG).show();
 
                 try {
                     workbook.close();
