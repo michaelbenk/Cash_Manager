@@ -1,6 +1,7 @@
 package com.pr.se.cash_manager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -83,9 +84,16 @@ public class CategoryDetailsActivity extends AppCompatActivity {
 
         //Save Button
         saveView.setOnClickListener(new View.OnClickListener() {
+
+            public SharedPreferences prefs;
+
             @Override
             public void onClick(View view) {
+                
                 if (checkInput()) {  //Wenn alle Eingaben korrekt sind
+                    this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
+                    this.prefs.edit().putBoolean("CategorieChange", true).apply();
+
                     Category remove = null;
                     if (category == null && subCategory == null) {// neue Kategorie
                         if (selectedCategory == null || selectedCategory.equals(" ")) {
