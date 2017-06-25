@@ -2,6 +2,7 @@ package com.pr.se.cash_manager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -50,6 +51,8 @@ import java.util.List;
         final ImageView delListChild = (ImageView) convertView.findViewById(R.id.content_categories_delete);
         final ProgressBar elementprogressbar = (ProgressBar) convertView.findViewById((R.id.content_categories_list_element_progressbar));
         delListChild.setOnClickListener(new View.OnClickListener() {
+            public SharedPreferences prefs;
+
             @Override
             public void onClick(View v) {
                 List<Category> categories = RW.readCategories(context, "categories");
@@ -67,6 +70,9 @@ import java.util.List;
                     }
                 }
                 RW.writeCategories(context, categories, "categories");
+
+                this.prefs = context.getSharedPreferences("com.pr.se.cash_manager", context.MODE_PRIVATE);
+                this.prefs.edit().putBoolean("CategorieChange", true).apply();
 
                 Intent intent = new Intent(context, CategoriesActivity.class);
                 context.startActivity(intent);

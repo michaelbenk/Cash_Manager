@@ -1,6 +1,7 @@
 package com.pr.se.cash_manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -15,9 +16,9 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by ivanlazic on 11.04.17.
@@ -31,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
+    private SharedPreferences prefs;
 
     // METHOD to create a new File with fileName and the content
     public void createFile(String fileName, String content) {
@@ -64,10 +66,14 @@ public class SignupActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
+            public SharedPreferences prefs;
+
             @Override
             public void onClick(View v) {
                 try {
                     signup();
+                    this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
+                    this.prefs.edit().putBoolean("firstFilter", true).apply();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -85,6 +91,11 @@ public class SignupActivity extends AppCompatActivity {
 
     public void signup() throws IOException {
         Log.d(TAG, "Signup");
+
+        deleteLists();
+        this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
+        this.prefs.edit().putBoolean("firstFilter", true).apply();
+        this.prefs.edit().putBoolean("firstrun", true).apply();
 
         if (!validate()) {
             onSignupFailed();
@@ -160,19 +171,9 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void deleteRecursive(String strPath) {
-
-        File fileOrDirectory = new File(strPath);
-
-        if (fileOrDirectory.isDirectory()){
-            for (File child : fileOrDirectory.listFiles())
-
-                deleteRecursive(child.getPath());
-
-            fileOrDirectory.delete();
-        }else{
-
-            fileOrDirectory.delete();
-        }
+    private void deleteLists() {
+        RW.writeCategories(this, new ArrayList<Category>(), "categories");
+        RW.writeExpenses(this, new ArrayList<Expense>(), "expenses");
+        RW.writeFilter(this, new ArrayList<Filter>(), "filters");
     }
 }

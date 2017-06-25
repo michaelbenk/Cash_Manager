@@ -457,10 +457,9 @@ public class AddEditActivity extends AppCompatActivity {
         });
 
         //Viewelemente setzten
-        if (sum != null) {
+
+        if (sum != null ) {
             sumView.setText(sum);
-        } else {
-            sumView.setText(R.string.view_default_sum);
         }
         if (date != null) {
             dateView.setText(date);

@@ -2,18 +2,15 @@ package com.pr.se.cash_manager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.preference.*;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
-import java.io.File;
+import java.util.ArrayList;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -37,12 +34,15 @@ public class SettingsActivity extends PreferenceActivity {
         });
 
         factoryResetPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public SharedPreferences prefs;
+
             @Override
             public boolean onPreferenceClick(Preference p) {
 
-                File dir = getFilesDir();
-
-                deleteRecursive(dir.getPath());
+                deleteLists();
+                this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
+                this.prefs.edit().putBoolean("firstFilter", true).apply();
+                this.prefs.edit().putBoolean("firstrun", true).apply();
 
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
@@ -52,10 +52,10 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("pref_password_login")) {
-            boolean test = sharedPreferences.getBoolean("pref_password_login", false);
-        }
+    private void deleteLists() {
+        RW.writeCategories(this, new ArrayList<Category>(), "categories");
+        RW.writeExpenses(this, new ArrayList<Expense>(), "expenses");
+        RW.writeFilter(this, new ArrayList<Filter>(), "filters");
     }
 
     @Override
@@ -72,19 +72,5 @@ public class SettingsActivity extends PreferenceActivity {
                 finish();
             }
         });
-    }
-
-    private void deleteRecursive(String strPath) {
-
-        File fileOrDirectory = new File(strPath);
-
-        if (fileOrDirectory.isDirectory()){
-            for (File child : fileOrDirectory.listFiles())
-                deleteRecursive(child.getPath());
-            fileOrDirectory.delete();
-        }else{
-
-            fileOrDirectory.delete();
-        }
     }
 }
