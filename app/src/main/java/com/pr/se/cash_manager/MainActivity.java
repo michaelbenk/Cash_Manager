@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -740,7 +739,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Erstellt alle Ausgaben die laut wiederkehrender Ausgabe vor bzw. heute getätigt wurden
-    @Nullable
     private RecurringExpense newRecurringExpensesBeforeToday(RecurringExpense element) {
         Expense newExpense;
         Date today = new Date();
