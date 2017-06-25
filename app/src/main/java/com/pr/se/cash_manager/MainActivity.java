@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity
     public void exportDialog(){
         final String[] dList = {"All Expenses","Current Filter"};
         final ArrayList<String> dialogList = new ArrayList();
-        int selected = -1;
+
 
         dialogList.add("all");
         dialogList.add("current");
@@ -268,16 +268,6 @@ public class MainActivity extends AppCompatActivity
                         lv.setTag(arg0);
                     }
                 })
-                .setPositiveButton(
-                        "CSV",
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int id) {
-                                ListView lw = ((AlertDialog)dialog).getListView();
-                                int selected = (Integer) lw.getTag();
-                                exportExpensesCSV(selected);
-                            }
-                        })
 
                 .setNeutralButton("Cancel",
                         new DialogInterface.OnClickListener()
@@ -288,14 +278,33 @@ public class MainActivity extends AppCompatActivity
                             }
                         })
 
+
+                .setPositiveButton(
+                        "CSV",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+                                ListView lw = ((AlertDialog)dialog).getListView();
+                                int selected = -1;
+                                if(lw.getTag() != null){
+                                    selected = (Integer) lw.getTag();
+                                }
+
+                                exportExpensesCSV(selected);
+                            }
+                        })
+
                 .setNegativeButton(
                         "XLS",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 ListView lw = ((AlertDialog)dialog).getListView();
-                                int selected = (Integer) lw.getTag();
+                                int selected = -1;
+                                if(lw.getTag() != null){
+                                    selected = (Integer) lw.getTag();
+                                }
+
                                 exportExpensesXLS(selected);
-                                dialog.cancel();
                             }
                         }
                 )
@@ -362,11 +371,12 @@ public class MainActivity extends AppCompatActivity
 
                 writer.close();
 
+                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else { //filtered list
+        } else if(mode == 1){ //filtered list
             try {
                 CSVWriter writer = new CSVWriter(new FileWriter(file));
 
@@ -390,10 +400,14 @@ public class MainActivity extends AppCompatActivity
 
                 writer.close();
 
+                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            Toast.makeText(MainActivity.this, "Please choose what data you would like to export!", Toast.LENGTH_LONG).show();
+            exportDialog();
         }
     }
 
@@ -467,6 +481,9 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
                 workbook.write();
+
+                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
                 try {
                     workbook.close();
                 } catch (WriteException e) {
@@ -475,7 +492,7 @@ public class MainActivity extends AppCompatActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {    //filted
+        } else if(mode == 1){    //filted
 
             WorkbookSettings wbSettings = new WorkbookSettings();
             wbSettings.setLocale(new Locale("en", "EN"));
@@ -515,6 +532,9 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
                 workbook.write();
+
+                Toast.makeText(MainActivity.this, "Saved to " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
                 try {
                     workbook.close();
                 } catch (WriteException e) {
@@ -523,6 +543,9 @@ public class MainActivity extends AppCompatActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else{
+            Toast.makeText(MainActivity.this, "Please choose what data you would like to export!", Toast.LENGTH_LONG).show();
+            exportDialog();
         }
 
     }
