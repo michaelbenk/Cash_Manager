@@ -74,6 +74,7 @@ public class SignupActivity extends AppCompatActivity {
                     signup();
                     this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
                     this.prefs.edit().putBoolean("firstFilter", true).apply();
+                    deleteLists();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -92,7 +93,6 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() throws IOException {
         Log.d(TAG, "Signup");
 
-        deleteLists();
         this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
         this.prefs.edit().putBoolean("firstFilter", true).apply();
         this.prefs.edit().putBoolean("firstrun", true).apply();
