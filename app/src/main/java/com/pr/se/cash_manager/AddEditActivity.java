@@ -93,6 +93,8 @@ public class AddEditActivity extends AppCompatActivity {
     private String id;
     private boolean update;
 
+    private String TAG = "AddEditActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -592,7 +594,7 @@ public class AddEditActivity extends AppCompatActivity {
                 dateToView.setBackgroundColor(0);
 
             } catch (ParseException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Couldn't parse date when checking input", e);
             }
         }
 
@@ -771,7 +773,8 @@ public class AddEditActivity extends AppCompatActivity {
                     mCurrentPhotoPath = f.getAbsolutePath();
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                 } catch (IOException e) {
-                    e.printStackTrace();
+
+                    Log.e(TAG, "Couldn't set path when taking photo", e);;
                     mCurrentPhotoPath = null;
                 }
                 break;

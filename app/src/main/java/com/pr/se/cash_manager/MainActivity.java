@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +74,8 @@ import jxl.write.biff.RowsExceededException;
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private String TAG = "MainActivity";
 
     private SharedPreferences prefs = null;
     private boolean isListSelected = false;
@@ -379,7 +382,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "Saved " + fileName + " to Documents/Cash Manager!", Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Couldn't write unfiltered CSV-File", e);
             }
         } else if(mode == 1){ //filtered list
             try {
@@ -408,7 +411,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "Saved " + fileName + " to Documents/Cash Manager!", Toast.LENGTH_LONG).show();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Couldn't write filtered CSV-File", e);
             }
         } else {
             Toast.makeText(MainActivity.this, "Please choose what data you would like to export!", Toast.LENGTH_LONG).show();
@@ -486,9 +489,9 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 } catch (RowsExceededException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Too many rows when trying to create XLS for all expenses", e);
                 } catch (WriteException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Couldn't write into XLS for all expenses", e);
                 }
                 workbook.write();
 
@@ -497,10 +500,10 @@ public class MainActivity extends AppCompatActivity
                 try {
                     workbook.close();
                 } catch (WriteException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Couldn't close XLS file for all expenses", e);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Couldn't create XLS file for all expenses", e);
             }
         } else if(mode == 1){    //filted
 
@@ -537,9 +540,9 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 } catch (RowsExceededException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Too many rows when trying to create XLS for filtered expenses", e);;
                 } catch (WriteException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Couldn't write XLS for filtered expenses", e);
                 }
                 workbook.write();
 
@@ -548,10 +551,10 @@ public class MainActivity extends AppCompatActivity
                 try {
                     workbook.close();
                 } catch (WriteException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Coulnd't close XLS for filtered expenses", e);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Couldn't create XLS for filtered expenses", e);
             }
         } else{
             Toast.makeText(MainActivity.this, "Please choose what data you would like to export!", Toast.LENGTH_LONG).show();
@@ -599,7 +602,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 catch(Exception e){
-                    e.printStackTrace();
+                    Log.e(TAG, "Couldn't get current time when updating list", e);
                 }
             }
             this.cat = RW.readCategories(this, "categories");
@@ -685,7 +688,7 @@ public class MainActivity extends AppCompatActivity
                             hilf.add(ex);
                         }
                     } catch (ParseException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "Couldn't parse date when filtering 'All'", e);
                     }
                 }
                 list = hilf;
@@ -742,7 +745,7 @@ public class MainActivity extends AppCompatActivity
                         list.add(newRecurringExpensesBeforeToday((RecurringExpense) ex));
                     }
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Couldn't parse date when updating reccuring expensees", e);
                 }
             }
         }
@@ -768,7 +771,7 @@ public class MainActivity extends AppCompatActivity
                 list.add(newExpense);
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't parse  when creating new reccuring expense before today", e);
         }
         //Restliche vergangene Ausgaben erzeugen
         try {
@@ -787,7 +790,7 @@ public class MainActivity extends AppCompatActivity
                 element.setDate_next(sdf.format(calculateNextDate(sdf.parse(element.getDate_next()), element.getIntervall())));
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't parse  when adding past expenses", e);
         }
         RW.writeExpenses(MainActivity.this, list, "expenses");
         return element;
@@ -904,7 +907,7 @@ public class MainActivity extends AppCompatActivity
             RW.writeCategories(this, categories, "categories");
             RW.writeExpenses(this, expenses, "expenses");
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Something went wrong in first run", e);
         }
 
         this.prefs.edit().putBoolean("firstrun", false).apply();
