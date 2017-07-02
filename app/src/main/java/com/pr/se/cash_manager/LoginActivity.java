@@ -1,5 +1,6 @@
 package com.pr.se.cash_manager;
 
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void login() {
+    private void login() {
         Log.d(TAG, "Login");
 
         if (!validate()) {
@@ -101,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         String username = _usernameText.getText().toString();
+
         String password = _passwordText.getText().toString();
 
         new android.os.Handler().postDelayed(
@@ -130,17 +132,29 @@ public class LoginActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess() {
+    private void onLoginSuccess() {
+        //TODO change Name on login
+
+        /*
+        NavigationView navView = (NavigationView)findViewById(R.id.nav_header_main);
+
+        View header = navView.getHeaderView(0);
+
+        TextView username = (TextView)header.findViewById(R.id.nav_header_main_userName);
+
+        username.setText("test");
+        */
+
         _loginButton.setEnabled(true);
         finish();
     }
 
-    public void onLoginFailed() {
+    private void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Invalid username or password!", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
 
         String username = _usernameText.getText().toString();
@@ -161,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
             secondInputStream.close();
             Log.d("File", "File contents: " + totalUsername);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't validate usernameFile login", e);
         }
 
         try {
@@ -176,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
             secondInputStream.close();
             Log.d("File", "File contents: " + totalPassword);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't validate passwordFile", e);
         }
 
         if ( (totalUsername.toString().equals(username)) && (totalPassword.toString().equals(password)) ) {

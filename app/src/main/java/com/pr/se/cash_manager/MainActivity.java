@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * builds and shows export dialog
      */
-    public void exportDialog(){
+    private void exportDialog(){
         final String[] dList = {"All Expenses","Current Filter"};
         final ArrayList<String> dialogList = new ArrayList();
 
@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity
      * Exports all or currently displayed expenses to CSV file
      * @param mode a int that decides whether all expenses (= 0) or the currently displayed expenses (= 1) should be exported
      */
-    public void exportExpensesCSV(int mode) {
+    private void exportExpensesCSV(int mode) {
 
         List<Expense> exportList = this.list;
 
@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity
      * Exports all or currently displayed expenses to XLS file
      * @param mode a int that decides whether all expenses (= 0) or the currently displayed expenses (= 1) should be exported
      */
-    public void exportExpensesXLS(int mode){
+    private void exportExpensesXLS(int mode){
 
         List<Expense> exportList = this.list;
 
@@ -567,7 +567,7 @@ public class MainActivity extends AppCompatActivity
      * checks if there is permission to write to external storage
      * @return true if permission to write to external storage; false if no permission
      */
-    public boolean isExternalStorageWritable() {
+    private boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
@@ -583,7 +583,7 @@ public class MainActivity extends AppCompatActivity
      *      kurzer Klick: ShowDetails
      *      langer Klick: setSelected
      */
-    public void updateList() {
+    private void updateList() {
         this.list = RW.readExpenses(this, "expenses");
         updateRecurringExpenses(list);
         this.list = RW.readExpenses(this, "expenses");

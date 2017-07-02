@@ -1,6 +1,7 @@
 package com.pr.se.cash_manager;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,6 +16,8 @@ import java.util.List;
 
 class RW {
 
+    private static String TAG = "RW";
+
     static List<Expense> readExpenses(Context context, String file) {
         FileInputStream fis;
         List<Expense> list = new ArrayList<>();
@@ -24,7 +27,7 @@ class RW {
             list = (List<Expense>) ois.readObject();
             ois.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't read expenses list", e);
         }
 
         return list;
@@ -57,7 +60,7 @@ class RW {
             out.writeObject(list);
             out.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't write expenses list", e);
         }
     }
 
@@ -70,7 +73,7 @@ class RW {
             list = (List<Category>) ois.readObject();
             ois.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't read categories", e);
         }
 
         return list;
@@ -91,7 +94,7 @@ class RW {
             out.writeObject(list);
             out.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't write categories list", e);
         }
     }
 
@@ -104,7 +107,7 @@ class RW {
             list = (List<Filter>) ois.readObject();
             ois.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't filtered list", e);;
         }
 
         return list;
@@ -118,7 +121,7 @@ class RW {
             out.writeObject(list);
             out.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't write filtered list", e);
         }
     }
 }

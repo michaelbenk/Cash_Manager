@@ -63,7 +63,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         });
     }
 
-    public void forgotPassword() {
+    private void forgotPassword() {
         Log.d(TAG, "Forgot Password");
 
         if (!validate()) {
@@ -91,7 +91,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }, 3000);
     }
 
-    public void onForgotPasswordSuccess() {
+    private void onForgotPasswordSuccess() {
         forgotPasswordButton.setEnabled(true);
         setResult(RESULT_OK, null);
 
@@ -100,12 +100,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         finish();
     }
 
-    public void onForgotPasswordFailed() {
+    private void onForgotPasswordFailed() {
         Toast.makeText(getBaseContext(), "Changing Password failed", Toast.LENGTH_LONG).show();
         forgotPasswordButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
         String seqQuestionF = seqQuestionFText.getText().toString();
 

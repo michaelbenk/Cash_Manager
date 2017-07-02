@@ -27,6 +27,11 @@ public class Category implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param category; Adds a Category object to the subcategories list, if it isn't already in the list.
+     * @return true if added successfully; false if category == null or the category is already in the list.
+     */
     public boolean addSubCategory(Category category) {
         if (this.subcategories.contains(category) || category == null) {
             return false;
@@ -38,10 +43,18 @@ public class Category implements Serializable {
         return false;
     }
 
+    /**
+     *
+     * @return List<Category>; Returns list of all categories.
+     */
     public List<Category> getSubCategories() {
         return this.subcategories;
     }
 
+    /**
+     *
+     * @param subcategories
+     */
     public void setCategories(ArrayList<Category> subcategories) {
         this.subcategories = subcategories;
     }
@@ -60,6 +73,10 @@ public class Category implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param sum
+     */
     public void addSum(double sum) { this.sum += sum; }
 
     public void zeroSum() { this.sum = 0; }

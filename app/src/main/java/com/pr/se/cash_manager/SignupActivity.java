@@ -35,7 +35,7 @@ public class SignupActivity extends AppCompatActivity {
     private SharedPreferences prefs;
 
     // METHOD to create a new File with fileName and the content
-    public void createFile(String fileName, String content) {
+    private void createFile(String fileName, String content) {
         FileOutputStream fos = null;
 
         try {
@@ -90,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void signup() throws IOException {
+    private void signup() throws IOException {
         Log.d(TAG, "Signup");
 
         this.prefs = getSharedPreferences("com.pr.se.cash_manager", MODE_PRIVATE);
@@ -126,18 +126,18 @@ public class SignupActivity extends AppCompatActivity {
                 }, 3000);
     }
 
-    public void onSignupSuccess() {
+    private void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
-    public void onSignupFailed() {
+    private void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 
-    public boolean validate() throws IOException {
+    private boolean validate() throws IOException {
         boolean valid = true;
 
         String seqQuestion = _seqQuestionText.getText().toString();

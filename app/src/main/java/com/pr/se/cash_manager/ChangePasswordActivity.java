@@ -65,7 +65,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
     }
 
-    public void changePassword() {
+    private void changePassword() {
         Log.d(TAG, "Login");
 
         if (!validate()) {
@@ -111,17 +111,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void onChangePasswordSuccess() {
+    private void onChangePasswordSuccess() {
         changePasswordButton.setEnabled(true);
         finish();
     }
 
-    public void onChangePasswordFailed() {
+    private void onChangePasswordFailed() {
         Toast.makeText(getBaseContext(), "Passwords do not match!", Toast.LENGTH_LONG).show();
         changePasswordButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
 
         String password = passwordText.getText().toString();
@@ -139,7 +139,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void createFile(String fileName, String content) {
+    private void createFile(String fileName, String content) {
         FileOutputStream fos;
 
         try {

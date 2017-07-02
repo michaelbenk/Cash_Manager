@@ -774,7 +774,7 @@ public class AddEditActivity extends AppCompatActivity {
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                 } catch (IOException e) {
 
-                    Log.e(TAG, "Couldn't set path when taking photo", e);;
+                    Log.e(TAG, "Couldn't set path when taking photo", e);
                     mCurrentPhotoPath = null;
                 }
                 break;

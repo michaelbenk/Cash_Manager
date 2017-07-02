@@ -58,7 +58,7 @@ public class CategoriesActivity extends AppCompatActivity {
         }
     }
 
-    public void updateList() {
+    private void updateList() {
         final List<Category> list = RW.readCategories(this, "categories");
         final ExpandableListAdapter adapter = new ExpandableListAdapter(this);
         final ExpandableListView listView = (ExpandableListView) this.findViewById(R.id.activity_categories_ex_list);
