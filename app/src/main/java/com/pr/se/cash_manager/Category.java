@@ -33,9 +33,7 @@ public class Category implements Serializable {
      * @return true if added successfully; false if category == null or the category is already in the list.
      */
     public boolean addSubCategory(Category category) {
-        if (this.subcategories.contains(category) || category == null) {
-            return false;
-        } else if (this.subcategories != null) {
+        if (this.subcategories != null && !this.subcategories.contains(category) && category != null) {
             this.subcategories.add(category);
             this.sortSubCategories();
             return true;
@@ -57,20 +55,6 @@ public class Category implements Serializable {
      */
     public void setCategories(ArrayList<Category> subcategories) {
         this.subcategories = subcategories;
-    }
-
-    public void removeSubCategory(Category category) {
-        if (this.subcategories != null) {
-            this.subcategories.remove(category);
-            this.sortSubCategories();
-        }
-    }
-
-    public void removeSubCategory(int pos) {
-        if (this.subcategories != null) {
-            this.subcategories.remove(pos);
-            this.sortSubCategories();
-        }
     }
 
     /**
