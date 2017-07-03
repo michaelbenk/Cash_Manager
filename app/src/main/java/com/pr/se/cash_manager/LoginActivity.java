@@ -133,18 +133,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess() {
-        //TODO change Name on login
-
-        /*
-        NavigationView navView = (NavigationView)findViewById(R.id.nav_header_main);
-
-        View header = navView.getHeaderView(0);
-
-        TextView username = (TextView)header.findViewById(R.id.nav_header_main_userName);
-
-        username.setText("test");
-        */
-
         _loginButton.setEnabled(true);
         finish();
     }
