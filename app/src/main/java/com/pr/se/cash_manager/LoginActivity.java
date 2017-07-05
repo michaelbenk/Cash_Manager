@@ -1,6 +1,5 @@
 package com.pr.se.cash_manager;
 
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -26,8 +25,11 @@ import butterknife.InjectView;
 
 /**
  * Created by ivanlazic on 11.04.17.
+ * <p>
+ * The class LoginActivity allows users to log into an <u>existing</u> account with an username
+ * and a password in order to use the applications functionalities.
+ * </p>
  */
-
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -39,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.link_signup) TextView _signupLink;
     @InjectView(R.id.link_forgot_password) TextView _forgotPasswordLink;
 
+    // METHOD to initialize the class with the appropriate layout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // METHOD to perform the login and validate the users input
     private void login() {
         Log.d(TAG, "Login");
 
@@ -116,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                 }, 3000);
     }
 
+    // METHOD check whether the request-code is suitable and finish the activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
@@ -126,22 +131,25 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // METHOD to disable going back to the MainActivity
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
         moveTaskToBack(true);
     }
 
+    // METHOD to succesfully end the login process and finish the activity
     private void onLoginSuccess() {
         _loginButton.setEnabled(true);
         finish();
     }
 
+    // METHOD to inform the user about the failed login, due to invalid input
     private void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Invalid username or password!", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 
+    // METHOD to check whether the user input fulfills the given criteria
     private boolean validate() {
         boolean valid = true;
 

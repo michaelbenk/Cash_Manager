@@ -9,13 +9,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 
+/**
+ * Created by ivanlazic on 11.04.17.
+ * <p>
+ * The class SettingsActivity allows users to manage different settings, e.g. enable/disable login,
+ * reset to factory state or change the password.
+ * </p>
+ */
 public class SettingsActivity extends PreferenceActivity {
 
     private SwitchPreference s;
 
+    // METHOD to initialize the class with the appropriate layout
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.activity_settings);
@@ -36,6 +43,7 @@ public class SettingsActivity extends PreferenceActivity {
         factoryResetPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public SharedPreferences prefs;
 
+            // METHOD to define the actions of different preferences
             @Override
             public boolean onPreferenceClick(Preference p) {
 
@@ -52,12 +60,14 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
+    // METHOD to delete past user information after a reset to factory state
     private void deleteLists() {
         RW.writeCategories(this, new ArrayList<Category>(), "categories");
         RW.writeExpenses(this, new ArrayList<Expense>(), "expenses");
         RW.writeFilter(this, new ArrayList<Filter>(), "filters");
     }
 
+    // METHOD to adjust the class with the appropriate layout (components) after creation
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

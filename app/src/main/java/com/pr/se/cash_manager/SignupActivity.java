@@ -22,19 +22,27 @@ import java.util.ArrayList;
 
 /**
  * Created by ivanlazic on 11.04.17.
+ * <p>
+ * The class SignupActivity allows users to signup / register / create an account with an username,
+ * password and security question in order to use the applications functionalities.
+ * </p>
  */
-
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    @InjectView(R.id.input_seqQuestion) EditText _seqQuestionText;
-    @InjectView(R.id.input_username) EditText _usernameText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_signup) Button _signupButton;
-    @InjectView(R.id.link_login) TextView _loginLink;
+    @InjectView(R.id.input_seqQuestion)
+    EditText _seqQuestionText;
+    @InjectView(R.id.input_username)
+    EditText _usernameText;
+    @InjectView(R.id.input_password)
+    EditText _passwordText;
+    @InjectView(R.id.btn_signup)
+    Button _signupButton;
+    @InjectView(R.id.link_login)
+    TextView _loginLink;
     private SharedPreferences prefs;
 
-    // METHOD to create a new File with fileName and the content
+    // METHOD to create a new File with fileName and content
     private void createFile(String fileName, String content) {
         FileOutputStream fos = null;
 
@@ -47,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
+    // METHOD to initialize the class with the appropriate layout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +66,9 @@ public class SignupActivity extends AppCompatActivity {
         double xSize = metrics.widthPixels / metrics.xdpi;
         double screenSize = Math.sqrt(xSize * xSize + ySize * ySize);
 
-        if(screenSize < 4.5){
+        if (screenSize < 4.5) {
             setContentView(R.layout.activity_signup_small);
-        }else{
+        } else {
             setContentView(R.layout.activity_signup_big);
         }
 
@@ -68,6 +77,7 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setOnClickListener(new View.OnClickListener() {
             public SharedPreferences prefs;
 
+            // METHOD to start the signup-process when the user clicks on signup-button
             @Override
             public void onClick(View v) {
                 try {
@@ -90,6 +100,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    // METHOD to perform the signup and validate the users input
     private void signup() throws IOException {
         Log.d(TAG, "Signup");
 
@@ -126,17 +137,20 @@ public class SignupActivity extends AppCompatActivity {
                 }, 3000);
     }
 
+    // METHOD to succesfully end the signup process and finish the activity
     private void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
+    // METHOD to inform the user about the failed signup, due to invalid input
     private void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
 
+    // METHOD to check whether the user input fulfills the given criteria
     private boolean validate() throws IOException {
         boolean valid = true;
 
@@ -171,6 +185,7 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 
+    // METHOD to delete past user information after a signup
     private void deleteLists() {
         RW.writeCategories(this, new ArrayList<Category>(), "categories");
         RW.writeExpenses(this, new ArrayList<Expense>(), "expenses");

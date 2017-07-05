@@ -22,6 +22,13 @@ import java.io.InputStreamReader;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+/**
+ * Created by ivanlazic on 11.04.17.
+ * <p>
+ * The class ForgotPasswordActivity allows users to enter the answer of their security question,
+ * in order to change their password in ChangePasswordActivity
+ * </p>
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
     private static final String TAG = "ForgotPasswordActivity";
 
@@ -29,6 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @InjectView(R.id.link_login) TextView loginLink;
     @InjectView(R.id.btn_forgot_password) Button forgotPasswordButton;
 
+    // METHOD to initialize the class with the appropriate layout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         });
     }
 
+    // METHOD to perform the security-question process and validate the users input
     private void forgotPassword() {
         Log.d(TAG, "Forgot Password");
 
@@ -91,6 +100,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }, 3000);
     }
 
+    // METHOD to succesfully end the security-question process and finish the activity
     private void onForgotPasswordSuccess() {
         forgotPasswordButton.setEnabled(true);
         setResult(RESULT_OK, null);
@@ -100,11 +110,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         finish();
     }
 
+    // METHOD to inform the user about the failed security-question process, due to invalid input
     private void onForgotPasswordFailed() {
         Toast.makeText(getBaseContext(), "Changing Password failed", Toast.LENGTH_LONG).show();
         forgotPasswordButton.setEnabled(true);
     }
 
+    // METHOD to check whether the user input fulfills the given criteria
     private boolean validate() {
         boolean valid = true;
         String seqQuestionF = seqQuestionFText.getText().toString();

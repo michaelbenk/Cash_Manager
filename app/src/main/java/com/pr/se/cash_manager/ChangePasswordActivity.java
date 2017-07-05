@@ -19,7 +19,12 @@ import java.io.FileOutputStream;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-
+/**
+ * Created by ivanlazic on 11.04.17.
+ * <p>
+ * The class ForgotPasswordActivity allows users to change their password by entering a new password
+ * </p>
+ */
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private static final String TAG = "ChangePasswordActivity";
@@ -30,6 +35,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     @InjectView(R.id.btn_change_password) Button changePasswordButton;
     @InjectView(R.id.link_login) TextView loginLink;
 
+    // METHOD to initialize the class with the appropriate layout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +71,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
     }
 
+    // METHOD to perform the password change and validate the users input
     private void changePassword() {
         Log.d(TAG, "Login");
 
@@ -95,6 +102,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }, 3000);
     }
 
+    // METHOD check whether the request-code is suitable and finish the activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
@@ -105,22 +113,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
         }
     }
 
+    // METHOD to disable going back to the MainActivity
     @Override
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
     }
 
+    // METHOD to succesfully end the password-change process and finish the activity
     private void onChangePasswordSuccess() {
         changePasswordButton.setEnabled(true);
         finish();
     }
 
+    // METHOD to inform the user about the failed password-change, due to invalid input
     private void onChangePasswordFailed() {
         Toast.makeText(getBaseContext(), "Passwords do not match!", Toast.LENGTH_LONG).show();
         changePasswordButton.setEnabled(true);
     }
 
+    // METHOD to check whether the user input fulfills the given criteria
     private boolean validate() {
         boolean valid = true;
 
@@ -139,6 +151,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         return valid;
     }
 
+    // METHOD to create a new file with the new password by replacing the old file
     private void createFile(String fileName, String content) {
         FileOutputStream fos;
 
