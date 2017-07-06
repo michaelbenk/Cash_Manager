@@ -19,6 +19,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class CategoryDetailsActivity extends AppCompatActivity {
     private List<Category> categories;
     private Category category = null;
@@ -31,6 +34,9 @@ public class CategoryDetailsActivity extends AppCompatActivity {
     private TextView saveView;
 
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +222,9 @@ public class CategoryDetailsActivity extends AppCompatActivity {
         return true;*/
     }
 
+    /**
+     *
+     */
     private void setupSpinner() {
         List<String> categoryNames = new ArrayList<>();
         categoryNames.add(" "); //lassen!

@@ -2,22 +2,22 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/ivanlazic/Documents/JKU/Software Engineering PR/Cash_Manager/modules/MPAndroidChart-master/MPChartLib/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="c7575654b21f1a915ac1fe048c34a22d64693ab3">
-        <dex dex="/Users/ivanlazic/Documents/JKU/Software Engineering PR/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_225c82a0b45fdefae397ff53e0edb023414f9006.jar" />
+        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
+        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_340cfdb8667da499b4a188de6dec75851cbd1fd5/classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="/Users/ivanlazic/Documents/JKU/Software Engineering PR/Cash_Manager/modules/CircleImageView-master/circleimageview/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="c019a726148e49d8e1ff0ea7d516dc5978d2b072">
-        <dex dex="/Users/ivanlazic/Documents/JKU/Software Engineering PR/Cash_Manager/app/build/intermediates/pre-dexed/debug/classes_7a44144ffa07552291dc5e192d3c82c450847bb2.jar" />
+        sha1="a6468485d9a75c0acf2785d8906f2b066dbb2e1c">
+        <dex dex="/Users/lukassessler/StudioProjects/Cash_Manager/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_32b528f266a425d841e91992b05c0cb987099fc3/classes.dex" />
     </item>
 
 </items>

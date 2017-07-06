@@ -13,7 +13,13 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ *
+ */
 public class CategoriesActivity extends AppCompatActivity {
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,18 +41,28 @@ public class CategoriesActivity extends AppCompatActivity {
         updateList();
     }
 
+    /**
+     *
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(CategoriesActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
+    /**
+     *
+     */
     @Override
     public void onResume() {
         super.onResume();
         this.updateList();
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -58,6 +74,9 @@ public class CategoriesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     */
     private void updateList() {
         final List<Category> list = RW.readCategories(this, "categories");
         final ExpandableListAdapter adapter = new ExpandableListAdapter(this);
