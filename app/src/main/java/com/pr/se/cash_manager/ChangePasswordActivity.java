@@ -160,7 +160,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             fos.write(content.getBytes());
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't create file with new password", e);
         }
     }
 }

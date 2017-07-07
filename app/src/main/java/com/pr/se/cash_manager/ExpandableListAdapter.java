@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.List;
  class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
+     private static final String TAG = "ExpandebleListAdapter";
 
      ExpandableListAdapter(Context context) {
         this.context = context;
@@ -178,7 +180,7 @@ import java.util.List;
                 progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
             progressBar.setProgress(progressvalue);
         }catch(Exception ex){
-            ex.printStackTrace();
+            Log.e(TAG, "Couldn't set progress bar", ex);
             progressBar.setProgress(0);
         }
     }

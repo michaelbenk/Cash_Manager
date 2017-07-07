@@ -136,7 +136,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             secondInputStream.close();
             Log.d("File", "File contents: " + totalSeqQuestion);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't validate input", e);
         }
 
         if (!seqQuestionF.equals(totalSeqQuestion.toString())) {

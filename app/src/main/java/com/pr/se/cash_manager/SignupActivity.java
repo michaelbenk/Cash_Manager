@@ -51,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
             fos.write(content.getBytes());
             fos.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Couldn't create file", e);
         }
     }
 
@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
                     this.prefs.edit().putBoolean("firstFilter", true).apply();
                     deleteLists();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Signup process failed", e);
                 }
             }
         });

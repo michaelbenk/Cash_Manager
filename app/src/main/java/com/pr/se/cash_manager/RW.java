@@ -46,7 +46,7 @@ class RW {
                     calendar1.setTime(sdf.parse(e1.getDate()));
                     calendar2.setTime(sdf.parse(e2.getDate()));
                 } catch (Exception e) {
-                    //TODO Empty catch block
+                    Log.e(TAG, "Couldn't write expenses", e);
                 }
 
                 return calendar2.compareTo(calendar1);

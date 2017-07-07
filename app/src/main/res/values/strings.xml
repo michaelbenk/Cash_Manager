@@ -63,8 +63,8 @@
     <string name="view_value">Value</string>
     <string name="view_exceeded">Limit exceeded by&#160;</string>
 
-    <string name="view_android_studio">Android Studio</string>
-    <string name="view_android_studio_mail">android.studio@android.com</string>
+    <string name="view_android_studio">Cashtastic</string>
+    <string name="view_android_studio_mail"></string>
 
     <string name="view_login">Login</string>
     <string name="view_no_account">No account yet? Sign up!</string>
